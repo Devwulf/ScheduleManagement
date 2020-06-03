@@ -1,4 +1,4 @@
-package sample;
+package ScheduleManagement;
 
 public class Controller {
 }

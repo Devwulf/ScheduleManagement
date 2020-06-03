@@ -1,0 +1,46 @@
+/* Lookup colors */
+* {
+	-green: #2ECC71;
+	-blue: #3498DB;
+	-white: #ECF0F1;
+	-lightest-gray: #BDC3C7;
+	-lighter-gray: #95A5A6;
+	-dark-gray: #34495E;
+	-black: #333333;
+}
+
+.icon {
+	-fx-font-family: "Font Awesome 5 Free Solid";
+}
+
+.text-light {
+	-fx-font-family: "Quicksand Light";
+}
+
+.text-regular {
+	-fx-font-family: "Quicksand Regular";
+}
+
+.text-medium {
+	-fx-font-family: "Quicksand Medium";
+}
+
+.text-semibold {
+	-fx-font-family: "Quicksand SemiBold";
+}
+
+.text-bold {
+	-fx-font-family: "Quicksand Bold";
+}
+
+.linear-gradient {
+   -fx-background-color: linear-gradient(from 50% 0% to 50% 128.19%, -green, -blue);
+}
+
+.drop-shadow {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 0px, 4px);
+}
+
+.drop-shadow-small {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 2, 0, 0px, 2px);
+}
