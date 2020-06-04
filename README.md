@@ -4,6 +4,7 @@ Schedule Management application for C195 class
 ### Status: 
 - Designing ⌛
 - Implementing design ⌛
+- Implementing animations ⌛
 - Database functionality ⌛
   - Done but not implemented (refer to my ScheduleManagement.ImplTest repo for implementation)
 
