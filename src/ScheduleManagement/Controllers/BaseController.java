@@ -9,4 +9,8 @@ public abstract class BaseController
     // For accessing the stage during initialization because
     // it cannot be accessed on the normal initialize
     public void lateInitialize() { }
+
+    // A separate helper method for initializing all the
+    // needed animation keyframes
+    public void initializeAnimations() { }
 }

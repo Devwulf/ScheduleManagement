@@ -1,14 +1,22 @@
 package ScheduleManagement.Controllers;
 
-import ScheduleManagement.Transitions.LabelTransitioner;
-import ScheduleManagement.Transitions.PaneTransitioner;
+import ScheduleManagement.Animation.Animator;
+import ScheduleManagement.Utils.Colors;
 import ScheduleManagement.Utils.Vector;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class LoginController extends BaseController
 {
@@ -16,21 +24,25 @@ public class LoginController extends BaseController
     @FXML private Label usernameIcon;
     @FXML private Label passwordIcon;
     @FXML private Label passwordIcon2;
+
     @FXML private Label resetPasswordButton;
+    private Animator resetPasswordAnimator;
 
     @FXML private HBox confirmPasswordField;
+    private Animator confirmPasswordAnimator;
 
     @FXML private Pane loginUnderline;
-    private PaneTransitioner loginUnderlineSizeTransitioner;
-    private PaneTransitioner loginUnderlineColorTransitioner;
+    private Animator loginUnderlineAnimator;
     @FXML private Pane signupUnderline;
-    private PaneTransitioner signupUnderlineSizeTransitioner;
-    private PaneTransitioner signupUnderlineColorTransitioner;
+    private Animator signupUnderlineAnimator;
 
-    @FXML private Label loginSelectButton;
-    private LabelTransitioner loginSelectTransitioner;
-    @FXML private Label signupSelectButton;
-    private LabelTransitioner signupSelectTransitioner;
+    @FXML private Label loginSelect;
+    private Animator loginSelectAnimator;
+    @FXML private Label signupSelect;
+    private Animator signupSelectAnimator;
+
+    @FXML private Button submitButton;
+    private Animator submitAnimator;
 
     private boolean isLogin = true;
 
@@ -53,8 +65,6 @@ public class LoginController extends BaseController
                             .bind(confirmPasswordField.visibleProperty());
         resetPasswordButton.managedProperty()
                            .bind(resetPasswordButton.visibleProperty());
-
-        handleLoginSelectButton();
     }
 
     @Override
@@ -64,38 +74,79 @@ public class LoginController extends BaseController
                            .getRoot();
     }
 
+    @Override
+    public void initializeAnimations()
+    {
+        loginSelectAnimator = new Animator();
+        loginSelectAnimator.addAnimation("color",
+                new KeyFrame(Animator.Zero, new KeyValue(loginSelect.textFillProperty(), Colors.lighterGray, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(loginSelect.textFillProperty(), Colors.white, Interpolator.EASE_OUT))
+        );
+
+        signupSelectAnimator = new Animator();
+        signupSelectAnimator.addAnimation("color",
+                new KeyFrame(Animator.Zero, new KeyValue(signupSelect.textFillProperty(), Colors.lighterGray, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(signupSelect.textFillProperty(), Colors.white, Interpolator.EASE_OUT))
+        );
+
+        loginUnderlineAnimator = new Animator();
+        loginUnderlineAnimator.addAnimation("height",
+                new KeyFrame(Animator.Zero, new KeyValue(loginUnderline.prefHeightProperty(), 1, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(loginUnderline.prefHeightProperty(), 3, Interpolator.EASE_OUT))
+        );
+        loginUnderlineAnimator.addAnimation("color",
+                new KeyFrame(Animator.Zero, new KeyValue(loginUnderline.backgroundProperty(), new Background(new BackgroundFill(Colors.lighterGray, null, null)), Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(loginUnderline.backgroundProperty(), new Background(new BackgroundFill(Colors.white, null, null)), Interpolator.EASE_OUT))
+        );
+
+        signupUnderlineAnimator = new Animator();
+        signupUnderlineAnimator.addAnimation("height",
+                new KeyFrame(Animator.Zero, new KeyValue(signupUnderline.prefHeightProperty(), 1, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(signupUnderline.prefHeightProperty(), 3, Interpolator.EASE_OUT))
+        );
+        signupUnderlineAnimator.addAnimation("color",
+                new KeyFrame(Animator.Zero, new KeyValue(signupUnderline.backgroundProperty(), new Background(new BackgroundFill(Colors.lighterGray, null, null)), Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(signupUnderline.backgroundProperty(), new Background(new BackgroundFill(Colors.white, null, null)), Interpolator.EASE_OUT))
+        );
+
+        confirmPasswordAnimator = new Animator();
+        confirmPasswordAnimator.addAnimation("height",
+                new KeyFrame(Animator.Zero, new KeyValue(confirmPasswordField.prefHeightProperty(), 0, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(confirmPasswordField.prefHeightProperty(), 42, Interpolator.EASE_OUT))
+        );
+
+        resetPasswordAnimator = new Animator();
+        resetPasswordAnimator.addAnimation("height",
+                new KeyFrame(Animator.Zero, new KeyValue(resetPasswordButton.prefHeightProperty(), 0, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(resetPasswordButton.prefHeightProperty(), 17, Interpolator.EASE_OUT))
+        );
+
+        submitAnimator = new Animator();
+        submitAnimator.addAnimation("text",
+                new KeyFrame(Animator.Zero, new KeyValue(submitButton.textProperty(), "Login", Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(submitButton.textProperty(), "Sign Up", Interpolator.EASE_OUT))
+        );
+
+        handleLoginSelectButton();
+    }
+
     @FXML
     public void handleLoginSelectButton()
     {
-        if (signupSelectTransitioner == null)
-            signupSelectTransitioner = new LabelTransitioner(signupSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        if (loginSelectTransitioner == null)
-            loginSelectTransitioner = new LabelTransitioner(loginSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        signupSelectTransitioner.transition(0);
-        loginSelectTransitioner.transition(1);
-
-        if (signupUnderlineSizeTransitioner == null)
-            signupUnderlineSizeTransitioner = new PaneTransitioner(signupUnderline, new Vector(-1, 1), new Vector(-1, 3));
-
-        if (loginUnderlineSizeTransitioner == null)
-            loginUnderlineSizeTransitioner = new PaneTransitioner(loginUnderline, new Vector(-1, 1), new Vector(-1, 3));
-
-        signupUnderlineSizeTransitioner.transition(0);
-        loginUnderlineSizeTransitioner.transition(1);
-
-        if (signupUnderlineColorTransitioner == null)
-            signupUnderlineColorTransitioner = new PaneTransitioner(signupUnderline, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        if (loginUnderlineColorTransitioner == null)
-            loginUnderlineColorTransitioner = new PaneTransitioner(loginUnderline, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        signupUnderlineColorTransitioner.transition(0);
-        loginUnderlineColorTransitioner.transition(1);
-
-        confirmPasswordField.setVisible(false);
         resetPasswordButton.setVisible(true);
+        signupSelectAnimator.playReverse("color");
+        loginSelectAnimator.play("color");
+
+        signupUnderlineAnimator.playReverse("height");
+        loginUnderlineAnimator.play("height");
+
+        signupUnderlineAnimator.playReverse("color");
+        loginUnderlineAnimator.play("color");
+
+        confirmPasswordAnimator.playReverse("height", event -> confirmPasswordField.setVisible(false));
+        resetPasswordAnimator.play("height");
+
+        submitAnimator.playReverse("text");
 
         isLogin = true;
     }
@@ -103,35 +154,21 @@ public class LoginController extends BaseController
     @FXML
     public void handleSignupSelectButton()
     {
-        if (signupSelectTransitioner == null)
-            signupSelectTransitioner = new LabelTransitioner(signupSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        if (loginSelectTransitioner == null)
-            loginSelectTransitioner = new LabelTransitioner(loginSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        signupSelectTransitioner.transition(1);
-        loginSelectTransitioner.transition(0);
-
-        if (signupUnderlineSizeTransitioner == null)
-            signupUnderlineSizeTransitioner = new PaneTransitioner(signupUnderline, new Vector(-1, 1), new Vector(-1, 3));
-
-        if (loginUnderlineSizeTransitioner == null)
-            loginUnderlineSizeTransitioner = new PaneTransitioner(loginUnderline, new Vector(-1, 1), new Vector(-1, 3));
-
-        signupUnderlineSizeTransitioner.transition(1);
-        loginUnderlineSizeTransitioner.transition(0);
-
-        if (signupUnderlineColorTransitioner == null)
-            signupUnderlineColorTransitioner = new PaneTransitioner(signupUnderline, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        if (loginUnderlineColorTransitioner == null)
-            loginUnderlineColorTransitioner = new PaneTransitioner(loginUnderline, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        signupUnderlineColorTransitioner.transition(1);
-        loginUnderlineColorTransitioner.transition(0);
-
         confirmPasswordField.setVisible(true);
-        resetPasswordButton.setVisible(false);
+
+        signupSelectAnimator.play("color");
+        loginSelectAnimator.playReverse("color");
+
+        signupUnderlineAnimator.play("height");
+        loginUnderlineAnimator.playReverse("height");
+
+        signupUnderlineAnimator.play("color");
+        loginUnderlineAnimator.playReverse("color");
+
+        confirmPasswordAnimator.play("height");
+        resetPasswordAnimator.playReverse("height", event -> resetPasswordButton.setVisible(false));
+
+        submitAnimator.play("text");
 
         isLogin = false;
     }
@@ -142,19 +179,16 @@ public class LoginController extends BaseController
         if (!isLogin)
             return;
 
-        if (signupSelectTransitioner == null)
-            signupSelectTransitioner = new LabelTransitioner(signupSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        signupSelectTransitioner.transition(1);
+        signupSelectAnimator.play("color");
     }
 
     @FXML
     public void handleHoverExitSignupSelectButton()
     {
-        if (!isLogin || signupSelectTransitioner == null)
+        if (!isLogin)
             return;
 
-        signupSelectTransitioner.transition(0);
+        signupSelectAnimator.playReverse("color");
     }
 
     @FXML
@@ -163,18 +197,15 @@ public class LoginController extends BaseController
         if (isLogin)
             return;
 
-        if (loginSelectTransitioner == null)
-            loginSelectTransitioner = new LabelTransitioner(loginSelectButton, Color.web("#95A5A6"), Color.web("#ECF0F1"));
-
-        loginSelectTransitioner.transition(1);
+        loginSelectAnimator.play("color");
     }
 
     @FXML
     public void handleHoverExitLoginSelectButton()
     {
-        if (isLogin || loginSelectTransitioner == null)
+        if (isLogin)
             return;
 
-        loginSelectTransitioner.transition(0);
+        loginSelectAnimator.playReverse("color");
     }
 }

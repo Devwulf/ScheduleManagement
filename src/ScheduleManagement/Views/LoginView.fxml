@@ -55,7 +55,7 @@
                      <children>
                         <VBox alignment="BOTTOM_RIGHT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label fx:id="loginSelectButton" alignment="CENTER" onMouseClicked="#handleLoginSelectButton" onMouseEntered="#handleHoverEnterLoginSelectButton" onMouseExited="#handleHoverExitLoginSelectButton" prefWidth="148.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Login" textAlignment="CENTER">
+                              <Label fx:id="loginSelect" alignment="CENTER" onMouseClicked="#handleLoginSelectButton" onMouseEntered="#handleHoverEnterLoginSelectButton" onMouseExited="#handleHoverExitLoginSelectButton" prefWidth="148.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Login" textAlignment="CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -68,7 +68,7 @@
                         </VBox>
                         <VBox alignment="BOTTOM_LEFT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label fx:id="signupSelectButton" alignment="CENTER" onMouseClicked="#handleSignupSelectButton" onMouseEntered="#handleHoverEnterSignupSelectButton" onMouseExited="#handleHoverExitSignupSelectButton" prefWidth="148.0" style="-fx-text-fill: -lighter-gray;" styleClass="text-bold" text="Signup" textAlignment="CENTER">
+                              <Label fx:id="signupSelect" alignment="CENTER" onMouseClicked="#handleSignupSelectButton" onMouseEntered="#handleHoverEnterSignupSelectButton" onMouseExited="#handleHoverExitSignupSelectButton" prefWidth="148.0" style="-fx-text-fill: -lighter-gray;" styleClass="text-bold" text="Signup" textAlignment="CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -99,13 +99,13 @@
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
                                        <children>
-                                          <Label fx:id="usernameIcon" alignment="CENTER_RIGHT" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                          <Label fx:id="usernameIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
                                              <font>
                                                 <Font size="14.0" />
                                              </font></Label>
                                        </children>
                                     </HBox>
-                                    <TextField minHeight="42.0" prefHeight="42.0" prefWidth="262.0" promptText="Username" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
+                                    <TextField minHeight="0.0" prefHeight="42.0" prefWidth="262.0" promptText="Username" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -127,14 +127,14 @@
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
                                        <children>
-                                          <Label fx:id="passwordIcon" alignment="CENTER_RIGHT" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                          <Label fx:id="passwordIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <TextField minHeight="42.0" prefHeight="42.0" prefWidth="262.0" promptText="Password" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
+                                    <TextField minHeight="0.0" prefHeight="42.0" prefWidth="262.0" promptText="Password" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -156,14 +156,14 @@
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
                                        <children>
-                                          <Label fx:id="passwordIcon2" alignment="CENTER_RIGHT" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                          <Label fx:id="passwordIcon2" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <TextField minHeight="42.0" prefHeight="42.0" prefWidth="262.0" promptText="Confirm Password" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
+                                    <TextField minHeight="0.0" prefHeight="42.0" prefWidth="262.0" promptText="Confirm Password" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -176,7 +176,7 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" spacing="11.0" GridPane.rowIndex="2">
                      <children>
-                        <Button maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="133.0" style="-fx-background-radius: 21px; -fx-background-color: -green; -fx-text-fill: -white; -fx-font-size: 18px;" text="Login">
+                        <Button fx:id="submitButton" maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="133.0" style="-fx-background-radius: 21px; -fx-background-color: -green; -fx-text-fill: -white; -fx-font-size: 18px;" text="Login">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -187,7 +187,7 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Label fx:id="resetPasswordButton" style="-fx-text-fill: -lightest-gray;" text="Reset Password" underline="true">
+                        <Label fx:id="resetPasswordButton" minHeight="0.0" style="-fx-text-fill: -lightest-gray;" text="Reset Password" underline="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

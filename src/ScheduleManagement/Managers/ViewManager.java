@@ -49,6 +49,7 @@ public class ViewManager
                 BaseController mainController = loader.getController();
                 mainController.stage = stage;
                 mainController.lateInitialize();
+                mainController.initializeAnimations();
             }
             catch (IOException e)
             {
