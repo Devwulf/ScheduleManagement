@@ -240,4 +240,10 @@ public class LoginController extends BaseController
         submitAnimator.playReverse("hover");
         submitAnimator.playReverse("color");
     }
+
+    @FXML
+    public void handleSubmitAction()
+    {
+
+    }
 }
