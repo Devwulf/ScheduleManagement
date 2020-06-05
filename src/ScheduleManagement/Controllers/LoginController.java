@@ -11,10 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -126,6 +125,25 @@ public class LoginController extends BaseController
                 new KeyFrame(Animator.Zero, new KeyValue(submitButton.textProperty(), "Login", Interpolator.EASE_OUT)),
                 new KeyFrame(Animator.Fast, new KeyValue(submitButton.textProperty(), "Sign Up", Interpolator.EASE_OUT))
         );
+        DropShadow shadow1 = new DropShadow();
+        shadow1.setBlurType(BlurType.GAUSSIAN);
+        shadow1.setColor(Color.rgb(0, 0, 0, 0.25));
+        shadow1.setRadius(2);
+        shadow1.setOffsetY(2);
+        DropShadow shadow2 = new DropShadow();
+        shadow2.setBlurType(BlurType.GAUSSIAN);
+        shadow2.setColor(Color.rgb(0, 0, 0, 0.25));
+        shadow2.setRadius(4);
+        shadow2.setOffsetY(4);
+        submitAnimator.addAnimation("hover",
+                new KeyFrame(Animator.Zero, new KeyValue(submitButton.effectProperty(), shadow1, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.SuperFast, new KeyValue(submitButton.effectProperty(), shadow2, Interpolator.EASE_OUT))
+        );
+        CornerRadii radii = new CornerRadii(21);
+        submitAnimator.addAnimation("color",
+                new KeyFrame(Animator.Zero, new KeyValue(submitButton.backgroundProperty(), new Background(new BackgroundFill(Colors.green, radii, null)), Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.SuperFast, new KeyValue(submitButton.backgroundProperty(), new Background(new BackgroundFill(Colors.darkGreen, radii, null)), Interpolator.EASE_OUT))
+        );
 
         handleLoginSelectButton();
     }
@@ -207,5 +225,19 @@ public class LoginController extends BaseController
             return;
 
         loginSelectAnimator.playReverse("color");
+    }
+
+    @FXML
+    public void handleHoverEnterSubmitButton()
+    {
+        submitAnimator.play("hover");
+        submitAnimator.play("color");
+    }
+
+    @FXML
+    public void handleHoverExitSubmitButton()
+    {
+        submitAnimator.playReverse("hover");
+        submitAnimator.playReverse("color");
     }
 }

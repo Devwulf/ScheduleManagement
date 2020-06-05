@@ -14,6 +14,8 @@ public class Animator
 {
     public static final Duration Zero = Duration.millis(0);
     public static final Duration Fast = Duration.millis(200);
+    public static final Duration VeryFast = Duration.millis(100);
+    public static final Duration SuperFast = Duration.millis(50);
 
     private Map<String, Timeline> timelines;
 
