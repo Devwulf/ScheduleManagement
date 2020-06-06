@@ -1,59 +1,70 @@
 package ScheduleManagement.Controllers;
 
+import ScheduleManagement.Utils.Colors;
+import ScheduleManagement.Utils.Icons;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 public class PopupController extends BaseController
 {
     @FXML private Label infoIcon;
-    @FXML private Label infoLabel;
+    @FXML private Label messageText;
 
-    @FXML private Text messageText;
+    @FXML private Pane confirmCancelPane;
+    @FXML private Pane okPane;
 
-    @FXML private HBox buttonArray;
+    @FXML private Button confirmButton;
 
     public void showWarningPopup(String message)
     {
+        infoIcon.setText(Icons.warningCircle);
+        infoIcon.setTextFill(Colors.yellow);
+
+        showOkPopup(message);
+    }
+
+    public void showErrorPopup(String message)
+    {
+        infoIcon.setText(Icons.timesCircle);
+        infoIcon.setTextFill(Colors.red);
+
+        showOkPopup(message);
+    }
+
+    public void showSuccessPopup(String message)
+    {
+        infoIcon.setText(Icons.checkCircle);
+        infoIcon.setTextFill(Colors.green);
+
+        showOkPopup(message);
+    }
+
+    private void showOkPopup(String message)
+    {
         messageText.setText(message);
-        stage.sizeToScene();
+
+        confirmCancelPane.setVisible(false);
+        okPane.setVisible(true);
     }
 
     public void showConfirmPopup(String message, Runnable onConfirm)
     {
-        throw new UnsupportedOperationException("Not implemented yet");
-
-        /*
+        infoIcon.setText(Icons.warningCircle);
+        infoIcon.setTextFill(Colors.yellow);
         messageText.setText(message);
 
-        ButtonBuilder buttonBuilder = new ButtonBuilder();
-        buttonBuilder.setPrefWidth(60)
-                     .setPrefHeight(30);
+        confirmCancelPane.setVisible(true);
+        okPane.setVisible(false);
 
-        Button confirmButton = buttonBuilder.setText("Yes")
-                                            .build();
         confirmButton.addEventHandler(ActionEvent.ACTION, event ->
         {
             onConfirm.run();
             stage.close();
         });
-
-        Button cancelButton = buttonBuilder.setText("No")
-                                           .build();
-        cancelButton.addEventHandler(ActionEvent.ACTION, event -> stage.close());
-
-        buttonArray.getChildren()
-                   .clear();
-        buttonArray.getChildren()
-                   .add(confirmButton);
-        buttonArray.getChildren()
-                   .add(cancelButton);
-
-        stage.sizeToScene();
-        /**/
     }
 
     @FXML

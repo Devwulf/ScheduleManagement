@@ -2,7 +2,9 @@ package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
 import ScheduleManagement.Managers.LoginManager;
+import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Colors;
+import ScheduleManagement.Utils.Icons;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -10,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -27,8 +30,8 @@ public class LoginController extends BaseController
     private Animator resetPasswordAnimator;
 
     @FXML private TextField usernameField;
-    @FXML private TextField passwordField;
-    @FXML private TextField confirmPasswordField;
+    @FXML private PasswordField passwordField;
+    @FXML private PasswordField confirmPasswordField;
 
     @FXML private HBox confirmPasswordBox;
     private Animator confirmPasswordAnimator;
@@ -54,10 +57,10 @@ public class LoginController extends BaseController
         // Cannot access stage from here, because this runs on
         // FXMLLoader.load, where stage is not set yet.
 
-        logoIcon.setText("\uf274");
-        usernameIcon.setText("\uf007");
-        passwordIcon.setText("\uf084");
-        passwordIcon2.setText("\uf084");
+        logoIcon.setText(Icons.calendarCheck);
+        usernameIcon.setText(Icons.user);
+        passwordIcon.setText(Icons.key);
+        passwordIcon2.setText(Icons.key);
 
         // This is so setManaged for these nodes is also set to false
         // when setVisible is set to false. If isManaged is false, the
@@ -255,12 +258,14 @@ public class LoginController extends BaseController
         if (username.isEmpty() || password.isEmpty())
         {
             // TODO: Show a popup for invalid input
+            ViewManager.getInstance().showErrorPopup("The username and password fields cannot be empty.");
             return;
         }
 
         if (!isLogin && confirmPassword.isEmpty())
         {
             // TODO: Show a popup for invalid confirm password input
+            ViewManager.getInstance().showErrorPopup("The confirm password field cannot be empty.");
             return;
         }
 
@@ -270,11 +275,12 @@ public class LoginController extends BaseController
                             .login(username, password))
             {
                 // TODO: Load the calendar view
+                ViewManager.getInstance().showSuccessPopup("Successfully logged in!");
             }
             else
             {
                 // TODO: Show a popup for username/password not found
-                return;
+                ViewManager.getInstance().showErrorPopup("The given username/password is incorrect.");
             }
         }
         else
@@ -283,12 +289,12 @@ public class LoginController extends BaseController
                             .signup(username, password))
             {
                 // TODO: Show a popup for successful signup and go to login
-                return;
+                ViewManager.getInstance().showSuccessPopup("You have signed up successfully!");
             }
             else
             {
                 // TODO: Show a popup for username already taken
-                return;
+                ViewManager.getInstance().showWarningPopup("The given username is already taken!");
             }
         }
     }

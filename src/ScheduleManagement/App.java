@@ -72,6 +72,9 @@ public class App extends Application
 
         ViewManager viewManager = ViewManager.getInstance();
         viewManager.initialize(primaryStage, mainViewPath, "Schedule Management", 1024, 768);
+
+        // Add views
+        viewManager.addView(ViewManager.ViewNames.Popup, "PopupView");
     }
 
 

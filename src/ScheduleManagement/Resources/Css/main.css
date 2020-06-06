@@ -2,9 +2,12 @@
 * {
 	-green: #2ECC71;
 	-blue: #3498DB;
+	-red: #E74C3C;
 	-white: #ECF0F1;
+	-off-white: #D5D6D7;
 	-lightest-gray: #BDC3C7;
 	-lighter-gray: #95A5A6;
+	-light-gray: #7F8C8D;
 	-dark-gray: #34495E;
 	-black: #333333;
 }
@@ -43,4 +46,39 @@
 
 .drop-shadow-small {
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 2, 0, 0px, 2px);
+}
+
+.button-sm {
+	-fx-background-radius: 18px;
+	-fx-pref-height: 36px;
+	-fx-font-size: 14px;
+}
+
+.button-md {
+	-fx-background-radius: 21px;
+	-fx-pref-height: 42px;
+	-fx-font-size: 18px;
+}
+
+.button-success {
+	-fx-background-color: -green;
+	-fx-text-fill: -white;
+}
+
+.button-primary {
+	-fx-background-color: -blue;
+	-fx-text-fill: -white;
+}
+
+.button-secondary {
+	-fx-background-color: -off-white;
+	-fx-text-fill: -light-gray;
+}
+
+.text-field-md {
+	-fx-background-radius: 0 21px 21px 0;
+	-fx-background-color: -white;
+	-fx-prompt-text-fill: -lighter-gray;
+	-fx-font-size: 14px;
+	-fx-pref-height: 42px;
 }

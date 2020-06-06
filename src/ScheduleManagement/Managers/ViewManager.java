@@ -108,6 +108,7 @@ public class ViewManager
             TController controller = loader.getController();
             controller.stage = stage;
             controller.lateInitialize();
+            controller.initializeAnimations();
 
             return controller;
         }
@@ -122,6 +123,18 @@ public class ViewManager
     {
         PopupController controller = loadView(ViewNames.Popup, "Warning");
         controller.showWarningPopup(message);
+    }
+
+    public void showErrorPopup(String message)
+    {
+        PopupController controller = loadView(ViewNames.Popup, "Error");
+        controller.showErrorPopup(message);
+    }
+
+    public void showSuccessPopup(String message)
+    {
+        PopupController controller = loadView(ViewNames.Popup, "Success");
+        controller.showSuccessPopup(message);
     }
 
     public void showConfirmPopup(String message, Runnable onConfirm) {
