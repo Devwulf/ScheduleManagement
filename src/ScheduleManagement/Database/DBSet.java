@@ -173,9 +173,9 @@ public class DBSet<TEntity>
     }
 
     // Takes in column name/column value pairs
-    public List<TEntity> readEntity(List<NameValuePair> columnValues)
+    public List<TEntity> readEntity(NameValuePair... queryConditions)
     {
-        if (columnValues == null || columnValues.isEmpty())
+        if (queryConditions == null || queryConditions.length <= 0)
             throw new IllegalArgumentException("The columnValues list parameter cannot be null or empty.");
 
         // TODO: Check each given column name against the field entries above
@@ -184,12 +184,12 @@ public class DBSet<TEntity>
                                              .getConnection();
 
         StringBuilder query = new StringBuilder("select * from " + tableName + " where ");
-        for (int i = 0; i < columnValues.size(); i++)
+        for (int i = 0; i < queryConditions.length; i++)
         {
-            NameValuePair pair = columnValues.get(i);
+            NameValuePair pair = queryConditions[i];
 
             // For the last element
-            if (i >= columnValues.size() - 1)
+            if (i >= queryConditions.length - 1)
                 query.append(pair.getName())
                      .append("=?");
             else
@@ -200,13 +200,13 @@ public class DBSet<TEntity>
         try (PreparedStatement statement = conn.prepareStatement(query.toString()))
         {
             StringBuilder values = new StringBuilder("{ ");
-            for (int i = 0; i < columnValues.size(); i++)
+            for (int i = 0; i < queryConditions.length; i++)
             {
-                NameValuePair pair = columnValues.get(i);
+                NameValuePair pair = queryConditions[i];
                 statement.setObject(i + 1, pair.getValue());
 
                 // For logging purposes
-                if (i >= columnValues.size() - 1)
+                if (i >= queryConditions.length - 1)
                     values.append(pair.getName())
                           .append(" = '")
                           .append(pair.getValue()
@@ -273,7 +273,7 @@ public class DBSet<TEntity>
                 columnValues.add(new NameValuePair(entry.getColumnName(), field.get(entity)));
             }
 
-            updateEntity(entity, columnValues);
+            updateEntity(entity, (NameValuePair[]) columnValues.toArray());
         }
         catch (IllegalEntityKeyFormatException | NoSuchFieldException | IllegalAccessException e)
         {
@@ -282,11 +282,11 @@ public class DBSet<TEntity>
     }
 
     // TODO: The dateCreated shouldn't be changed
-    public void updateEntity(TEntity entity, List<NameValuePair> columnValues)
+    public void updateEntity(TEntity entity, NameValuePair... queryConditions)
     {
         if (entity == null)
             throw new IllegalArgumentException("The entity parameter cannot be null.");
-        if (columnValues == null || columnValues.isEmpty())
+        if (queryConditions == null || queryConditions.length <= 0)
             throw new IllegalArgumentException("The columnValues list parameter cannot be null or empty.");
 
         try
@@ -310,10 +310,10 @@ public class DBSet<TEntity>
                          .append("=?, ");
             }
             query.append(" where ");
-            for (int i = 0; i < columnValues.size(); i++)
+            for (int i = 0; i < queryConditions.length; i++)
             {
-                NameValuePair pair = columnValues.get(i);
-                if (i >= columnValues.size() - 1)
+                NameValuePair pair = queryConditions[i];
+                if (i >= queryConditions.length - 1)
                     query.append(pair.getName())
                          .append("=?");
                 else
@@ -344,12 +344,12 @@ public class DBSet<TEntity>
                               .append("', ");
                 }
 
-                for (int i = 0; i < columnValues.size(); i++)
+                for (int i = 0; i < queryConditions.length; i++)
                 {
-                    NameValuePair pair = columnValues.get(i);
+                    NameValuePair pair = queryConditions[i];
                     statement.setObject(i + 1 + updatableFields.size(), pair.getValue());
 
-                    if (i >= columnValues.size() - 1)
+                    if (i >= queryConditions.length - 1)
                         values.append(pair.getName())
                               .append(" = '")
                               .append(pair.getValue()
@@ -374,9 +374,9 @@ public class DBSet<TEntity>
         }
     }
 
-    public void deleteEntity(List<NameValuePair> columnValues)
+    public void deleteEntity(NameValuePair... queryConditions)
     {
-        if (columnValues == null || columnValues.isEmpty())
+        if (queryConditions == null || queryConditions.length <= 0)
             throw new IllegalArgumentException("The columnValues list parameter cannot be null or empty.");
 
         // TODO: Check each given column name against the field entries above
@@ -385,12 +385,12 @@ public class DBSet<TEntity>
                                              .getConnection();
 
         StringBuilder query = new StringBuilder("delete from " + tableName + " where ");
-        for (int i = 0; i < columnValues.size(); i++)
+        for (int i = 0; i < queryConditions.length; i++)
         {
-            NameValuePair pair = columnValues.get(i);
+            NameValuePair pair = queryConditions[i];
 
             // For the last element
-            if (i >= columnValues.size() - 1)
+            if (i >= queryConditions.length - 1)
                 query.append(pair.getName())
                      .append("=?");
             else
@@ -401,13 +401,13 @@ public class DBSet<TEntity>
         try (PreparedStatement statement = conn.prepareStatement(query.toString()))
         {
             StringBuilder values = new StringBuilder("{ ");
-            for (int i = 0; i < columnValues.size(); i++)
+            for (int i = 0; i < queryConditions.length; i++)
             {
-                NameValuePair pair = columnValues.get(i);
+                NameValuePair pair = queryConditions[i];
                 statement.setObject(i + 1, pair.getValue());
 
                 // For logging purposes
-                if (i >= columnValues.size() - 1)
+                if (i >= queryConditions.length - 1)
                     values.append(pair.getName())
                           .append(" = '")
                           .append(pair.getValue()

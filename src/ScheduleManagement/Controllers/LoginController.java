@@ -1,21 +1,20 @@
 package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
+import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Utils.Colors;
-import ScheduleManagement.Utils.Vector;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
-import javafx.animation.ParallelTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 public class LoginController extends BaseController
 {
@@ -27,7 +26,11 @@ public class LoginController extends BaseController
     @FXML private Label resetPasswordButton;
     private Animator resetPasswordAnimator;
 
-    @FXML private HBox confirmPasswordField;
+    @FXML private TextField usernameField;
+    @FXML private TextField passwordField;
+    @FXML private TextField confirmPasswordField;
+
+    @FXML private HBox confirmPasswordBox;
     private Animator confirmPasswordAnimator;
 
     @FXML private Pane loginUnderline;
@@ -60,8 +63,8 @@ public class LoginController extends BaseController
         // when setVisible is set to false. If isManaged is false, the
         // nodes don't get calculated with the layout, making it seem
         // like they don't exist.
-        confirmPasswordField.managedProperty()
-                            .bind(confirmPasswordField.visibleProperty());
+        confirmPasswordBox.managedProperty()
+                          .bind(confirmPasswordBox.visibleProperty());
         resetPasswordButton.managedProperty()
                            .bind(resetPasswordButton.visibleProperty());
     }
@@ -110,8 +113,8 @@ public class LoginController extends BaseController
 
         confirmPasswordAnimator = new Animator();
         confirmPasswordAnimator.addAnimation("height",
-                new KeyFrame(Animator.Zero, new KeyValue(confirmPasswordField.prefHeightProperty(), 0, Interpolator.EASE_OUT)),
-                new KeyFrame(Animator.Fast, new KeyValue(confirmPasswordField.prefHeightProperty(), 42, Interpolator.EASE_OUT))
+                new KeyFrame(Animator.Zero, new KeyValue(confirmPasswordBox.prefHeightProperty(), 0, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(confirmPasswordBox.prefHeightProperty(), 42, Interpolator.EASE_OUT))
         );
 
         resetPasswordAnimator = new Animator();
@@ -161,7 +164,7 @@ public class LoginController extends BaseController
         signupUnderlineAnimator.playReverse("color");
         loginUnderlineAnimator.play("color");
 
-        confirmPasswordAnimator.playReverse("height", event -> confirmPasswordField.setVisible(false));
+        confirmPasswordAnimator.playReverse("height", event -> confirmPasswordBox.setVisible(false));
         resetPasswordAnimator.play("height");
 
         submitAnimator.playReverse("text");
@@ -172,7 +175,7 @@ public class LoginController extends BaseController
     @FXML
     public void handleSignupSelectButton()
     {
-        confirmPasswordField.setVisible(true);
+        confirmPasswordBox.setVisible(true);
 
         signupSelectAnimator.play("color");
         loginSelectAnimator.playReverse("color");
@@ -241,9 +244,52 @@ public class LoginController extends BaseController
         submitAnimator.playReverse("color");
     }
 
+    // TODO: Show all popups in different languages
     @FXML
     public void handleSubmitAction()
     {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
 
+        if (username.isEmpty() || password.isEmpty())
+        {
+            // TODO: Show a popup for invalid input
+            return;
+        }
+
+        if (!isLogin && confirmPassword.isEmpty())
+        {
+            // TODO: Show a popup for invalid confirm password input
+            return;
+        }
+
+        if (isLogin)
+        {
+            if (LoginManager.getInstance()
+                            .login(username, password))
+            {
+                // TODO: Load the calendar view
+            }
+            else
+            {
+                // TODO: Show a popup for username/password not found
+                return;
+            }
+        }
+        else
+        {
+            if (LoginManager.getInstance()
+                            .signup(username, password))
+            {
+                // TODO: Show a popup for successful signup and go to login
+                return;
+            }
+            else
+            {
+                // TODO: Show a popup for username already taken
+                return;
+            }
+        }
     }
 }
