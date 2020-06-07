@@ -54,6 +54,7 @@
                         <String fx:value="button-secondary" />
                         <String fx:value="button-sm" />
                         <String fx:value="drop-shadow-small" />
+                        <String fx:value="text-semibold" />
                      </styleClass>
                   </Button>
                   <Button fx:id="confirmButton" mnemonicParsing="false" prefWidth="100.0" text="Confirm" GridPane.columnIndex="1">
@@ -61,6 +62,7 @@
                         <String fx:value="button-primary" />
                         <String fx:value="button-sm" />
                         <String fx:value="drop-shadow-small" />
+                        <String fx:value="text-semibold" />
                      </styleClass>
                   </Button>
                </children>
@@ -72,6 +74,7 @@
                         <String fx:value="button-primary" />
                         <String fx:value="button-sm" />
                         <String fx:value="drop-shadow-small" />
+                        <String fx:value="text-semibold" />
                      </styleClass>
                   </Button>
                </children>

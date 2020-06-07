@@ -1,8 +1,8 @@
 package ScheduleManagement.Models;
 
-import ScheduleManagement.Annotations.Key;
-import ScheduleManagement.Annotations.Column;
-import ScheduleManagement.Annotations.Table;
+import ScheduleManagement.Database.Annotations.Key;
+import ScheduleManagement.Database.Annotations.Column;
+import ScheduleManagement.Database.Annotations.Table;
 
 import java.sql.*;
 

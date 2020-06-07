@@ -1,4 +1,4 @@
-package ScheduleManagement.Annotations;
+package ScheduleManagement.Database.Annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

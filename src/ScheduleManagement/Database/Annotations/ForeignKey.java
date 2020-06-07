@@ -1,4 +1,4 @@
-package ScheduleManagement.Annotations;
+package ScheduleManagement.Database.Annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 // We want to be able to access this annotation during runtime
 @Retention(RetentionPolicy.RUNTIME)
-// We want this annotation to be used only on classes
-@Target({ElementType.TYPE})
-public @interface Table
+// We want this annotation to be used only on fields
+@Target({ElementType.FIELD})
+public @interface ForeignKey
 {
-    String name();
+    String fieldName();
 }

@@ -1,4 +1,4 @@
-package ScheduleManagement.Exceptions;
+package ScheduleManagement.Database.Exceptions;
 
 public class IllegalQueryResultSizeException extends Exception
 {

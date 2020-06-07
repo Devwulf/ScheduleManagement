@@ -2,11 +2,10 @@ package ScheduleManagement.Managers;
 
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.NameValuePair;
-import ScheduleManagement.Exceptions.IllegalQueryResultSizeException;
+import ScheduleManagement.Database.Exceptions.IllegalQueryResultSizeException;
 import ScheduleManagement.Models.User;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoginManager

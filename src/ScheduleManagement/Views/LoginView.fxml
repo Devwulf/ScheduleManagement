@@ -179,7 +179,7 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" spacing="11.0" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="submitButton" maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" onAction="#handleSubmitAction" onMouseEntered="#handleHoverEnterSubmitButton" onMouseExited="#handleHoverExitSubmitButton" prefHeight="42.0" prefWidth="133.0" style="-fx-background-color: -green; -fx-text-fill: -white;" text="Login">
+                        <Button fx:id="submitButton" maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" onAction="#handleSubmitAction" onMouseEntered="#handleHoverEnterSubmitButton" onMouseExited="#handleHoverExitSubmitButton" prefHeight="42.0" prefWidth="133.0" text="Login">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -187,6 +187,7 @@
                               <String fx:value="text-bold" />
                               <String fx:value="drop-shadow-small" />
                               <String fx:value="button-md" />
+                              <String fx:value="button-success" />
                            </styleClass>
                            <cursor>
                               <Cursor fx:constant="HAND" />

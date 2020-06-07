@@ -1,7 +1,7 @@
 package ScheduleManagement.Database;
 
-import ScheduleManagement.Annotations.*;
-import ScheduleManagement.Exceptions.IllegalEntityKeyFormatException;
+import ScheduleManagement.Database.Annotations.*;
+import ScheduleManagement.Database.Exceptions.IllegalEntityKeyFormatException;
 import ScheduleManagement.Managers.DBConnectionManager;
 import ScheduleManagement.Utils.ReflectionUtils;
 
