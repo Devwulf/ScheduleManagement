@@ -66,6 +66,17 @@
   - `User` entity class used to represent an entity instance of the user table in the database
   - `ReflectionUtils` class used to help with reflection stuff in `DBSet` class
   
-#### First working implementation of the login system
+#### First working implementation of the login system (06/05/20)
 - ##### Added
-  - `LoginManager` class
+  - `LoginManager` class for managing the behaviors related to login (login, logout, signup) and the session data saved (current user)
+  - In `LoginController` class, added a handler method to login and sign up, but the behavior is not implemented yet
+  
+#### Implementation of popups (06/06/20)
+- ##### Added
+  - `Icons` class used to store Unicode codes for icons
+  - A Popup View for how a popup looks
+- ##### Modified
+  - In `LoginController` class, changed the password fields from `TextField` to `PasswordField`
+  - In `LoginController` class, implemented popups for errors during login and signup
+  - In `PopupController` class, implemented popup behavior
+  - In `ViewManager` class, added helper methods for showing popups
