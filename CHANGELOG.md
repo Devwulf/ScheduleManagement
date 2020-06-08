@@ -69,6 +69,7 @@
 #### First working implementation of the login system (06/05/20)
 - ##### Added
   - `LoginManager` class for managing the behaviors related to login (login, logout, signup) and the session data saved (current user)
+- ##### Modified
   - In `LoginController` class, added a handler method to login and sign up, but the behavior is not implemented yet
   
 #### Implementation of popups (06/06/20)
@@ -80,3 +81,20 @@
   - In `LoginController` class, implemented popups for errors during login and signup
   - In `PopupController` class, implemented popup behavior
   - In `ViewManager` class, added helper methods for showing popups
+  
+#### Basic implementation of internationalization (06/08/20)
+- ##### Added
+  - `CalendarController` for controlling the Calendar View
+    - However, this is not implemented yet
+  - `LanguageManager` for managing the current locale of the app and changing the text language when the locale changes
+  - The app resource bundle for various app texts in English
+  - `LoginKeys` that holds constants of the string keys in resource bundles
+- ##### Modified
+  - Added `Resources/Languages` folder, which contains the resource bundles .properties files, as a source folder
+  - `BaseController` now has an overridable method `initializeLanguage()` for initializing bindings of nodes with texts for internationalization purposes
+  - In `LoginController` class, added bindings to nodes with text properties so when the language changes, their texts update to the appropriate language
+  - In `LoginController` class, made the `isLogin` boolean to a `BooleanProperty` so it can be observed when it changes value
+    - Really useful for updating the submit button text and the correct language used depending on if logging in or signing up
+  - In `ViewManager` class, the controller's `initializeLanguage()` method also gets called after the controller gets created
+- ##### Removed
+  - In `LoginController` class, the text animation for the submit button has been conflicting with the language bindings to it, and has now been removed
