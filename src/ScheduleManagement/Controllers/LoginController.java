@@ -1,13 +1,19 @@
 package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
+import ScheduleManagement.Managers.LanguageManager;
 import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Colors;
 import ScheduleManagement.Utils.Icons;
+import ScheduleManagement.Utils.LanguageKeys;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -21,10 +27,31 @@ import javafx.scene.paint.Color;
 
 public class LoginController extends BaseController
 {
+    private static class LoginKeys extends LanguageKeys
+    {
+        public static final String loginSelect = "login.label.loginSelect";
+        public static final String signupSelect = "login.label.signupSelect";
+        public static final String usernameField = "login.textField.usernamePrompt";
+        public static final String passwordField = "login.passField.passwordPrompt";
+        public static final String confirmPasswordField = "login.passField.confirmPasswordPrompt";
+        public static final String loginSubmit = "login.button.loginSubmit";
+        public static final String signupSubmit = "login.button.signupSubmit";
+        public static final String resetPassword = "login.label.resetPassword";
+
+        public static final String emptyUserPass = "login.message.emptyUsernamePassword";
+        public static final String emptyConfirmPass = "login.message.emptyConfirmPassword";
+        public static final String successLogin = "login.message.successLogin";
+        public static final String successSignup = "login.message.successSignup";
+        public static final String incorrectUserPass = "login.message.incorrectUsernamePassword";
+        public static final String usernameTaken = "login.message.usernameTaken";
+    }
+
     @FXML private Label logoIcon;
     @FXML private Label usernameIcon;
     @FXML private Label passwordIcon;
     @FXML private Label passwordIcon2;
+
+    @FXML private Label logoText;
 
     @FXML private Label resetPasswordButton;
     private Animator resetPasswordAnimator;
@@ -49,7 +76,7 @@ public class LoginController extends BaseController
     @FXML private Button submitButton;
     private Animator submitAnimator;
 
-    private boolean isLogin = true;
+    private BooleanProperty isLogin = new SimpleBooleanProperty(true);
 
     @FXML
     public void initialize()
@@ -127,10 +154,6 @@ public class LoginController extends BaseController
         );
 
         submitAnimator = new Animator();
-        submitAnimator.addAnimation("text",
-                new KeyFrame(Animator.Zero, new KeyValue(submitButton.textProperty(), "Login", Interpolator.EASE_OUT)),
-                new KeyFrame(Animator.Fast, new KeyValue(submitButton.textProperty(), "Sign Up", Interpolator.EASE_OUT))
-        );
         DropShadow shadow1 = new DropShadow();
         shadow1.setBlurType(BlurType.GAUSSIAN);
         shadow1.setColor(Color.rgb(0, 0, 0, 0.25));
@@ -154,6 +177,31 @@ public class LoginController extends BaseController
         handleLoginSelectButton();
     }
 
+    @Override
+    public void initializeLanguage()
+    {
+        LanguageManager langManager = LanguageManager.getInstance();
+
+        logoText.textProperty()
+                .bind(langManager.createStringBinding(LoginKeys.logo));
+        loginSelect.textProperty()
+                   .bind(langManager.createStringBinding(LoginKeys.loginSelect));
+        signupSelect.textProperty()
+                    .bind(langManager.createStringBinding(LoginKeys.signupSelect));
+        usernameField.promptTextProperty()
+                     .bind(langManager.createStringBinding(LoginKeys.usernameField));
+        passwordField.promptTextProperty()
+                     .bind(langManager.createStringBinding(LoginKeys.passwordField));
+        confirmPasswordField.promptTextProperty()
+                            .bind(langManager.createStringBinding(LoginKeys.confirmPasswordField));
+        submitButton.textProperty()
+                    .bind(Bindings.when(isLogin)
+                                  .then(langManager.getTranslation(LoginKeys.loginSubmit))
+                                  .otherwise(langManager.getTranslation(LoginKeys.signupSubmit)));
+        resetPasswordButton.textProperty()
+                           .bind(langManager.createStringBinding(LoginKeys.resetPassword));
+    }
+
     @FXML
     public void handleLoginSelectButton()
     {
@@ -170,9 +218,7 @@ public class LoginController extends BaseController
         confirmPasswordAnimator.playReverse("height", event -> confirmPasswordBox.setVisible(false));
         resetPasswordAnimator.play("height");
 
-        submitAnimator.playReverse("text");
-
-        isLogin = true;
+        isLogin.set(true);
     }
 
     @FXML
@@ -192,15 +238,13 @@ public class LoginController extends BaseController
         confirmPasswordAnimator.play("height");
         resetPasswordAnimator.playReverse("height", event -> resetPasswordButton.setVisible(false));
 
-        submitAnimator.play("text");
-
-        isLogin = false;
+        isLogin.set(false);
     }
 
     @FXML
     public void handleHoverEnterSignupSelectButton()
     {
-        if (!isLogin)
+        if (!isLogin.get())
             return;
 
         signupSelectAnimator.play("color");
@@ -209,7 +253,7 @@ public class LoginController extends BaseController
     @FXML
     public void handleHoverExitSignupSelectButton()
     {
-        if (!isLogin)
+        if (!isLogin.get())
             return;
 
         signupSelectAnimator.playReverse("color");
@@ -218,7 +262,7 @@ public class LoginController extends BaseController
     @FXML
     public void handleHoverEnterLoginSelectButton()
     {
-        if (isLogin)
+        if (isLogin.get())
             return;
 
         loginSelectAnimator.play("color");
@@ -227,7 +271,7 @@ public class LoginController extends BaseController
     @FXML
     public void handleHoverExitLoginSelectButton()
     {
-        if (isLogin)
+        if (isLogin.get())
             return;
 
         loginSelectAnimator.playReverse("color");
@@ -258,29 +302,33 @@ public class LoginController extends BaseController
         if (username.isEmpty() || password.isEmpty())
         {
             // TODO: Show a popup for invalid input
-            ViewManager.getInstance().showErrorPopup("The username and password fields cannot be empty.");
+            ViewManager.getInstance()
+                       .showErrorPopup("The username and password fields cannot be empty.");
             return;
         }
 
-        if (!isLogin && confirmPassword.isEmpty())
+        if (!isLogin.get() && confirmPassword.isEmpty())
         {
             // TODO: Show a popup for invalid confirm password input
-            ViewManager.getInstance().showErrorPopup("The confirm password field cannot be empty.");
+            ViewManager.getInstance()
+                       .showErrorPopup("The confirm password field cannot be empty.");
             return;
         }
 
-        if (isLogin)
+        if (isLogin.get())
         {
             if (LoginManager.getInstance()
                             .login(username, password))
             {
                 // TODO: Load the calendar view
-                ViewManager.getInstance().showSuccessPopup("Successfully logged in!");
+                ViewManager.getInstance()
+                           .showSuccessPopup("Successfully logged in!");
             }
             else
             {
                 // TODO: Show a popup for username/password not found
-                ViewManager.getInstance().showErrorPopup("The given username/password is incorrect.");
+                ViewManager.getInstance()
+                           .showErrorPopup("The given username/password is incorrect.");
             }
         }
         else
@@ -289,12 +337,14 @@ public class LoginController extends BaseController
                             .signup(username, password))
             {
                 // TODO: Show a popup for successful signup and go to login
-                ViewManager.getInstance().showSuccessPopup("You have signed up successfully!");
+                ViewManager.getInstance()
+                           .showSuccessPopup("You have signed up successfully!");
             }
             else
             {
                 // TODO: Show a popup for username already taken
-                ViewManager.getInstance().showWarningPopup("The given username is already taken!");
+                ViewManager.getInstance()
+                           .showWarningPopup("The given username is already taken!");
             }
         }
     }

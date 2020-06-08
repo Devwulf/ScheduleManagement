@@ -13,4 +13,8 @@ public abstract class BaseController
     // A separate helper method for initializing all the
     // needed animation keyframes
     public void initializeAnimations() { }
+
+    // A separate helper method for initializing all the
+    // text bindings needed for language localization
+    public void initializeLanguage() { }
 }

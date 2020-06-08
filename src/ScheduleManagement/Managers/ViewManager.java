@@ -50,6 +50,7 @@ public class ViewManager
                 mainController.stage = stage;
                 mainController.lateInitialize();
                 mainController.initializeAnimations();
+                mainController.initializeLanguage();
             }
             catch (IOException e)
             {
@@ -109,6 +110,7 @@ public class ViewManager
             controller.stage = stage;
             controller.lateInitialize();
             controller.initializeAnimations();
+            controller.initializeLanguage();
 
             return controller;
         }
