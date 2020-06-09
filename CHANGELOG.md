@@ -98,3 +98,22 @@
   - In `ViewManager` class, the controller's `initializeLanguage()` method also gets called after the controller gets created
 - ##### Removed
   - In `LoginController` class, the text animation for the submit button has been conflicting with the language bindings to it, and has now been removed
+  
+#### Implemented transitions between views using the sidebar (06/09/20)
+- ##### Added
+  - Created `CustomersController`, `AppointmentsController`, `ReportsController`, and `SettingsController` classes as copies of `CalendarController`, but only featuring the sidebar and header without the content.
+  - `SwitchableController` abstract class that manages the animation and position of the selector on the sidebar
+  - Created the French resource bundle
+- ##### Modified
+  - In `App` class, added all the views into the `ViewManager`
+  - Changed the window title from "Schedule Management" to "Scheduler"
+  - In `CalendarController` class, added the handler methods for the sidebar selection for going to different views
+  - In `LoginController` and the login view, added a button for toggling the language between English and French
+    - This should be replaced with a dropdown/combo box for selecting different languages
+  - In `LoginController` class, the bindings for the `submitButton` text property now changes based on the `isLogin` value
+  - In `LoginController` class, the popup messages now get the proper translations from the `LanguageManager` instance
+  - In `LoginController` class, added a handler method for the language button toggler
+  - In `ViewManager` class, added new methods for loading a new view as a separate window
+    - The normal `loadView()` method now loads the view in the current/main window
+  - In `Icons` class, added new Unicode for users, language, calendar, calendarPlus, chartLine, and cog icons
+  
