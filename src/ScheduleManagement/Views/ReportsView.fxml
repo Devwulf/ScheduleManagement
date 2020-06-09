@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Resources/Css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleManagement.Controllers.ReportsController">
+    <children>
+        <HBox GridPane.rowIndex="1">
+            <children>
+                <GridPane HBox.hgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="234.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <VBox style="-fx-background-color: -off-white;" GridPane.columnIndex="1" />
+                        <VBox prefWidth="234.0" style="-fx-background-color: -dark-gray;">
+                            <children>
+                                <Pane fx:id="selectionPane">
+                                    <children>
+                                        <Pane prefHeight="71.0" prefWidth="244.0" style="-fx-background-color: -green; -fx-background-radius: 0 10px 10px 0;" styleClass="drop-shadow" />
+                                    </children>
+                                </Pane>
+                                <HBox alignment="CENTER_LEFT" onMouseClicked="#handleCalendarSelect" prefHeight="62.0" spacing="13.0">
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                    <children>
+                                        <HBox alignment="CENTER" prefWidth="29.0">
+                                            <children>
+                                                <Label fx:id="calendarIcon" style="-fx-text-fill: -white;" styleClass="icon" text="Icon">
+                                                    <font>
+                                                        <Font size="23.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Label layoutX="32.0" layoutY="30.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Calendar">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="23.0" onMouseClicked="#handleCustomersSelect" prefHeight="62.0" spacing="13.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefWidth="29.0">
+                                            <children>
+                                                <Label fx:id="customersIcon" style="-fx-text-fill: -white;" styleClass="icon" text="Icon">
+                                                    <font>
+                                                        <Font size="23.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Label layoutX="32.0" layoutY="30.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Customers">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="86.0" onMouseClicked="#handleAppointmentsSelect" prefHeight="62.0" spacing="13.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefWidth="29.0">
+                                            <children>
+                                                <Label fx:id="appointmentsIcon" style="-fx-text-fill: -white;" styleClass="icon" text="Icon">
+                                                    <font>
+                                                        <Font size="23.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Label layoutX="32.0" layoutY="30.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Appointments">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="149.0" prefHeight="62.0" spacing="13.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefWidth="29.0">
+                                            <children>
+                                                <Label fx:id="reportsIcon" style="-fx-text-fill: -white;" styleClass="icon" text="Icon">
+                                                    <font>
+                                                        <Font size="23.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Label layoutX="32.0" layoutY="30.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Reports">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="212.0" onMouseClicked="#handleSettingsSelect" prefHeight="62.0" spacing="13.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefWidth="29.0">
+                                            <children>
+                                                <Label fx:id="settingsIcon" style="-fx-text-fill: -white;" styleClass="icon" text="Icon">
+                                                    <font>
+                                                        <Font size="23.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                        <Label layoutX="32.0" layoutY="30.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Settings">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </HBox>
+                            </children>
+                            <padding>
+                                <Insets left="25.0" right="25.0" top="13.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </GridPane>
+            </children>
+        </HBox>
+        <HBox prefHeight="80.0" styleClass="drop-shadow-small">
+            <children>
+                <HBox alignment="CENTER" prefWidth="234.0" spacing="25.0" style="-fx-background-color: -green;">
+                    <children>
+                        <Label fx:id="logoIcon" alignment="CENTER" style="-fx-text-fill: -white;" styleClass="icon" text="test">
+                            <font>
+                                <Font size="30.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="logoText" alignment="CENTER" layoutX="75.0" layoutY="33.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Scheduler">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" style="-fx-background-color: -white;" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Reports">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="80.0" />
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+    </rowConstraints>
+</GridPane>
