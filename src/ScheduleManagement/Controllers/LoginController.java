@@ -25,6 +25,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.Locale;
+
 public class LoginController extends BaseController
 {
     private static class LoginKeys extends LanguageKeys
@@ -52,6 +54,7 @@ public class LoginController extends BaseController
     @FXML private Label passwordIcon2;
 
     @FXML private Label logoText;
+    @FXML private Label languageButton;
 
     @FXML private Label resetPasswordButton;
     private Animator resetPasswordAnimator;
@@ -88,6 +91,7 @@ public class LoginController extends BaseController
         usernameIcon.setText(Icons.user);
         passwordIcon.setText(Icons.key);
         passwordIcon2.setText(Icons.key);
+        languageButton.setText(Icons.language);
 
         // This is so setManaged for these nodes is also set to false
         // when setVisible is set to false. If isManaged is false, the
@@ -194,10 +198,19 @@ public class LoginController extends BaseController
                      .bind(langManager.createStringBinding(LoginKeys.passwordField));
         confirmPasswordField.promptTextProperty()
                             .bind(langManager.createStringBinding(LoginKeys.confirmPasswordField));
-        submitButton.textProperty()
-                    .bind(Bindings.when(isLogin)
-                                  .then(langManager.getTranslation(LoginKeys.loginSubmit))
-                                  .otherwise(langManager.getTranslation(LoginKeys.signupSubmit)));
+
+        isLogin.addListener((observable, oldValue, newValue) ->
+        {
+            // TODO: Does this add new unnecessary listeners for the submitButton?
+            if (newValue)
+                submitButton.textProperty()
+                            .bind(langManager.createStringBinding(LoginKeys.loginSubmit));
+            else
+                submitButton.textProperty()
+                            .bind(langManager.createStringBinding(LoginKeys.signupSubmit));
+        });
+
+        //submitButton.textProperty().bind(Bindings.when(isLogin).then(langManager.getTranslation(LoginKeys.loginSubmit)).otherwise(langManager.getTranslation(LoginKeys.signupSubmit)));
         resetPasswordButton.textProperty()
                            .bind(langManager.createStringBinding(LoginKeys.resetPassword));
     }
@@ -295,6 +308,8 @@ public class LoginController extends BaseController
     @FXML
     public void handleSubmitAction()
     {
+        LanguageManager langManager = LanguageManager.getInstance();
+
         String username = usernameField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
@@ -303,7 +318,7 @@ public class LoginController extends BaseController
         {
             // TODO: Show a popup for invalid input
             ViewManager.getInstance()
-                       .showErrorPopup("The username and password fields cannot be empty.");
+                       .showErrorPopup(langManager.getTranslation(LoginKeys.emptyUserPass));
             return;
         }
 
@@ -311,7 +326,7 @@ public class LoginController extends BaseController
         {
             // TODO: Show a popup for invalid confirm password input
             ViewManager.getInstance()
-                       .showErrorPopup("The confirm password field cannot be empty.");
+                       .showErrorPopup(langManager.getTranslation(LoginKeys.emptyConfirmPass));
             return;
         }
 
@@ -321,14 +336,14 @@ public class LoginController extends BaseController
                             .login(username, password))
             {
                 // TODO: Load the calendar view
-                ViewManager.getInstance()
-                           .showSuccessPopup("Successfully logged in!");
+                //ViewManager.getInstance().showSuccessPopup(langManager.getTranslation(LoginKeys.successLogin));
+                ViewManager.getInstance().loadView(ViewManager.ViewNames.Calendar);
             }
             else
             {
                 // TODO: Show a popup for username/password not found
                 ViewManager.getInstance()
-                           .showErrorPopup("The given username/password is incorrect.");
+                           .showErrorPopup(langManager.getTranslation(LoginKeys.incorrectUserPass));
             }
         }
         else
@@ -338,14 +353,24 @@ public class LoginController extends BaseController
             {
                 // TODO: Show a popup for successful signup and go to login
                 ViewManager.getInstance()
-                           .showSuccessPopup("You have signed up successfully!");
+                           .showSuccessPopup(langManager.getTranslation(LoginKeys.successSignup));
             }
             else
             {
                 // TODO: Show a popup for username already taken
                 ViewManager.getInstance()
-                           .showWarningPopup("The given username is already taken!");
+                           .showWarningPopup(langManager.getTranslation(LoginKeys.usernameTaken));
             }
         }
+    }
+
+    @FXML
+    public void handleToggleLanguage()
+    {
+        LanguageManager langManager = LanguageManager.getInstance();
+        if (langManager.getLocale() == Locale.ENGLISH)
+            langManager.setLocale(Locale.FRENCH);
+        else
+            langManager.setLocale(Locale.ENGLISH);
     }
 }

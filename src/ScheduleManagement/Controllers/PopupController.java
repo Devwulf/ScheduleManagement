@@ -46,6 +46,7 @@ public class PopupController extends BaseController
     private void showOkPopup(String message)
     {
         messageText.setText(message);
+        stage.sizeToScene();
 
         confirmCancelPane.setVisible(false);
         okPane.setVisible(true);
@@ -56,6 +57,7 @@ public class PopupController extends BaseController
         infoIcon.setText(Icons.warningCircle);
         infoIcon.setTextFill(Colors.yellow);
         messageText.setText(message);
+        stage.sizeToScene();
 
         confirmCancelPane.setVisible(true);
         okPane.setVisible(false);

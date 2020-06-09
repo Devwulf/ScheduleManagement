@@ -75,6 +75,11 @@
 	-fx-text-fill: -light-gray;
 }
 
+.button-regular {
+	-fx-background-color: -white;
+	-fx-text-fill: -dark-gray;
+}
+
 .text-field-md {
 	-fx-background-radius: 0 21px 21px 0;
 	-fx-background-color: -white;

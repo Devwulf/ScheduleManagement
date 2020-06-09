@@ -17,14 +17,18 @@ public class ViewManager
 {
     public enum ViewNames
     {
-        CalendarMain,
-        CustomerMain,
-        AppointmentMain,
+        Login,
+        Calendar,
+        Customers,
+        Appointments,
+        Reports,
+        Settings,
         Popup
     }
 
     private HashMap<ViewNames, URL> views;
     private String defaultTitle;
+    private Stage mainStage;
 
     private static final String VIEWS_PATH = "/ScheduleManagement/Views/";
 
@@ -34,6 +38,7 @@ public class ViewManager
         if (stage != null)
         {
             defaultTitle = title;
+            mainStage = stage;
 
             try
             {
@@ -72,15 +77,35 @@ public class ViewManager
 
     public <TController extends BaseController> TController loadView(ViewNames name)
     {
-        return loadView(name, "", 0, 0);
+        return loadView(mainStage, name, "", 0, 0);
     }
 
     public <TController extends BaseController> TController loadView(ViewNames name, String viewTitle)
     {
-        return loadView(name, viewTitle, 0, 0);
+        return loadView(mainStage, name, viewTitle, 0, 0);
     }
 
     public <TController extends BaseController> TController loadView(ViewNames name, String viewTitle, double width, double height)
+    {
+        return loadView(mainStage, name, viewTitle, width, height);
+    }
+
+    public <TController extends BaseController> TController loadSeparateView(ViewNames name)
+    {
+        return loadView(new Stage(), name, "", 0, 0);
+    }
+
+    public <TController extends BaseController> TController loadSeparateView(ViewNames name, String viewTitle)
+    {
+        return loadView(new Stage(), name, viewTitle, 0, 0);
+    }
+
+    public <TController extends BaseController> TController loadSeparateView(ViewNames name, String viewTitle, double width, double height)
+    {
+        return loadView(new Stage(), name, viewTitle, width, height);
+    }
+
+    private <TController extends BaseController> TController loadView(Stage stageToUse, ViewNames name, String viewTitle, double width, double height)
     {
         try
         {
@@ -88,7 +113,6 @@ public class ViewManager
             FXMLLoader loader = new FXMLLoader(path);
             Parent root = loader.load();
 
-            Stage stage = new Stage();
             Scene scene;
             if (width <= 0 ||
                     height <= 0)
@@ -97,17 +121,17 @@ public class ViewManager
                 scene = new Scene(root, width, height);
 
             if (!viewTitle.isEmpty())
-                stage.setTitle(viewTitle);
+                stageToUse.setTitle(viewTitle);
             else
-                stage.setTitle(defaultTitle);
+                stageToUse.setTitle(defaultTitle);
 
-            stage.setScene(scene);
-            stage.show();
+            stageToUse.setScene(scene);
+            stageToUse.show();
 
             // Pass in the stage to the controller so the
             // controller can close its own window
             TController controller = loader.getController();
-            controller.stage = stage;
+            controller.stage = stageToUse;
             controller.lateInitialize();
             controller.initializeAnimations();
             controller.initializeLanguage();
@@ -123,24 +147,24 @@ public class ViewManager
 
     public void showWarningPopup(String message)
     {
-        PopupController controller = loadView(ViewNames.Popup, "Warning");
+        PopupController controller = loadSeparateView(ViewNames.Popup, "Warning");
         controller.showWarningPopup(message);
     }
 
     public void showErrorPopup(String message)
     {
-        PopupController controller = loadView(ViewNames.Popup, "Error");
+        PopupController controller = loadSeparateView(ViewNames.Popup, "Error");
         controller.showErrorPopup(message);
     }
 
     public void showSuccessPopup(String message)
     {
-        PopupController controller = loadView(ViewNames.Popup, "Success");
+        PopupController controller = loadSeparateView(ViewNames.Popup, "Success");
         controller.showSuccessPopup(message);
     }
 
     public void showConfirmPopup(String message, Runnable onConfirm) {
-        PopupController controller = loadView(ViewNames.Popup, "Confirm");
+        PopupController controller = loadSeparateView(ViewNames.Popup, "Confirm");
         controller.showConfirmPopup(message, onConfirm);
     }
 

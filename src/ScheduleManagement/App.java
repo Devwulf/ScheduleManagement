@@ -2,21 +2,10 @@ package ScheduleManagement;
 
 import ScheduleManagement.Managers.ViewManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class App extends Application
 {
@@ -71,9 +60,15 @@ public class App extends Application
         URL mainViewPath = getClass().getResource("Views/LoginView.fxml");
 
         ViewManager viewManager = ViewManager.getInstance();
-        viewManager.initialize(primaryStage, mainViewPath, "Schedule Management", 1024, 768);
+        viewManager.initialize(primaryStage, mainViewPath, "Scheduler", 1024, 768);
 
         // Add views
+        viewManager.addView(ViewManager.ViewNames.Login, "LoginView");
+        viewManager.addView(ViewManager.ViewNames.Calendar, "CalendarView");
+        viewManager.addView(ViewManager.ViewNames.Customers, "CustomersView");
+        viewManager.addView(ViewManager.ViewNames.Appointments, "AppointmentsView");
+        viewManager.addView(ViewManager.ViewNames.Reports, "ReportsView");
+        viewManager.addView(ViewManager.ViewNames.Settings, "SettingsView");
         viewManager.addView(ViewManager.ViewNames.Popup, "PopupView");
     }
 

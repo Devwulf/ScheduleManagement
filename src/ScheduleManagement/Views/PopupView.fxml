@@ -28,7 +28,7 @@
       </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Label fx:id="messageText" lineSpacing="3.0" style="-fx-text-fill: -black;" styleClass="text-medium" text="The quick brown fox jumps over the lazy dog under the tree." textAlignment="CENTER" wrapText="true">
+            <Label fx:id="messageText" lineSpacing="3.0" style="-fx-text-fill: -black;" styleClass="text-medium" text="a" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>

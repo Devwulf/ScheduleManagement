@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,197 +19,239 @@
 
 <StackPane prefHeight="768.0" prefWidth="1024.0" styleClass="linear-gradient" stylesheets="@../Resources/Css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleManagement.Controllers.LoginController">
     <children>
-      <VBox prefHeight="200.0" prefWidth="100.0">
-         <children>
-              <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1046.0">
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <VBox BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="234.0" spacing="25.0">
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <Label fx:id="logoIcon" alignment="CENTER" style="-fx-text-fill: -white;" styleClass="icon" text="test">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="logoText" alignment="CENTER" layoutX="75.0" layoutY="33.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Scheduler">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
+                          <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="80.0" prefWidth="234.0" spacing="25.0">
+                                 <children>
+                                    <Label fx:id="logoIcon" alignment="CENTER" style="-fx-text-fill: -white;" styleClass="icon" text="test">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="logoText" alignment="CENTER" layoutX="75.0" layoutY="33.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Scheduler">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="80.0" prefWidth="175.0" spacing="25.0">
+                                 <children>
+                                    <Label fx:id="languageButton" alignment="CENTER" onMouseClicked="#handleToggleLanguage" prefHeight="40.0" prefWidth="60.0" style="-fx-text-fill: -dark-gray; -fx-background-color: -white; -fx-background-radius: 5px;" text="test">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="icon" />
+                                          <String fx:value="drop-shadow-small" />
+                                       </styleClass>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </GridPane>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <HBox alignment="CENTER" fillHeight="false" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane alignment="TOP_CENTER" maxHeight="368.0" maxWidth="388.0" prefWidth="388.0" style="-fx-background-color: -dark-gray; -fx-background-radius: 30px;" styleClass="drop-shadow" vgap="34.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints fillHeight="false" minHeight="73.0" />
+                      <RowConstraints fillHeight="false" maxHeight="146.0" minHeight="94.0" />
+                      <RowConstraints fillHeight="false" minHeight="81.0" />
+                    </rowConstraints>
+                     <children>
+                        <HBox fillHeight="false" GridPane.hgrow="ALWAYS">
+                           <children>
+                              <VBox alignment="BOTTOM_RIGHT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="loginSelect" alignment="CENTER" onMouseClicked="#handleLoginSelectButton" onMouseEntered="#handleHoverEnterLoginSelectButton" onMouseExited="#handleHoverExitLoginSelectButton" prefWidth="148.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Login" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Pane fx:id="loginUnderline" maxWidth="148.0" prefHeight="3.0" prefWidth="148.0" style="-fx-background-color: -white;" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="signupSelect" alignment="CENTER" onMouseClicked="#handleSignupSelectButton" onMouseEntered="#handleHoverEnterSignupSelectButton" onMouseExited="#handleHoverExitSignupSelectButton" prefWidth="148.0" style="-fx-text-fill: -lighter-gray;" styleClass="text-bold" text="Signup" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Pane fx:id="signupUnderline" maxWidth="148.0" prefHeight="1.0" prefWidth="148.0" style="-fx-background-color: -lighter-gray;" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets top="29.0" />
+                           </padding>
+                        </HBox>
+                        <VBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="1">
+                           <children>
+                              <HBox alignment="CENTER" styleClass="drop-shadow-small">
+                                 <children>
+                                    <GridPane>
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" />
+                                        <ColumnConstraints hgrow="SOMETIMES" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
+                                             <children>
+                                                <Label fx:id="usernameIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <TextField fx:id="usernameField" minHeight="0.0" onAction="#handleSubmitAction" prefHeight="42.0" prefWidth="262.0" promptText="Username" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="56.0" layoutY="36.0" styleClass="drop-shadow-small">
+                                 <children>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
+                                             <children>
+                                                <Label fx:id="passwordIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <PasswordField fx:id="passwordField" minHeight="0.0" onAction="#handleSubmitAction" prefWidth="262.0" promptText="Password" GridPane.columnIndex="1">
+                                             <styleClass>
+                                                <String fx:value="text-field-md" />
+                                                <String fx:value="text-medium" />
+                                             </styleClass>
+                                          </PasswordField>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="confirmPasswordBox" alignment="CENTER" layoutX="10.0" layoutY="62.0" styleClass="drop-shadow-small">
+                                 <children>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
+                                             <children>
+                                                <Label fx:id="passwordIcon2" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <PasswordField fx:id="confirmPasswordField" minHeight="0.0" prefWidth="262.0" promptText="Confirm Password" GridPane.columnIndex="1">
+                                             <styleClass>
+                                                <String fx:value="text-field-md" />
+                                                <String fx:value="text-medium" />
+                                             </styleClass>
+                                          </PasswordField>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" spacing="11.0" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="submitButton" maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" onAction="#handleSubmitAction" onMouseEntered="#handleHoverEnterSubmitButton" onMouseExited="#handleHoverExitSubmitButton" prefHeight="42.0" prefWidth="133.0" text="Login">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="text-bold" />
+                                    <String fx:value="drop-shadow-small" />
+                                    <String fx:value="button-md" />
+                                    <String fx:value="button-success" />
+                                 </styleClass>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Label fx:id="resetPasswordButton" minHeight="0.0" style="-fx-text-fill: -lightest-gray;" text="Reset Password" underline="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <styleClass>
+                                    <String fx:value="text-medium" />
+                                    <String fx:value="drop-shadow-small" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="39.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </GridPane>
                </children>
             </HBox>
-         </children>
-      </VBox>
-      <HBox alignment="CENTER" fillHeight="false" VBox.vgrow="ALWAYS">
-         <children>
-            <GridPane alignment="TOP_CENTER" maxHeight="368.0" maxWidth="388.0" prefWidth="388.0" style="-fx-background-color: -dark-gray; -fx-background-radius: 30px;" styleClass="drop-shadow" vgap="34.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints fillHeight="false" minHeight="73.0" />
-                <RowConstraints fillHeight="false" maxHeight="146.0" minHeight="94.0" />
-                <RowConstraints fillHeight="false" minHeight="81.0" />
-              </rowConstraints>
-               <children>
-                  <HBox fillHeight="false" GridPane.hgrow="ALWAYS">
-                     <children>
-                        <VBox alignment="BOTTOM_RIGHT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="loginSelect" alignment="CENTER" onMouseClicked="#handleLoginSelectButton" onMouseEntered="#handleHoverEnterLoginSelectButton" onMouseExited="#handleHoverExitLoginSelectButton" prefWidth="148.0" style="-fx-text-fill: -white;" styleClass="text-bold" text="Login" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                              <Pane fx:id="loginUnderline" maxWidth="148.0" prefHeight="3.0" prefWidth="148.0" style="-fx-background-color: -white;" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="BOTTOM_LEFT" fillWidth="false" spacing="6.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="signupSelect" alignment="CENTER" onMouseClicked="#handleSignupSelectButton" onMouseEntered="#handleHoverEnterSignupSelectButton" onMouseExited="#handleHoverExitSignupSelectButton" prefWidth="148.0" style="-fx-text-fill: -lighter-gray;" styleClass="text-bold" text="Signup" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                              <Pane fx:id="signupUnderline" maxWidth="148.0" prefHeight="1.0" prefWidth="148.0" style="-fx-background-color: -lighter-gray;" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets top="29.0" />
-                     </padding>
-                  </HBox>
-                  <VBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="1">
-                     <children>
-                        <HBox alignment="CENTER" styleClass="drop-shadow-small">
-                           <children>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" />
-                                  <ColumnConstraints hgrow="SOMETIMES" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
-                                       <children>
-                                          <Label fx:id="usernameIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font></Label>
-                                       </children>
-                                    </HBox>
-                                    <TextField fx:id="usernameField" minHeight="0.0" onAction="#handleSubmitAction" prefHeight="42.0" prefWidth="262.0" promptText="Username" style="-fx-background-radius: 0 21px 21px 0; -fx-background-color: -white; -fx-prompt-text-fill: -lighter-gray; -fx-font-size: 14px;" styleClass="text-medium" GridPane.columnIndex="1">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="56.0" layoutY="36.0" styleClass="drop-shadow-small">
-                           <children>
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
-                                       <children>
-                                          <Label fx:id="passwordIcon" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <PasswordField fx:id="passwordField" minHeight="0.0" onAction="#handleSubmitAction" prefWidth="262.0" promptText="Password" GridPane.columnIndex="1">
-                                       <styleClass>
-                                          <String fx:value="text-field-md" />
-                                          <String fx:value="text-medium" />
-                                       </styleClass>
-                                    </PasswordField>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </HBox>
-                        <HBox fx:id="confirmPasswordBox" alignment="CENTER" layoutX="10.0" layoutY="62.0" styleClass="drop-shadow-small">
-                           <children>
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="34.0" style="-fx-background-color: -white; -fx-background-radius: 21px 0 0 21px;">
-                                       <children>
-                                          <Label fx:id="passwordIcon2" alignment="CENTER_RIGHT" minHeight="0.0" style="-fx-text-fill: -lighter-gray;" styleClass="icon" text="test">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <PasswordField fx:id="confirmPasswordField" minHeight="0.0" prefWidth="262.0" promptText="Confirm Password" GridPane.columnIndex="1">
-                                       <styleClass>
-                                          <String fx:value="text-field-md" />
-                                          <String fx:value="text-medium" />
-                                       </styleClass>
-                                    </PasswordField>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" spacing="11.0" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="submitButton" maxHeight="42.0" maxWidth="133.0" mnemonicParsing="false" onAction="#handleSubmitAction" onMouseEntered="#handleHoverEnterSubmitButton" onMouseExited="#handleHoverExitSubmitButton" prefHeight="42.0" prefWidth="133.0" text="Login">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <styleClass>
-                              <String fx:value="text-bold" />
-                              <String fx:value="drop-shadow-small" />
-                              <String fx:value="button-md" />
-                              <String fx:value="button-success" />
-                           </styleClass>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                        <Label fx:id="resetPasswordButton" minHeight="0.0" style="-fx-text-fill: -lightest-gray;" text="Reset Password" underline="true">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <styleClass>
-                              <String fx:value="text-medium" />
-                              <String fx:value="drop-shadow-small" />
-                           </styleClass>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="39.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </GridPane>
-         </children>
-      </HBox>
+         </center>
+         <bottom>
+            <VBox prefHeight="80.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
     </children>
 </StackPane>
