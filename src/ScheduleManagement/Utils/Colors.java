@@ -16,4 +16,6 @@ public class Colors
     public static final Color lightGray = Color.web("#7F8C8D");
     public static final Color darkGray = Color.web("#34495E");
     public static final Color black = Color.web("#333333");
+    public static final Color gray3 = Color.web("#828282");
+    public static final Color gray4 = Color.web("#BDBDBD");
 }

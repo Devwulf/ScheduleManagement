@@ -14,4 +14,5 @@ public class Icons
     public static final String calendarPlus = "\uf271";
     public static final String chartLine = "\uf201";
     public static final String cog = "\uf013";
+    public static final String exclamationCircle = "\uf06a";
 }
