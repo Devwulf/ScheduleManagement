@@ -306,7 +306,7 @@ public class LoginController extends BaseController
 
     // TODO: Show all popups in different languages
     @FXML
-    public void handleSubmitAction()
+    public void handleSubmitButton()
     {
         LanguageManager langManager = LanguageManager.getInstance();
 

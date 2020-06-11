@@ -82,6 +82,11 @@
 	-fx-text-fill: -dark-gray;
 }
 
+.button-regular-alt {
+	-fx-background-color: -dark-gray;
+	-fx-text-fill: -white;
+}
+
 .text-field-md {
 	-fx-background-radius: 0 21px 21px 0;
 	-fx-background-color: -white;

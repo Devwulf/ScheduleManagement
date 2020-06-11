@@ -24,8 +24,100 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox style="-fx-background-color: -off-white;" GridPane.columnIndex="1">
+                  <VBox spacing="10.0" style="-fx-background-color: -off-white;" GridPane.columnIndex="1">
                      <children>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <VBox.margin>
+                              <Insets left="30.0" right="30.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER" GridPane.columnIndex="1">
+                                 <children>
+                                    <HBox styleClass="drop-shadow-small">
+                                       <children>
+                                          <HBox alignment="CENTER" onMouseClicked="#handlePreviousMonthButton" prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: -dark-gray; -fx-background-radius: 19px 0 0 19px;">
+                                             <children>
+                                                <Label fx:id="previousMonthIcon" style="-fx-text-fill: -white;" styleClass="icon" text="&lt;">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleSelectMonthButton" prefHeight="38.0" prefWidth="200.0" style="-fx-background-color: -dark-gray;">
+                                             <padding>
+                                                <Insets left="20.0" right="20.0" />
+                                             </padding>
+                                             <children>
+                                                <Label fx:id="currentMonthText" style="-fx-text-fill: -white;" styleClass="text-bold" text="May, 2020">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleNextMonthButton" prefHeight="38.0" prefWidth="49.0" style="-fx-background-color: -dark-gray; -fx-background-radius: 0 19px 19px 0;">
+                                             <children>
+                                                <Label fx:id="nextMonthIcon" style="-fx-text-fill: -white;" styleClass="icon" text="&gt;">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </HBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" onMouseClicked="#handleCalendarViewDropdown" styleClass="drop-shadow-small">
+                                       <children>
+                                          <HBox alignment="CENTER" prefWidth="80.0" style="-fx-background-radius: 19px 0 0 19px;" styleClass="button-regular-alt">
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" style="-fx-text-fill: -white;" styleClass="text-bold" text="Monthly" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding></HBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="30.0" style="-fx-background-radius: 0 19px 19px 0;" styleClass="button-regular-alt">
+                                             <children>
+                                                <Label fx:id="calendarViewIcon" style="-fx-text-fill: -white;" styleClass="icon" text="v">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children></HBox>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
                         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <GridPane hgap="5.0">
@@ -109,21 +201,21 @@
                               </GridPane>
                               <GridPane fx:id="calendarMonthlyDays" hgap="5.0" vgap="5.0" VBox.vgrow="ALWAYS">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.2857" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-                                  <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-                                  <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-                                    <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-                                    <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-                                    <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+                                  <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
+                                  <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
+                                  <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
+                                    <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
+                                    <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
+                                    <RowConstraints minHeight="10.0" percentHeight="16.666666" vgrow="ALWAYS" />
                                 </rowConstraints>
                               </GridPane>
                            </children>
@@ -133,7 +225,7 @@
                         </VBox>
                      </children>
                      <padding>
-                        <Insets bottom="30.0" top="30.0" />
+                        <Insets bottom="30.0" top="16.0" />
                      </padding></VBox>
                   <VBox prefWidth="234.0" style="-fx-background-color: -dark-gray;">
                      <children>

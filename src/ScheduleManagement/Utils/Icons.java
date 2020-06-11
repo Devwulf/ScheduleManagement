@@ -15,4 +15,7 @@ public class Icons
     public static final String chartLine = "\uf201";
     public static final String cog = "\uf013";
     public static final String exclamationCircle = "\uf06a";
+    public static final String chevronLeft = "\uf053";
+    public static final String chevronRight = "\uf054";
+    public static final String chevronDown = "\uf078";
 }
