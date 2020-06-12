@@ -117,3 +117,29 @@
     - The normal `loadView()` method now loads the view in the current/main window
   - In `Icons` class, added new Unicode for users, language, calendar, calendarPlus, chartLine, and cog icons
   
+#### Added UI for the Calendar monthly view (06/10/20)
+- ##### Modified
+  - Moved behavior specific to the sidebar from `CalendarController`, `CustomersController`, `AppointmentsController`, `ReportsController`, and `SettingsController` to the parent `SwitchableController` class
+  - In `CalendarController` class, implemented dynamic generation of calendar days, depending on the current month and year selected
+    - Currently only shows the current month of the current year
+  
+#### Implemented scrolling through calendar months and implemented holidays (06/11/20)
+- ##### Added
+  - `HolidayRule` data class for storing the holiday name, month, and rule for a given holiday
+    - Useful for holidays that has specific rules (e.g. Thanksgiving on the 4th Thursday of November, and the exact day could vary every year)
+  - `Holiday` data class used for storing a specific holiday in a given year and month
+    - Used for returning an already calculated holiday (e.g. Thanksgiving Day, November 26, 2020) 
+  - `Holidays` helper class that holds some predetermined holidays and their rules
+    - Almost all of these holidays are US based, needs to be internationalized
+    - Connecting to an API that contains precalculated holidays for a given year can also be implemented
+- ##### Modified
+  - In `CalendarController` class, added the functionality of scrolling through months
+
+#### Implemented Calendar selected day modal and interaction (06/12/20)
+- ##### Modified
+  - In `CalendarController` class, added functionality of opening a modal when a day in the calendar is clicked
+    - This shows, in detail: 
+      - The special event associated with the day
+      - The number of appointments and the different types of appointments in the day
+      - A scrollable timeline of all the appointments in the day
+        - Planned to be zoomable, sortable (e.g. more important appointments at the top), and filterable
