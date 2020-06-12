@@ -5,6 +5,7 @@ public class Icons
     public static final String user = "\uf007";
     public static final String users = "\uf500";
     public static final String key = "\uf084";
+    public static final String times = "\uf00d";
     public static final String timesCircle = "\uf057";
     public static final String checkCircle = "\uf058";
     public static final String warningCircle = "\uf06a";

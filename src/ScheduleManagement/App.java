@@ -29,7 +29,7 @@ public class App extends Application
         Font.loadFont(getClass().getResource("Resources/Fonts/Quicksand-Bold.ttf")
                                 .toExternalForm(), 12);
 
-        URL mainViewPath = getClass().getResource("Views/CalendarView.fxml");
+        URL mainViewPath = getClass().getResource("Views/LoginView.fxml");
 
         ViewManager viewManager = ViewManager.getInstance();
         viewManager.initialize(primaryStage, mainViewPath, "Scheduler", 1024, 768);

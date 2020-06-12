@@ -12,6 +12,8 @@
 	-black: #333333;
 	-gray3: #828282;
 	-gray4: #BDBDBD;
+	-gray5: #D4D4D4;
+	-gray6: #E3E3E3;
 }
 
 .icon {
@@ -48,6 +50,10 @@
 
 .drop-shadow-small {
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 2, 0, 0px, 2px);
+}
+
+.drop-shadow-small-up {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 2, 0, 0px, -2px);
 }
 
 .button-sm {
@@ -100,4 +106,12 @@
 	-fx-border-color: -green;
 	-fx-border-width: 4px;
 	-fx-border-radius: 5px;
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+	-fx-background-color: transparent;
 }

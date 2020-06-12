@@ -6,21 +6,18 @@ import ScheduleManagement.Utils.Icons;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjuster;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CalendarController extends SwitchableController
 {
@@ -33,6 +30,17 @@ public class CalendarController extends SwitchableController
 
     @FXML private Label calendarViewIcon;
 
+    @FXML private StackPane selectedDayModal;
+    @FXML private Label dayModalTitle;
+    @FXML private Label dayModalSubtitle;
+    @FXML private Label closeModalButton;
+
+    @FXML private ScrollPane backgroundScroll;
+    @FXML private GridPane backgroundGrid;
+    @FXML private ScrollPane timelineScroll;
+    @FXML private GridPane timelineGrid;
+    @FXML private ScrollPane mainScroll;
+
     private LocalDate currentMonth = LocalDate.now();
 
     @FXML
@@ -41,6 +49,12 @@ public class CalendarController extends SwitchableController
         previousMonthIcon.setText(Icons.chevronLeft);
         nextMonthIcon.setText(Icons.chevronRight);
         calendarViewIcon.setText(Icons.chevronDown);
+        closeModalButton.setText(Icons.times);
+
+        backgroundScroll.hvalueProperty()
+                        .bind(mainScroll.hvalueProperty());
+        timelineScroll.hvalueProperty()
+                      .bind(mainScroll.hvalueProperty());
 
         initializeSelectionPanePosition(0);
     }
@@ -83,6 +97,24 @@ public class CalendarController extends SwitchableController
     public void handleCalendarViewDropdown()
     {
 
+    }
+
+    private void handleOpenDayModal(LocalDate day, String specialEvent, int appointments)
+    {
+        // TODO: Fill in details about the day in the day modal
+        dayModalTitle.setText(day.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
+        dayModalSubtitle.setText(specialEvent);
+
+        dayModalSubtitle.setVisible(!specialEvent.isEmpty());
+        dayModalSubtitle.setManaged(!specialEvent.isEmpty());
+
+        selectedDayModal.setVisible(true);
+    }
+
+    @FXML
+    public void handleCloseDayModal()
+    {
+        selectedDayModal.setVisible(false);
     }
 
     private void setupCalendarMonthly(LocalDate month)
@@ -131,18 +163,18 @@ public class CalendarController extends SwitchableController
                     }
                 }
 
-                Node day = getCalendarMonthlyDay(isInMonth, dayCounter.getDayOfMonth(), specialEvent, random.nextInt(3), dayCounter.equals(now));
+                Node day = getCalendarMonthlyDay(isInMonth, dayCounter, specialEvent, random.nextInt(3), dayCounter.equals(now));
                 calendarMonthlyDays.add(day, j, i);
                 dayCounter = dayCounter.plusDays(1);
             }
         }
     }
 
-    private Node getCalendarMonthlyDay(boolean isInMonth, int day, String specialEvent, int appointments, boolean isCurrentDay)
+    private Node getCalendarMonthlyDay(boolean isInMonth, LocalDate day, String specialEvent, int appointments, boolean isCurrentDay)
     {
         // TODO: Do different nodes for weekly view
 
-        Label dayLabel = new Label(Integer.toString(day));
+        Label dayLabel = new Label(Integer.toString(day.getDayOfMonth()));
         dayLabel.setFont(new Font(24));
         String dayLabelStyle = String.format("-fx-text-fill: %s;", isInMonth ? "-black" : "-gray3");
         dayLabel.setStyle(dayLabelStyle);
@@ -193,6 +225,7 @@ public class CalendarController extends SwitchableController
         VBox root = new VBox(dayLabel, specialEventLabel, notifRoot);
         root.setPadding(new Insets(8));
         root.setAlignment(Pos.TOP_CENTER);
+        root.setCursor(Cursor.HAND);
 
         String rootStyle = String.format("-fx-background-color: %s; -fx-background-radius: 5px;", isInMonth ? "-white" : "-gray4");
         root.setStyle(rootStyle);
@@ -202,6 +235,11 @@ public class CalendarController extends SwitchableController
         if (isCurrentDay)
             root.getStyleClass()
                 .add("green-border");
+
+        root.setOnMouseClicked(event ->
+        {
+            handleOpenDayModal(day, specialEvent, appointments);
+        });
 
         VBox.setMargin(dayLabel, new Insets(0, 0, -2, 0));
         VBox.setMargin(specialEventLabel, new Insets(0, 0, 5, 0));

@@ -18,4 +18,6 @@ public class Colors
     public static final Color black = Color.web("#333333");
     public static final Color gray3 = Color.web("#828282");
     public static final Color gray4 = Color.web("#BDBDBD");
+    public static final Color gray5 = Color.web("#D4D4D4");
+    public static final Color gray6 = Color.web("#E3E3E3");
 }
