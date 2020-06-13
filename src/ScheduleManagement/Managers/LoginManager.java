@@ -3,7 +3,8 @@ package ScheduleManagement.Managers;
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.NameValuePair;
 import ScheduleManagement.Database.Exceptions.IllegalQueryResultSizeException;
-import ScheduleManagement.Models.User;
+import ScheduleManagement.Database.Models.User;
+import ScheduleManagement.Utils.TimestampHelper;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,12 +31,12 @@ public class LoginManager
             if (result.size() == 1)
                 return false;
 
-            Timestamp now = new Timestamp(System.currentTimeMillis());
+            Timestamp now = TimestampHelper.now();
             User user = new User();
             user.setUserId(0);
             user.setUsername(username);
             user.setPassword(password);
-            user.setActive(false);
+            user.setActive(true);
             user.setDateCreated(now);
             user.setCreatedBy(username);
             user.setDateModified(now);

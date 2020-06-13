@@ -81,6 +81,9 @@ public class DBSet<TEntity>
                 entry.setForeignFieldName("");
             }
 
+            NotUpdatable notUpdatableAttr = field.getAnnotation(NotUpdatable.class);
+            entry.setUpdatable(notUpdatableAttr == null);
+
             fields.add(entry);
         }
 
@@ -294,9 +297,8 @@ public class DBSet<TEntity>
             Connection conn = DBConnectionManager.instance()
                                                  .getConnection();
             List<FieldEntry> updatableFields = fields.stream()
-                                                     .filter(fieldEntry -> !fieldEntry.isPrimaryKey())
+                                                     .filter(fieldEntry -> !fieldEntry.isPrimaryKey() && fieldEntry.isUpdatable())
                                                      .collect(Collectors.toList());
-
 
             StringBuilder query = new StringBuilder("update " + tableName + " set ");
             for (int i = 0; i < updatableFields.size(); i++)
@@ -332,6 +334,7 @@ public class DBSet<TEntity>
                                         .getDeclaredField(entry.getFieldName());
                     field.setAccessible(true);
                     Object value = field.get(entity);
+
                     statement.setObject(i + 1, value);
 
                     if (i >= updatableFields.size() - 1)

@@ -12,6 +12,8 @@ public class FieldEntry
     private boolean isForeignKey;
     private String foreignFieldName;
 
+    private boolean isUpdatable;
+
     public String getFieldName()
     {
         return fieldName;
@@ -80,5 +82,15 @@ public class FieldEntry
     public void setForeignFieldName(String foreignFieldName)
     {
         this.foreignFieldName = foreignFieldName;
+    }
+
+    public boolean isUpdatable()
+    {
+        return isUpdatable;
+    }
+
+    public void setUpdatable(boolean updatable)
+    {
+        isUpdatable = updatable;
     }
 }

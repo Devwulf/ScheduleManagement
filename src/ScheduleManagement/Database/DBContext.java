@@ -1,6 +1,6 @@
 package ScheduleManagement.Database;
 
-import ScheduleManagement.Models.User;
+import ScheduleManagement.Database.Models.User;
 
 // NOTE: This class can be instantiated again and again, separately
 // in different classes and they can all be used separately
