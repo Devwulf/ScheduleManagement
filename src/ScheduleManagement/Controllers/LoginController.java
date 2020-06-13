@@ -216,7 +216,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleLoginSelectButton()
+    private void handleLoginSelectButton()
     {
         resetPasswordButton.setVisible(true);
         signupSelectAnimator.playReverse("color");
@@ -235,7 +235,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleSignupSelectButton()
+    private void handleSignupSelectButton()
     {
         confirmPasswordBox.setVisible(true);
 
@@ -255,7 +255,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleHoverEnterSignupSelectButton()
+    private void handleHoverEnterSignupSelectButton()
     {
         if (!isLogin.get())
             return;
@@ -264,7 +264,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleHoverExitSignupSelectButton()
+    private void handleHoverExitSignupSelectButton()
     {
         if (!isLogin.get())
             return;
@@ -273,7 +273,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleHoverEnterLoginSelectButton()
+    private void handleHoverEnterLoginSelectButton()
     {
         if (isLogin.get())
             return;
@@ -282,7 +282,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleHoverExitLoginSelectButton()
+    private void handleHoverExitLoginSelectButton()
     {
         if (isLogin.get())
             return;
@@ -291,14 +291,14 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleHoverEnterSubmitButton()
+    private void handleHoverEnterSubmitButton()
     {
         submitAnimator.play("hover");
         submitAnimator.play("color");
     }
 
     @FXML
-    public void handleHoverExitSubmitButton()
+    private void handleHoverExitSubmitButton()
     {
         submitAnimator.playReverse("hover");
         submitAnimator.playReverse("color");
@@ -306,7 +306,7 @@ public class LoginController extends BaseController
 
     // TODO: Show all popups in different languages
     @FXML
-    public void handleSubmitButton()
+    private void handleSubmitButton()
     {
         LanguageManager langManager = LanguageManager.getInstance();
 
@@ -365,7 +365,7 @@ public class LoginController extends BaseController
     }
 
     @FXML
-    public void handleToggleLanguage()
+    private void handleToggleLanguage()
     {
         LanguageManager langManager = LanguageManager.getInstance();
         if (langManager.getLocale() == Locale.ENGLISH)

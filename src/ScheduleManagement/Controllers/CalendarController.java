@@ -74,27 +74,27 @@ public class CalendarController extends SwitchableController
     }
 
     @FXML
-    public void handlePreviousMonthButton()
+    private void handlePreviousMonthButton()
     {
         currentMonth = currentMonth.minusMonths(1);
         setupCalendarMonthly(currentMonth);
     }
 
     @FXML
-    public void handleNextMonthButton()
+    private void handleNextMonthButton()
     {
         currentMonth = currentMonth.plusMonths(1);
         setupCalendarMonthly(currentMonth);
     }
 
     @FXML
-    public void handleSelectMonthButton()
+    private void handleSelectMonthButton()
     {
 
     }
 
     @FXML
-    public void handleCalendarViewDropdown()
+    private void handleCalendarViewDropdown()
     {
 
     }
@@ -112,7 +112,7 @@ public class CalendarController extends SwitchableController
     }
 
     @FXML
-    public void handleCloseDayModal()
+    private void handleCloseDayModal()
     {
         selectedDayModal.setVisible(false);
     }

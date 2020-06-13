@@ -98,7 +98,7 @@ public class LoginManager
 
     private LoginManager()
     {
-        context = new DBContext();
+        context = DBContext.getInstance();
     }
 
     public static LoginManager getInstance()

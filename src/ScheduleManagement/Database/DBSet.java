@@ -175,18 +175,26 @@ public class DBSet<TEntity>
         }
     }
 
+    public List<TEntity> readEntity()
+    {
+        return readEntity(new NameValuePair[0]);
+    }
+
     // Takes in column name/column value pairs
     public List<TEntity> readEntity(NameValuePair... queryConditions)
     {
-        if (queryConditions == null || queryConditions.length <= 0)
-            throw new IllegalArgumentException("The columnValues list parameter cannot be null or empty.");
+        if (queryConditions == null)
+            throw new IllegalArgumentException("The columnValues list parameter cannot be null.");
 
         // TODO: Check each given column name against the field entries above
 
         Connection conn = DBConnectionManager.instance()
                                              .getConnection();
 
-        StringBuilder query = new StringBuilder("select * from " + tableName + " where ");
+        StringBuilder query = new StringBuilder("select * from " + tableName);
+        if (queryConditions.length > 0)
+            query.append(" where ");
+
         for (int i = 0; i < queryConditions.length; i++)
         {
             NameValuePair pair = queryConditions[i];
@@ -214,7 +222,7 @@ public class DBSet<TEntity>
                           .append(" = '")
                           .append(pair.getValue()
                                       .toString())
-                          .append("' }");
+                          .append("' ");
                 else
                     values.append(pair.getName())
                           .append(" = '")
@@ -222,6 +230,7 @@ public class DBSet<TEntity>
                                       .toString())
                           .append("', ");
             }
+            values.append("}");
 
             ResultSet result = statement.executeQuery();
             List<TEntity> entities = new ArrayList<>();
