@@ -13,6 +13,9 @@ import java.util.Map;
 public class Animator
 {
     public static final Duration Zero = Duration.millis(0);
+    public static final Duration SuperSlow = Duration.millis(3000);
+    public static final Duration VerySlow = Duration.millis(1000);
+    public static final Duration Slow = Duration.millis(500);
     public static final Duration Fast = Duration.millis(200);
     public static final Duration VeryFast = Duration.millis(100);
     public static final Duration SuperFast = Duration.millis(50);

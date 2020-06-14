@@ -19,6 +19,7 @@ public class Icons
     public static final String exclamationCircle = "\uf06a";
     public static final String chevronLeft = "\uf053";
     public static final String chevronRight = "\uf054";
+    public static final String chevronUp = "\uf077";
     public static final String chevronDown = "\uf078";
     public static final String pencil = "\uf303";
     public static final String ellipsisV = "\uf142";

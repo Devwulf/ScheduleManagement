@@ -81,6 +81,15 @@
 	-fx-text-fill: -white;
 }
 
+.button-danger {
+	-fx-background-color: -red;
+	-fx-text-fill: -white;
+}
+
+.button-danger > .label {
+	-fx-text-fill: -white;
+}
+
 .button-primary {
 	-fx-background-color: -blue;
 	-fx-text-fill: -white;
