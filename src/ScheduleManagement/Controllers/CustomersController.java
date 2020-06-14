@@ -1,10 +1,15 @@
 package ScheduleManagement.Controllers;
 
+import ScheduleManagement.Animation.Animator;
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.Models.Appointment;
 import ScheduleManagement.Database.Models.Customer;
 import ScheduleManagement.Database.NameValuePair;
 import ScheduleManagement.Utils.Icons;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,9 +17,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 import java.text.SimpleDateFormat;
@@ -78,9 +81,15 @@ public class CustomersController extends SwitchableController
 
         // TODO: Eventually support uploaded profile pics as the customer picture here
         Label customerIcon = new Label(Icons.userCircle);
+        customerIcon.setPrefHeight(88);
+        customerIcon.setAlignment(Pos.CENTER_LEFT);
         customerIcon.setStyle("-fx-text-fill: -black; -fx-font-size: 60px;");
         customerIcon.getStyleClass()
                     .add("icon");
+
+        HBox customerIconRoot = new HBox(customerIcon);
+        customerIconRoot.setAlignment(Pos.TOP_LEFT);
+        customerIconRoot.setPadding(new Insets(6, 0, 0, 0));
 
         Label customerNameLabel = new Label("Name");
         customerNameLabel.setStyle("-fx-text-fill: -black; -fx-font-size: 14px;");
@@ -94,6 +103,7 @@ public class CustomersController extends SwitchableController
 
         VBox customerNameRoot = new VBox(customerNameLabel, customerName);
         customerNameRoot.setAlignment(Pos.CENTER_LEFT);
+        customerNameRoot.setPrefHeight(68);
 
         String appLabel = String.format("Appointment %s", appointments.size() > 1 ? "(+" + (appointments.size() - 1) + ")" : "");
         Label appointmentLabel = new Label(appLabel);
@@ -129,9 +139,16 @@ public class CustomersController extends SwitchableController
 
         VBox appointmentRoot = new VBox(appointmentLabel, appointmentName, appointmentTime);
         appointmentRoot.setAlignment(Pos.CENTER_LEFT);
+        appointmentRoot.setPrefHeight(68);
 
-        HBox customerDetails = new HBox(customerIcon, customerNameRoot, appointmentRoot);
-        customerDetails.setAlignment(Pos.CENTER_LEFT);
+        FlowPane customerDetailsFlow = new FlowPane(customerNameRoot, appointmentRoot);
+        customerDetailsFlow.setAlignment(Pos.TOP_LEFT);
+        customerDetailsFlow.setHgap(20);
+        customerDetailsFlow.setVgap(0);
+        customerDetailsFlow.setPadding(new Insets(16, 0, 0, 0));
+
+        HBox customerDetails = new HBox(customerIconRoot, customerDetailsFlow);
+        customerDetails.setAlignment(Pos.TOP_LEFT);
         customerDetails.setSpacing(20);
 
         Label editButtonIconLabel = new Label(Icons.pencil);
@@ -178,7 +195,7 @@ public class CustomersController extends SwitchableController
         HBox.setHgrow(editButtonLabel, Priority.ALWAYS);
 
         VBox editButtonRoot = new VBox(editButton);
-        editButtonRoot.setAlignment(Pos.CENTER);
+        editButtonRoot.setAlignment(Pos.TOP_RIGHT);
 
         Button moreButton = new Button(Icons.ellipsisV);
         moreButton.setPrefWidth(36);
@@ -199,12 +216,13 @@ public class CustomersController extends SwitchableController
         });
 
         HBox customerControls = new HBox(editButtonRoot, moreButton);
-        customerControls.setAlignment(Pos.CENTER_RIGHT);
+        customerControls.setAlignment(Pos.TOP_RIGHT);
         customerControls.setSpacing(15);
+        customerControls.setPadding(new Insets(32, 0, 0, 0));
 
         HBox root = new HBox(customerDetails, customerControls);
         root.setPrefHeight(100);
-        root.setAlignment(Pos.CENTER_LEFT);
+        root.setAlignment(Pos.TOP_LEFT);
         root.setPadding(new Insets(0, 25, 0, 25));
         root.setCursor(Cursor.HAND);
         root.getStyleClass()
@@ -225,8 +243,38 @@ public class CustomersController extends SwitchableController
         return root;
     }
 
-    private void openCustomerDetailed(Node root)
+    private void openCustomerDetailed(HBox root)
     {
+        Animator rootAnimator = new Animator();
+        rootAnimator.addAnimation("expand",
+                new KeyFrame(Animator.Zero, new KeyValue(root.prefHeightProperty(), 100, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(root.prefHeightProperty(), 312, Interpolator.EASE_OUT))
+        );
 
+        rootAnimator.play("expand");
+
+        HBox customerDetails = (HBox) root.getChildren().get(0);
+        FlowPane customerDetailsFlow = (FlowPane) customerDetails.getChildren().get(1);
+        VBox customerName = (VBox) customerDetailsFlow.getChildren().get(0);
+        VBox appointmentName = (VBox) customerDetailsFlow.getChildren().get(1);
+
+        double customerNameWidth = customerName.getWidth();
+        double maxWidth = customerDetailsFlow.getWidth();
+        Animator customerNameAnimator = new Animator();
+        customerNameAnimator.addAnimation("expand",
+                new KeyFrame(Animator.Zero, new KeyValue(customerName.prefWidthProperty(), customerNameWidth, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(customerName.prefWidthProperty(), maxWidth, Interpolator.EASE_OUT))
+        );
+
+        customerNameAnimator.play("expand");
+
+        double appointmentNameWidth = appointmentName.getWidth();
+        Animator appointmentNameAnimator = new Animator();
+        appointmentNameAnimator.addAnimation("expand",
+                new KeyFrame(Animator.Zero, new KeyValue(appointmentName.prefWidthProperty(), appointmentNameWidth, Interpolator.EASE_OUT)),
+                new KeyFrame(Animator.Fast, new KeyValue(appointmentName.prefWidthProperty(), maxWidth, Interpolator.EASE_OUT))
+        );
+
+        appointmentNameAnimator.play("expand");
     }
 }
