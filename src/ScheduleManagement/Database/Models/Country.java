@@ -86,4 +86,11 @@ public class Country
     {
         this.modifiedBy = modifiedBy;
     }
+
+    // Used for combo boxes of this type
+    @Override
+    public String toString()
+    {
+        return country;
+    }
 }

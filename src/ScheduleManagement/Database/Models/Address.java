@@ -4,18 +4,21 @@ import ScheduleManagement.Database.Annotations.*;
 
 import java.sql.Timestamp;
 
+// TODO: The order of the fields here must match the order of the columns in the database
 @Table(name = "address")
 public class Address
 {
     @Key(isAutoGen = true)
     private int addressId = 0;
+
+    private String address;
+    private String address2;
+
     @ForeignKey(fieldName = "city")
     private int cityId;
     @Exclude
     private City city;
 
-    private String address;
-    private String address2;
     private String postalCode;
 
     @Column(name = "phone")

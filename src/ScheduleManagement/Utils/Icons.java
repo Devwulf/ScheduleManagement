@@ -6,6 +6,7 @@ public class Icons
     public static final String users = "\uf500";
     public static final String userCircle = "\uf2bd";
     public static final String key = "\uf084";
+    public static final String plus = "\uf067";
     public static final String times = "\uf00d";
     public static final String timesCircle = "\uf057";
     public static final String checkCircle = "\uf058";
@@ -19,7 +20,9 @@ public class Icons
     public static final String exclamationCircle = "\uf06a";
     public static final String chevronLeft = "\uf053";
     public static final String chevronRight = "\uf054";
+    public static final String chevronUp = "\uf077";
     public static final String chevronDown = "\uf078";
     public static final String pencil = "\uf303";
     public static final String ellipsisV = "\uf142";
+    public static final String redo = "\uf2f9";
 }

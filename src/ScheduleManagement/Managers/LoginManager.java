@@ -60,7 +60,8 @@ public class LoginManager
         {
             List<User> result = context.Users.readEntity(
                     new NameValuePair("userName", username),
-                    new NameValuePair("password", password)
+                    new NameValuePair("password", password),
+                    new NameValuePair("active", true)
             );
 
             if (result.size() > 1)
@@ -68,10 +69,12 @@ public class LoginManager
                         "This most likely means there are duplicate users in the database.");
 
             // No user with the given username and password found
+            // or user is not active anymore
             if (result.size() < 1)
                 return false;
 
             // TODO: Set the current user 'active' to true in the database
+            // active actually means if the account is still active and not deleted
             currentUser = result.get(0);
             return true;
         }

@@ -285,7 +285,7 @@ public class DBSet<TEntity>
                 columnValues.add(new NameValuePair(entry.getColumnName(), field.get(entity)));
             }
 
-            updateEntity(entity, (NameValuePair[]) columnValues.toArray());
+            updateEntity(entity, columnValues.toArray(new NameValuePair[0]));
         }
         catch (IllegalEntityKeyFormatException | NoSuchFieldException | IllegalAccessException e)
         {

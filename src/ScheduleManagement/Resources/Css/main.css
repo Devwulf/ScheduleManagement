@@ -56,6 +56,10 @@
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 2, 0, 0px, -2px);
 }
 
+.inner-shadow-small {
+	-fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0px, 0px);
+}
+
 .button-sm {
 	-fx-background-radius: 18px;
 	-fx-pref-height: 36px;
@@ -81,6 +85,19 @@
 	-fx-text-fill: -white;
 }
 
+.button-success > .label {
+	-fx-text-fill: -white;
+}
+
+.button-danger {
+	-fx-background-color: -red;
+	-fx-text-fill: -white;
+}
+
+.button-danger > .label {
+	-fx-text-fill: -white;
+}
+
 .button-primary {
 	-fx-background-color: -blue;
 	-fx-text-fill: -white;
@@ -93,6 +110,10 @@
 
 .button-regular {
 	-fx-background-color: -white;
+	-fx-text-fill: -dark-gray;
+}
+
+.button-regular > .label {
 	-fx-text-fill: -dark-gray;
 }
 
@@ -131,4 +152,37 @@
 .customer {
 	-fx-background-color: -white;
 	-fx-background-radius: 20px;
+}
+
+.h4-line {
+	-fx-border-style: solid inside;
+	-fx-border-color: -gray4;
+	-fx-border-width: 0 0 1px 0;
+	-fx-padding: 0 0 5px 0;
+}
+
+.h4-line > .label {
+	-fx-font-size: 20px;
+}
+
+.combo-box {
+	-fx-background-color: -white;
+	-fx-pref-height: 36px;
+	-fx-font-size: 14px;
+}
+
+.combo-box .list-cell {
+	-fx-text-fill: -black;
+}
+
+.combo-box-popup .list-view {
+	-fx-background-radius: 15px;
+}
+
+.combo-box-popup .list-view .list-cell {
+	-fx-text-fill: -black;
+}
+
+.disable-box:disabled {
+	-fx-opacity: 0.75;
 }

@@ -9,12 +9,13 @@ public class City
 {
     @Key(isAutoGen = true)
     private int cityId = 0;
+
+    private String city;
+
     @ForeignKey(fieldName = "country")
     private int countryId;
     @Exclude
     private Country country;
-
-    private String city;
 
     @Column(name = "createDate")
     @NotUpdatable
@@ -101,5 +102,11 @@ public class City
     public void setModifiedBy(String modifiedBy)
     {
         this.modifiedBy = modifiedBy;
+    }
+
+    @Override
+    public String toString()
+    {
+        return city;
     }
 }

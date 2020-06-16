@@ -10,12 +10,12 @@ public class Customer
     @Key(isAutoGen = true)
     private int customerId = 0;
 
+    private String customerName;
+
     @ForeignKey(fieldName = "address")
     private int addressId;
     @Exclude // Don't want this to be tracked by the dbset too
     private Address address;
-
-    private String customerName;
 
     @Column(name = "active")
     private boolean isActive = false;
