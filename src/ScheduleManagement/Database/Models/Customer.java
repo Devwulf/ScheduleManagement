@@ -116,4 +116,10 @@ public class Customer
     {
         this.modifiedBy = modifiedBy;
     }
+
+    @Override
+    public String toString()
+    {
+        return customerName;
+    }
 }

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -24,7 +31,1200 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <VBox style="-fx-background-color: -off-white;" GridPane.columnIndex="1" />
+                        <VBox style="-fx-background-color: -off-white;" GridPane.columnIndex="1">
+                     <children>
+                        <StackPane VBox.vgrow="ALWAYS">
+                           <children>
+                              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" hmax="0.0">
+                                 <content>
+                                    <VBox fx:id="appointmentListRoot" alignment="TOP_CENTER" spacing="15.0">
+                                       <padding>
+                                          <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                       </padding>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                              <AnchorPane fx:id="editModalRoot" style="-fx-background-color: rgba(51,51,51,0.5);" visible="false">
+                                 <children>
+                                    <GridPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="75.0" prefHeight="75.0" vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="ALWAYS" />
+                                          <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <VBox spacing="24.0" style="-fx-background-color: -gray6;" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets bottom="24.0" left="28.0" right="28.0" top="24.0" />
+                                             </padding>
+                                             <children>
+                                                <VBox spacing="16.0">
+                                                   <children>
+                                                      <VBox styleClass="h4-line">
+                                                         <children>
+                                                            <Label styleClass="text-semibold" text="Appointment Details">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" />
+                                                         </VBox.margin>
+                                                      </VBox>
+                                                      <GridPane>
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" />
+                                                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <HBox alignment="CENTER_RIGHT">
+                                                               <styleClass>
+                                                                  <String fx:value="button-left" />
+                                                                  <String fx:value="button-regular-alt" />
+                                                                  <String fx:value="disable-box" />
+                                                               </styleClass>
+                                                               <children>
+                                                                  <Label styleClass="text-semibold" text="Title">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets left="18.0" right="10.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TextField fx:id="editTitleField" promptText="Enter title..." GridPane.columnIndex="1">
+                                                               <styleClass>
+                                                                  <String fx:value="text-field-md" />
+                                                                  <String fx:value="inner-shadow-small" />
+                                                                  <String fx:value="text-medium" />
+                                                               </styleClass>
+                                                            </TextField>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane layoutX="10.0" layoutY="72.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" />
+                                                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <HBox alignment="CENTER_RIGHT">
+                                                               <styleClass>
+                                                                  <String fx:value="button-left" />
+                                                                  <String fx:value="button-regular-alt" />
+                                                                  <String fx:value="disable-box" />
+                                                               </styleClass>
+                                                               <children>
+                                                                  <Label styleClass="text-semibold" text="Description">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets left="18.0" right="10.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TextField fx:id="editDescriptionField" promptText="Enter description" GridPane.columnIndex="1">
+                                                               <styleClass>
+                                                                  <String fx:value="text-field-md" />
+                                                                  <String fx:value="inner-shadow-small" />
+                                                                  <String fx:value="text-medium" />
+                                                               </styleClass>
+                                                            </TextField>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Start Date">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editStartDateField" promptText="mm/dd/yyyy" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Start Time">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editStartTimeField" promptText="hh:mm (AM/PM)" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="72.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="End Date">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editEndDateField" promptText="mm/dd/yyyy" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="End Time">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editEndTimeField" promptText="hh:mm (AM/PM)" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="User">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="editUserCombo" maxWidth="1.7976931348623157E308" promptText="Select user..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="180.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Customer">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="editCustomerCombo" maxWidth="1.7976931348623157E308" promptText="Select customer..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="280.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="180.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Type">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="editTypeCombo" maxWidth="1.7976931348623157E308" promptText="Select type..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Url">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editUrlField" promptText="Enter url..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="172.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Location">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editLocationField" promptText="Enter location..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Contact">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="editContactField" promptText="Enter contact..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox style="-fx-background-color: -white; -fx-background-radius: 15px 15px 0 0;" styleClass="drop-shadow-small">
+                                             <children>
+                                                <GridPane VBox.vgrow="ALWAYS">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <VBox alignment="TOP_RIGHT" GridPane.columnIndex="2">
+                                                         <children>
+                                                            <Label fx:id="closeEditModalButton" onMouseClicked="#handleCloseEditModal" style="-fx-text-fill: -black;" styleClass="icon" text="x">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor>
+                                                            </Label>
+                                                         </children>
+                                                         <padding>
+                                                            <Insets right="28.0" top="28.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                      <VBox alignment="CENTER" GridPane.columnIndex="1">
+                                                         <children>
+                                                            <Label style="-fx-text-fill: -black;" styleClass="text-bold" text="Edit Appointment">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </VBox>
+                                          <VBox style="-fx-background-color: -white; -fx-background-radius: 0 0 15px 15px;" styleClass="drop-shadow-small-up" GridPane.rowIndex="2">
+                                             <children>
+                                                <HBox alignment="CENTER_RIGHT" spacing="15.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onAction="#handleCloseEditModal" prefWidth="100.0" text="Cancel">
+                                                         <styleClass>
+                                                            <String fx:value="button-secondary" />
+                                                            <String fx:value="button-sm" />
+                                                            <String fx:value="drop-shadow-small" />
+                                                            <String fx:value="text-bold" />
+                                                         </styleClass>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
+                                                      </Button>
+                                                      <Button fx:id="editAppointmentSubmit" mnemonicParsing="false" prefWidth="100.0" text="Save">
+                                                         <styleClass>
+                                                            <String fx:value="button-success" />
+                                                            <String fx:value="button-sm" />
+                                                            <String fx:value="drop-shadow-small" />
+                                                            <String fx:value="text-bold" />
+                                                         </styleClass>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
+                                                      </Button>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets right="28.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="addModalRoot" layoutX="10.0" layoutY="10.0" style="-fx-background-color: rgba(51,51,51,0.5);" visible="false">
+                                 <children>
+                                    <GridPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="75.0" prefHeight="75.0" vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="ALWAYS" />
+                                          <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <VBox spacing="24.0" style="-fx-background-color: -gray6;" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets bottom="24.0" left="28.0" right="28.0" top="24.0" />
+                                             </padding>
+                                             <children>
+                                                <VBox spacing="16.0">
+                                                   <children>
+                                                      <VBox styleClass="h4-line">
+                                                         <children>
+                                                            <Label styleClass="text-semibold" text="Appointment Details">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" />
+                                                         </VBox.margin>
+                                                      </VBox>
+                                                      <GridPane>
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" />
+                                                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <HBox alignment="CENTER_RIGHT">
+                                                               <styleClass>
+                                                                  <String fx:value="button-left" />
+                                                                  <String fx:value="button-regular-alt" />
+                                                                  <String fx:value="disable-box" />
+                                                               </styleClass>
+                                                               <children>
+                                                                  <Label styleClass="text-semibold" text="Title">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets left="18.0" right="10.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TextField fx:id="addTitleField" promptText="Enter title..." GridPane.columnIndex="1">
+                                                               <styleClass>
+                                                                  <String fx:value="text-field-md" />
+                                                                  <String fx:value="inner-shadow-small" />
+                                                                  <String fx:value="text-medium" />
+                                                               </styleClass>
+                                                            </TextField>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane layoutX="10.0" layoutY="72.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" />
+                                                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <HBox alignment="CENTER_RIGHT">
+                                                               <styleClass>
+                                                                  <String fx:value="button-left" />
+                                                                  <String fx:value="button-regular-alt" />
+                                                                  <String fx:value="disable-box" />
+                                                               </styleClass>
+                                                               <children>
+                                                                  <Label styleClass="text-semibold" text="Description">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets left="18.0" right="10.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TextField fx:id="addDescriptionField" promptText="Enter description" GridPane.columnIndex="1">
+                                                               <styleClass>
+                                                                  <String fx:value="text-field-md" />
+                                                                  <String fx:value="inner-shadow-small" />
+                                                                  <String fx:value="text-medium" />
+                                                               </styleClass>
+                                                            </TextField>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Start Date">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addStartDateField" promptText="mm/dd/yyyy" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Start Time">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addStartTimeField" promptText="hh:mm (AM/PM)" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="72.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="End Date">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addEndDateField" promptText="mm/dd/yyyy" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="End Time">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addEndTimeField" promptText="hh:mm (AM/PM)" GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="User">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="addUserCombo" maxWidth="1.7976931348623157E308" promptText="Select user..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="180.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Customer">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="addCustomerCombo" maxWidth="1.7976931348623157E308" promptText="Select customer..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="280.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="180.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Type">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <ComboBox fx:id="addTypeCombo" maxWidth="1.7976931348623157E308" promptText="Select type..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-right" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </ComboBox>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Url">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addUrlField" promptText="Enter url..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                      <GridPane hgap="12.0" layoutX="10.0" layoutY="172.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                            <GridPane>
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Location">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addLocationField" promptText="Enter location..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <HBox alignment="CENTER_RIGHT">
+                                                                     <styleClass>
+                                                                        <String fx:value="button-left" />
+                                                                        <String fx:value="button-regular-alt" />
+                                                                        <String fx:value="disable-box" />
+                                                                     </styleClass>
+                                                                     <children>
+                                                                        <Label styleClass="text-semibold" text="Contact">
+                                                                           <font>
+                                                                              <Font size="14.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="18.0" right="10.0" />
+                                                                     </padding>
+                                                                  </HBox>
+                                                                  <TextField fx:id="addContactField" promptText="Enter contact..." GridPane.columnIndex="1">
+                                                                     <styleClass>
+                                                                        <String fx:value="text-field-md" />
+                                                                        <String fx:value="inner-shadow-small" />
+                                                                        <String fx:value="text-medium" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                      </GridPane>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox style="-fx-background-color: -white; -fx-background-radius: 15px 15px 0 0;" styleClass="drop-shadow-small">
+                                             <children>
+                                                <GridPane VBox.vgrow="ALWAYS">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <VBox alignment="TOP_RIGHT" GridPane.columnIndex="2">
+                                                         <children>
+                                                            <Label fx:id="closeAddModalButton" onMouseClicked="#handleCloseAddModal" style="-fx-text-fill: -black;" styleClass="icon" text="x">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor>
+                                                            </Label>
+                                                         </children>
+                                                         <padding>
+                                                            <Insets right="28.0" top="28.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                      <VBox alignment="CENTER" GridPane.columnIndex="1">
+                                                         <children>
+                                                            <Label style="-fx-text-fill: -black;" styleClass="text-bold" text="Add Appointment">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </VBox>
+                                          <VBox style="-fx-background-color: -white; -fx-background-radius: 0 0 15px 15px;" styleClass="drop-shadow-small-up" GridPane.rowIndex="2">
+                                             <children>
+                                                <HBox alignment="CENTER_RIGHT" spacing="15.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onAction="#handleCloseAddModal" prefWidth="100.0" text="Cancel">
+                                                         <styleClass>
+                                                            <String fx:value="button-secondary" />
+                                                            <String fx:value="button-sm" />
+                                                            <String fx:value="drop-shadow-small" />
+                                                            <String fx:value="text-bold" />
+                                                         </styleClass>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" onAction="#handleAddAppointmentSubmit" prefWidth="100.0" text="Save">
+                                                         <styleClass>
+                                                            <String fx:value="button-success" />
+                                                            <String fx:value="button-sm" />
+                                                            <String fx:value="drop-shadow-small" />
+                                                            <String fx:value="text-bold" />
+                                                         </styleClass>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
+                                                      </Button>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets right="28.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </StackPane>
+                     </children></VBox>
                         <VBox prefWidth="234.0" style="-fx-background-color: -dark-gray;">
                             <children>
                                 <Pane fx:id="selectionPane">
@@ -162,14 +1362,71 @@
                         </Label>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" style="-fx-background-color: -white;" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label text="Appointments">
-                            <font>
-                                <Font size="36.0" />
-                            </font>
-                        </Label>
-                    </children>
+                <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" spacing="15.0" style="-fx-background-color: -white;" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <GridPane onMouseClicked="#handleOpenAddModal" prefWidth="180.0" styleClass="drop-shadow-small">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <styleClass>
+                                    <String fx:value="button-success" />
+                                    <String fx:value="button-sm" />
+                                    <String fx:value="button-left" />
+                                 </styleClass>
+                                 <children>
+                                    <Label fx:id="addAppointmentIcon" styleClass="icon" text="Icon">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                                 <children>
+                                    <Label styleClass="text-bold" text="Add Appointment" />
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="button-sm" />
+                                    <String fx:value="button-right" />
+                                    <String fx:value="button-success" />
+                                 </styleClass>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="8.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <Button fx:id="refreshAppointmentsButton" mnemonicParsing="false" onAction="#handleRefreshAppointmentList" prefWidth="36.0" text="x">
+                     <styleClass>
+                        <String fx:value="button-sm" />
+                        <String fx:value="button-regular-alt" />
+                        <String fx:value="drop-shadow-small" />
+                        <String fx:value="icon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="25.0" right="25.0" />
+               </padding>
                 </HBox>
             </children>
         </HBox>

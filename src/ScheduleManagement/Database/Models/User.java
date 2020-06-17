@@ -115,4 +115,10 @@ public class User
     {
         this.modifiedBy = modifiedBy;
     }
+
+    @Override
+    public String toString()
+    {
+        return username;
+    }
 }

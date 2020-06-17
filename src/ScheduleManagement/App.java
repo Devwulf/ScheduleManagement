@@ -1,11 +1,15 @@
 package ScheduleManagement;
 
 import ScheduleManagement.Managers.ViewManager;
+import ScheduleManagement.Utils.TimestampHelper;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.*;
+import java.util.Date;
 
 public class App extends Application
 {
@@ -47,6 +51,8 @@ public class App extends Application
 
     public static void main(String[] args)
     {
+        //System.out.println(TimestampHelper.convertToUTC("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
+        //System.out.println(TimestampHelper.convertToLocal("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
         launch(args);
     }
 }

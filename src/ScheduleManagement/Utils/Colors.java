@@ -2,7 +2,7 @@ package ScheduleManagement.Utils;
 
 import javafx.scene.paint.Color;
 
-public class Colors
+public final class Colors
 {
     public static final Color green = Color.web("#2ECC71");
     public static final Color darkGreen = Color.web("#27AE60");

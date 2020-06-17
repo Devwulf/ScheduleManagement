@@ -1,6 +1,6 @@
 package ScheduleManagement.Utils;
 
-public class Icons
+public final class Icons
 {
     public static final String user = "\uf007";
     public static final String users = "\uf500";

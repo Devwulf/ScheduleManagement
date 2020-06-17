@@ -31,7 +31,7 @@ public class LoginManager
             if (result.size() == 1)
                 return false;
 
-            Timestamp now = TimestampHelper.now();
+            Timestamp now = TimestampHelper.nowUTC();
             User user = new User();
             user.setUserId(0);
             user.setUsername(username);

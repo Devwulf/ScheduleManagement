@@ -8,6 +8,7 @@ import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Icons;
 import ScheduleManagement.Utils.TimestampHelper;
+import ScheduleManagement.Utils.ValidationUtils;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -27,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 public class CustomersController extends SwitchableController
 {
@@ -90,34 +89,23 @@ public class CustomersController extends SwitchableController
 
         refreshCustomersButton.setText(Icons.redo);
         addCustomerIcon.setText(Icons.plus);
-
         closeEditModalButton.setText(Icons.times);
         closeAddModalButton.setText(Icons.times);
 
-
-        UnaryOperator<TextFormatter.Change> phoneNumFilter = change ->
-        {
-            String input = change.getControlNewText();
-            if (input.matches("[0-9\\-]*"))
-                return change;
-
-            return null;
-        };
-        editPhoneNumField.setTextFormatter(new TextFormatter<>(phoneNumFilter));
-        addPhoneNumField.setTextFormatter(new TextFormatter<>(phoneNumFilter));
-        editZipCodeField.setTextFormatter(new TextFormatter<>(phoneNumFilter));
-        addZipCodeField.setTextFormatter(new TextFormatter<>(phoneNumFilter));
-
-        UnaryOperator<TextFormatter.Change> middleInitialFilter = change ->
-        {
-            String input = change.getControlNewText();
-            if (input.matches("[A-Z]?"))
-                return change;
-
-            return null;
-        };
-        editMiddleInitialField.setTextFormatter(new TextFormatter<>(middleInitialFilter));
-        addMiddleInitialField.setTextFormatter(new TextFormatter<>(middleInitialFilter));
+        ValidationUtils.addValidationListener(editFirstNameField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(addFirstNameField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(editLastNameField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(addLastNameField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(editAddressField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(addAddressField, ValidationUtils.PatternType.NotEmpty);
+        ValidationUtils.addValidationListener(editAddress2Field, ValidationUtils.PatternType.Optional);
+        ValidationUtils.addValidationListener(addAddress2Field, ValidationUtils.PatternType.Optional);
+        ValidationUtils.addValidationListener(editPhoneNumField, "[0-9\\-]*");
+        ValidationUtils.addValidationListener(addPhoneNumField, "[0-9\\-]*");
+        ValidationUtils.addValidationListener(editZipCodeField, "[0-9\\-]*");
+        ValidationUtils.addValidationListener(addZipCodeField, "[0-9\\-]*");
+        ValidationUtils.addValidationListener(editMiddleInitialField, "^[A-Z]?$");
+        ValidationUtils.addValidationListener(addMiddleInitialField, "^[A-Z]?$");
 
         List<Country> countries = context.Countries.readEntity();
         addCountryCombo.getItems()
@@ -186,9 +174,20 @@ public class CustomersController extends SwitchableController
     @FXML
     private void handleAddCustomerSubmit()
     {
-        // TODO: Check all fields here if empty
+        // TODO: Validate input
+        if (!ValidationUtils.isTextFieldValid(addFirstNameField) ||
+            !ValidationUtils.isTextFieldValid(addLastNameField) ||
+            !ValidationUtils.isTextFieldValid(addPhoneNumField) ||
+            !ValidationUtils.isTextFieldValid(addAddressField) ||
+            !ValidationUtils.isTextFieldValid(addZipCodeField) ||
+            addCountryCombo.getValue() == null ||
+            addCityCombo.getValue() == null)
+        {
+            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            return;
+        }
 
-        Timestamp now = TimestampHelper.now();
+        Timestamp now = TimestampHelper.nowUTC();
         User user = LoginManager.getInstance().getCurrentUser();
 
         Address address = new Address();
@@ -281,9 +280,20 @@ public class CustomersController extends SwitchableController
     // TODO: Uncomment the user ones before launch
     private void handleEditCustomerSubmit(Customer customer, Address address)
     {
-        // TODO: Check all fields here if empty
+        // TODO: Validate input
+        if (!ValidationUtils.isTextFieldValid(editFirstNameField) ||
+            !ValidationUtils.isTextFieldValid(editLastNameField) ||
+            !ValidationUtils.isTextFieldValid(editPhoneNumField) ||
+            !ValidationUtils.isTextFieldValid(editAddressField) ||
+            !ValidationUtils.isTextFieldValid(editZipCodeField) ||
+            editCountryCombo.getValue() == null ||
+            editCityCombo.getValue() == null)
+        {
+            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            return;
+        }
 
-        Timestamp now = TimestampHelper.now();
+        Timestamp now = TimestampHelper.nowUTC();
         User user = LoginManager.getInstance().getCurrentUser();
         boolean addressHasChanged = false;
         boolean customerHasChanged = false;
@@ -354,13 +364,16 @@ public class CustomersController extends SwitchableController
     @FXML
     private void handleRefreshCustomerList()
     {
-        // TODO: Uncomment these afterwards
         // Since my database system cannot do joins, we'll have to grab
         // all the appointments associated to this user first, then grab
         // all the customers in the database (big problem), then grab the
         // subset of those customers with appointments with the current user.
         // This can be solved by either implementing joins or by filling in
         // the Customer field in the Appointment object
+
+        // Update: Seems all customers have to be shown regardless of if they
+        // have an appointment with this current user
+        /*
         User user = LoginManager.getInstance()
                                 .getCurrentUser();
         List<Appointment> appointments = context.Appointments.readEntity(new NameValuePair("userId", user.getUserId()));
@@ -370,8 +383,9 @@ public class CustomersController extends SwitchableController
                                                                                .anyMatch(appointment -> customer.getCustomerId() == appointment.getCustomerId()) &&
                                                                    customer.isActive())
                                                .collect(Collectors.toList());
+         */
 
-        //List<Customer> customers = context.Customers.readEntity();
+        List<Customer> customers = context.Customers.readEntity();
         customerListRoot.getChildren()
                         .clear();
         for (Customer customer : customers)
@@ -382,11 +396,15 @@ public class CustomersController extends SwitchableController
     private void handleDeleteCustomer(Customer customer)
     {
         ViewManager.getInstance()
-                   .showConfirmPopup("Are you sure you want to delete the customer '" + customer.getCustomerName() + "'?", () ->
+                   .showConfirmPopup("Are you sure you want to delete the customer '" + customer.getCustomerName() + "'? " +
+                           "Note: This will also delete the associated appointments.", () ->
                    {
-                       // TODO: Also delete the appointment associated with this customer
                         customer.setActive(false);
                         context.Customers.updateEntity(customer);
+
+                       // TODO: Also delete the appointments associated with this customer
+                        context.Appointments.deleteEntity(new NameValuePair("customerId", customer.getCustomerId()));
+
                         handleRefreshCustomerList();
                    });
     }
@@ -721,7 +739,7 @@ public class CustomersController extends SwitchableController
         phoneName.setPrefWidth(maxWidth);
 
         Animator rootAnimator = new Animator();
-        rootAnimator.addAnimation("width",
+        rootAnimator.addAnimation("height",
                 new KeyFrame(Animator.Zero, new KeyValue(root.prefHeightProperty(), 100, Interpolator.EASE_OUT)),
                 new KeyFrame(Animator.Fast, new KeyValue(root.prefHeightProperty(), 340, Interpolator.EASE_OUT))
         );
@@ -781,7 +799,7 @@ public class CustomersController extends SwitchableController
         Animator addressNameAnimator = animators.get("addressName");
         Animator phoneNameAnimator = animators.get("phoneName");
 
-        rootAnimator.play("width", event ->
+        rootAnimator.play("height", event ->
         {
             addressRoot.setOpacity(0);
             addressRoot.setVisible(true);
@@ -811,7 +829,7 @@ public class CustomersController extends SwitchableController
         addressNameAnimator.playReverse("opacity", event ->
         {
             addressRoot.setVisible(false);
-            rootAnimator.playReverse("width");
+            rootAnimator.playReverse("height");
             runAfter.run();
         });
 
