@@ -2,6 +2,10 @@ package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.Models.Appointment;
+import ScheduleManagement.Database.Models.User;
+import ScheduleManagement.Database.NameValuePair;
+import ScheduleManagement.Managers.LoginManager;
+import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Holiday;
 import ScheduleManagement.Utils.Holidays;
 import ScheduleManagement.Utils.Icons;
@@ -84,7 +88,8 @@ public class CalendarController extends SwitchableController
 
         monthWeekTabPane.tabMinWidthProperty()
                         .bind(monthWeekTabPane.widthProperty()
-                                           .divide(2).subtract(25));
+                                              .divide(2)
+                                              .subtract(25));
         backgroundScroll.hvalueProperty()
                         .bind(mainScroll.hvalueProperty());
         timelineScroll.hvalueProperty()
@@ -94,6 +99,35 @@ public class CalendarController extends SwitchableController
         initializeSelectionPanePosition(0);
 
         isInitializing = false;
+    }
+
+    // Check if there are appointments within 15 mins of login
+    public void checkApptIn15Mins()
+    {
+        User user = LoginManager.getInstance().getCurrentUser();
+        LocalTime nowTime = TimestampHelper.nowUTC()
+                                           .toLocalDateTime()
+                                           .toLocalTime();
+
+        List<Appointment> userAppointments = context.Appointments.readEntity(new NameValuePair("userId", user.getUserId()));
+        // Make sure that past appointments won't be checked
+        userAppointments = userAppointments.stream()
+                                           .filter(appointment -> appointment.getStartTime()
+                                                                             .after(TimestampHelper.nowUTC()))
+                                           .collect(Collectors.toList());
+
+        for (Appointment appointment : userAppointments)
+        {
+            // Appt start time is in UTC
+            LocalTime apptStartTimeMinus15 = appointment.getStartTime()
+                                                        .toLocalDateTime()
+                                                        .toLocalTime()
+                                                        .minusMinutes(15);
+
+            if (nowTime.isAfter(apptStartTimeMinus15))
+                ViewManager.getInstance()
+                           .showWarningPopup("Your appointment '" + appointment.getTitle() + "' will start within 15 mins!");
+        }
     }
 
     @Override

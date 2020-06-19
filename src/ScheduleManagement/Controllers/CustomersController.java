@@ -4,6 +4,7 @@ import ScheduleManagement.Animation.Animator;
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.Models.*;
 import ScheduleManagement.Database.NameValuePair;
+import ScheduleManagement.Exceptions.IllegalFormInput;
 import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Icons;
@@ -176,17 +177,25 @@ public class CustomersController extends SwitchableController
     @FXML
     private void handleAddCustomerSubmit()
     {
-        // TODO: Validate input
-        if (!ValidationUtils.isTextFieldValid(addFirstNameField) ||
-                !ValidationUtils.isTextFieldValid(addLastNameField) ||
-                !ValidationUtils.isTextFieldValid(addPhoneNumField) ||
-                !ValidationUtils.isTextFieldValid(addAddressField) ||
-                !ValidationUtils.isTextFieldValid(addZipCodeField) ||
-                addCountryCombo.getValue() == null ||
-                addCityCombo.getValue() == null)
+        try
         {
-            ViewManager.getInstance()
-                       .showErrorPopup("One or more inputs are invalid!");
+            // Validate input
+            if (!ValidationUtils.isTextFieldValid(addFirstNameField) ||
+                    !ValidationUtils.isTextFieldValid(addLastNameField) ||
+                    !ValidationUtils.isTextFieldValid(addPhoneNumField) ||
+                    !ValidationUtils.isTextFieldValid(addAddressField) ||
+                    !ValidationUtils.isTextFieldValid(addZipCodeField) ||
+                    addCountryCombo.getValue() == null ||
+                    addCityCombo.getValue() == null)
+            {
+                ViewManager.getInstance()
+                           .showErrorPopup("One or more inputs are invalid!");
+                throw new IllegalFormInput("One or more inputs are invalid!");
+            }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
             return;
         }
 
@@ -284,17 +293,25 @@ public class CustomersController extends SwitchableController
     // TODO: Uncomment the user ones before launch
     private void handleEditCustomerSubmit(Customer customer, Address address)
     {
-        // TODO: Validate input
-        if (!ValidationUtils.isTextFieldValid(editFirstNameField) ||
-                !ValidationUtils.isTextFieldValid(editLastNameField) ||
-                !ValidationUtils.isTextFieldValid(editPhoneNumField) ||
-                !ValidationUtils.isTextFieldValid(editAddressField) ||
-                !ValidationUtils.isTextFieldValid(editZipCodeField) ||
-                editCountryCombo.getValue() == null ||
-                editCityCombo.getValue() == null)
+        try
         {
-            ViewManager.getInstance()
-                       .showErrorPopup("One or more inputs are invalid!");
+            // Validate input
+            if (!ValidationUtils.isTextFieldValid(editFirstNameField) ||
+                    !ValidationUtils.isTextFieldValid(editLastNameField) ||
+                    !ValidationUtils.isTextFieldValid(editPhoneNumField) ||
+                    !ValidationUtils.isTextFieldValid(editAddressField) ||
+                    !ValidationUtils.isTextFieldValid(editZipCodeField) ||
+                    editCountryCombo.getValue() == null ||
+                    editCityCombo.getValue() == null)
+            {
+                ViewManager.getInstance()
+                           .showErrorPopup("One or more inputs are invalid!");
+                throw new IllegalFormInput("One or more inputs are invalid!");
+            }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
             return;
         }
 
@@ -426,7 +443,7 @@ public class CustomersController extends SwitchableController
         // Makes sure that past appointments aren't shown
         appointments = appointments.stream()
                                    .filter(appointment -> appointment.getStartTime()
-                                                                     .compareTo(TimestampHelper.nowUTC()) > 0)
+                                                                     .after(TimestampHelper.nowUTC()))
                                    .collect(Collectors.toList());
         // Maybe sort the appointments by upcoming dates?
         appointments.sort((a1, a2) ->

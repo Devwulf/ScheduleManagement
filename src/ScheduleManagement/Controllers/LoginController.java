@@ -1,12 +1,18 @@
 package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
+import ScheduleManagement.Database.DBContext;
+import ScheduleManagement.Database.Models.Appointment;
+import ScheduleManagement.Database.Models.User;
+import ScheduleManagement.Database.NameValuePair;
+import ScheduleManagement.Exceptions.IllegalFormInput;
 import ScheduleManagement.Managers.LanguageManager;
 import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Colors;
 import ScheduleManagement.Utils.Icons;
 import ScheduleManagement.Utils.LanguageKeys;
+import ScheduleManagement.Utils.TimestampHelper;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -25,7 +31,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class LoginController extends BaseController
 {
@@ -79,6 +89,7 @@ public class LoginController extends BaseController
     @FXML private Button submitButton;
     private Animator submitAnimator;
 
+    private DBContext context;
     private BooleanProperty isLogin = new SimpleBooleanProperty(true);
 
     @FXML
@@ -86,6 +97,8 @@ public class LoginController extends BaseController
     {
         // Cannot access stage from here, because this runs on
         // FXMLLoader.load, where stage is not set yet.
+
+        context = DBContext.getInstance();
 
         logoIcon.setText(Icons.calendarCheck);
         usernameIcon.setText(Icons.user);
@@ -332,18 +345,27 @@ public class LoginController extends BaseController
 
         if (isLogin.get())
         {
-            if (LoginManager.getInstance()
-                            .login(username, password))
+            try
             {
-                // TODO: Load the calendar view
-                //ViewManager.getInstance().showSuccessPopup(langManager.getTranslation(LoginKeys.successLogin));
-                ViewManager.getInstance().loadView(ViewManager.ViewNames.Calendar);
+                if (LoginManager.getInstance()
+                                .login(username, password))
+                {
+                    // Load the calendar view
+                    CalendarController controller = ViewManager.getInstance()
+                                                               .loadView(ViewManager.ViewNames.Calendar);
+                    controller.checkApptIn15Mins();
+                }
+                else
+                {
+                    // TODO: Show a popup for username/password not found
+                    ViewManager.getInstance()
+                               .showErrorPopup(langManager.getTranslation(LoginKeys.incorrectUserPass));
+                    throw new IllegalFormInput(langManager.getTranslation(LoginKeys.incorrectUserPass));
+                }
             }
-            else
+            catch (IllegalFormInput ex)
             {
-                // TODO: Show a popup for username/password not found
-                ViewManager.getInstance()
-                           .showErrorPopup(langManager.getTranslation(LoginKeys.incorrectUserPass));
+                ex.printStackTrace();
             }
         }
         else

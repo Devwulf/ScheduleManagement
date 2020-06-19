@@ -4,6 +4,7 @@ import ScheduleManagement.Animation.Animator;
 import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Database.Models.*;
 import ScheduleManagement.Database.NameValuePair;
+import ScheduleManagement.Exceptions.IllegalFormInput;
 import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Icons;
@@ -193,6 +194,24 @@ public class AppointmentsController extends SwitchableController
     // TODO: Uncomment the user ones before launch
     private void handleEditAppointmentSubmit(Appointment appointment)
     {
+        try
+        {
+            // TODO: Show error if appointment is outside business hours
+            if ((ValidationUtils.PatternType.Time.getPattern().matcher(editStartTimeField.getText()).matches() &&
+                !ValidationUtils.businessHoursValidator.test(editStartTimeField.getText())) ||
+                (ValidationUtils.PatternType.Time.getPattern().matcher(editEndTimeField.getText()).matches() &&
+                !ValidationUtils.businessHoursValidator.test(editEndTimeField.getText())))
+            {
+                ViewManager.getInstance().showErrorPopup("The appointment time given is outside business hours. (9 AM - 5 PM)");
+                throw new IllegalFormInput("The appointment time given is outside business hours. (9 AM - 5 PM)");
+            }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
+            return;
+        }
+
         // TODO: Validate input
         if (!ValidationUtils.isTextFieldValid(editTitleField) ||
                 !ValidationUtils.isTextFieldValid(editDescriptionField) ||
@@ -228,16 +247,24 @@ public class AppointmentsController extends SwitchableController
                                                                                           .toLocalDate()
                                                                                           .equals(day))
                                                         .collect(Collectors.toList());
-        for (Appointment appt : dayAppointments)
+        try
         {
-            Timestamp apptStart = appt.getStartTime();
-            Timestamp apptEnd = appt.getEndTime();
-            if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+            for (Appointment appt : dayAppointments)
             {
-                ViewManager.getInstance()
-                           .showErrorPopup("The time period for this appointment overlaps another appointment!");
-                return;
+                Timestamp apptStart = appt.getStartTime();
+                Timestamp apptEnd = appt.getEndTime();
+                if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+                {
+                    ViewManager.getInstance()
+                               .showErrorPopup("The time period for this appointment overlaps another appointment!");
+                    throw new IllegalFormInput("The time period for this appointment overlaps another appointment!");
+                }
             }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
+            return;
         }
 
         Timestamp now = TimestampHelper.nowUTC();
@@ -322,6 +349,24 @@ public class AppointmentsController extends SwitchableController
     @FXML
     private void handleAddAppointmentSubmit()
     {
+        try
+        {
+            // TODO: Show error if appointment is outside business hours
+            if ((ValidationUtils.PatternType.Time.getPattern().matcher(addStartTimeField.getText()).matches() &&
+                !ValidationUtils.businessHoursValidator.test(addStartTimeField.getText())) ||
+                (ValidationUtils.PatternType.Time.getPattern().matcher(addEndTimeField.getText()).matches() &&
+                !ValidationUtils.businessHoursValidator.test(addEndTimeField.getText())))
+            {
+                ViewManager.getInstance().showErrorPopup("The appointment time given is outside business hours. (9 AM - 5 PM)");
+                throw new IllegalFormInput("The appointment time given is outside business hours. (9 AM - 5 PM)");
+            }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
+            return;
+        }
+
         // TODO: Validate all input first
 
         // TODO: Error message internationalization
@@ -359,16 +404,24 @@ public class AppointmentsController extends SwitchableController
                                                                                           .toLocalDate()
                                                                                           .equals(day))
                                                         .collect(Collectors.toList());
-        for (Appointment appointment : dayAppointments)
+        try
         {
-            Timestamp apptStart = appointment.getStartTime();
-            Timestamp apptEnd = appointment.getEndTime();
-            if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+            for (Appointment appt : dayAppointments)
             {
-                ViewManager.getInstance()
-                           .showErrorPopup("The time period for this appointment overlaps another appointment!");
-                return;
+                Timestamp apptStart = appt.getStartTime();
+                Timestamp apptEnd = appt.getEndTime();
+                if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+                {
+                    ViewManager.getInstance()
+                               .showErrorPopup("The time period for this appointment overlaps another appointment!");
+                    throw new IllegalFormInput("The time period for this appointment overlaps another appointment!");
+                }
             }
+        }
+        catch (IllegalFormInput ex)
+        {
+            ex.printStackTrace();
+            return;
         }
 
         Timestamp now = TimestampHelper.nowUTC();
