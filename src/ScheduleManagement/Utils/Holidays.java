@@ -3,8 +3,10 @@ package ScheduleManagement.Utils;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,20 +129,70 @@ public class Holidays
         }));
     }
 
+    public static List<Holiday> getHolidays(int year)
+    {
+        return holidayRules.stream()
+                           .map(holidayRule -> new Holiday(holidayRule.getHolidayName(), LocalDate.of(year, holidayRule.getMonth(), holidayRule.getDay(year))))
+                           .collect(Collectors.toList());
+    }
+
     public static List<Holiday> getHolidays(int year, Month month)
     {
         return holidayRules.stream()
                            .filter(holidayRule -> holidayRule.getMonth()
                                                              .equals(month))
-                           .map(holidayRule -> new Holiday(holidayRule.getHolidayName(), year, holidayRule.getMonth(), holidayRule.getDay(year)))
+                           .map(holidayRule -> new Holiday(holidayRule.getHolidayName(), LocalDate.of(year, holidayRule.getMonth(), holidayRule.getDay(year))))
                            .collect(Collectors.toList());
     }
 
-    public static List<Holiday> getHolidays(int year)
+    // Gets all holidays in a specific range of days, at most 6 days difference
+    public static List<Holiday> getHolidaysInWeek(LocalDate startWeek, LocalDate endWeek)
     {
-        return holidayRules.stream()
-                           .map(holidayRule -> new Holiday(holidayRule.getHolidayName(), year, holidayRule.getMonth(), holidayRule.getDay(year)))
-                           .collect(Collectors.toList());
+        List<Holiday> holidays = new ArrayList<>();
+        if (startWeek.compareTo(endWeek) > 0)
+            return holidays;
+        if (ChronoUnit.DAYS.between(startWeek, endWeek) > 6)
+            return holidays;
+
+        if (!startWeek.getMonth()
+                       .equals(endWeek.getMonth()))
+        {
+            List<HolidayRule> startRules = holidayRules.stream()
+                                                       .filter(holidayRule -> holidayRule.getMonth()
+                                                                                         .equals(startWeek.getMonth()))
+                                                       .collect(Collectors.toList());
+            List<HolidayRule> endRules = holidayRules.stream()
+                                                     .filter(holidayRule -> holidayRule.getMonth()
+                                                                                       .equals(endWeek.getMonth()))
+                                                     .collect(Collectors.toList());
+            for (HolidayRule rule : startRules)
+            {
+                LocalDate holiday = LocalDate.of(startWeek.getYear(), startWeek.getMonth(), rule.getDay(startWeek.getYear()));
+                if (holiday.isEqual(startWeek) || holiday.isAfter(startWeek))
+                    holidays.add(new Holiday(rule.getHolidayName(), holiday));
+            }
+            for (HolidayRule rule : endRules)
+            {
+                LocalDate holiday = LocalDate.of(endWeek.getYear(), endWeek.getMonth(), rule.getDay(endWeek.getYear()));
+                if (holiday.isEqual(endWeek) || holiday.isBefore(endWeek))
+                    holidays.add(new Holiday(rule.getHolidayName(), holiday));
+            }
+        }
+        else
+        {
+            List<HolidayRule> monthRules = holidayRules.stream()
+                                                       .filter(holidayRule -> holidayRule.getMonth()
+                                                                                         .equals(startWeek.getMonth()))
+                                                       .collect(Collectors.toList());
+            for (HolidayRule rule : monthRules)
+            {
+                LocalDate holiday = LocalDate.of(startWeek.getYear(), startWeek.getMonth(), rule.getDay(startWeek.getYear()));
+                if (TimestampHelper.isDateInBetween(holiday, startWeek, endWeek))
+                    holidays.add(new Holiday(rule.getHolidayName(), holiday));
+            }
+        }
+
+        return holidays;
     }
 
     private static int getDayOfNthWeek(int year, Month month, int week, DayOfWeek day)

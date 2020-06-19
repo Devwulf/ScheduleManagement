@@ -7,6 +7,7 @@ public final class Icons
     public static final String userCircle = "\uf2bd";
     public static final String key = "\uf084";
     public static final String plus = "\uf067";
+    public static final String minus = "\uf068";
     public static final String times = "\uf00d";
     public static final String timesCircle = "\uf057";
     public static final String checkCircle = "\uf058";

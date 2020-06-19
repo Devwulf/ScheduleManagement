@@ -1,6 +1,7 @@
 package ScheduleManagement;
 
 import ScheduleManagement.Managers.ViewManager;
+import ScheduleManagement.Utils.Holidays;
 import ScheduleManagement.Utils.TimestampHelper;
 import javafx.application.Application;
 import javafx.scene.text.Font;
@@ -9,7 +10,12 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.IsoFields;
+import java.time.temporal.WeekFields;
 import java.util.Date;
+import java.util.Locale;
 
 public class App extends Application
 {
@@ -54,5 +60,15 @@ public class App extends Application
         //System.out.println(TimestampHelper.convertToUTC("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
         //System.out.println(TimestampHelper.convertToLocal("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
         launch(args);
+        //System.out.println(Holidays.getHolidaysInWeek(LocalDate.of(2019, 12, 29), LocalDate.of(2020, 1, 4)).size());
+
+        /*
+        LocalDate date = LocalDate.of(2015, 12, 18);
+        System.out.println("ISO: " + date.get(WeekFields.of(Locale.US).weekOfYear()));
+        System.out.println("Chrono: " + date.get(ChronoField.ALIGNED_WEEK_OF_YEAR));
+        System.out.println("ISO #: " + WeekFields.of(Locale.US).weekOfYear().rangeRefinedBy(date).getMaximum());
+        System.out.println("Chrono #: " + ChronoField.ALIGNED_WEEK_OF_YEAR.rangeRefinedBy(date).getMaximum());
+
+         */
     }
 }

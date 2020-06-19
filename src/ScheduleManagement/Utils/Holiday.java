@@ -1,20 +1,17 @@
 package ScheduleManagement.Utils;
 
+import java.time.LocalDate;
 import java.time.Month;
 
 public class Holiday
 {
     private final String name;
-    private final int year;
-    private final Month month;
-    private final int day;
+    private final LocalDate date;
 
-    public Holiday(String name, int year, Month month, int day)
+    public Holiday(String name, LocalDate date)
     {
         this.name = name;
-        this.year = year;
-        this.month = month;
-        this.day = day;
+        this.date = date;
     }
 
     public String getName()
@@ -22,18 +19,8 @@ public class Holiday
         return name;
     }
 
-    public int getYear()
+    public LocalDate getDate()
     {
-        return year;
-    }
-
-    public Month getMonth()
-    {
-        return month;
-    }
-
-    public int getDay()
-    {
-        return day;
+        return date;
     }
 }

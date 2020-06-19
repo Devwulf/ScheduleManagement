@@ -368,9 +368,9 @@ public class LoginController extends BaseController
     private void handleToggleLanguage()
     {
         LanguageManager langManager = LanguageManager.getInstance();
-        if (langManager.getLocale() == Locale.ENGLISH)
-            langManager.setLocale(Locale.FRENCH);
+        if (langManager.getLocale() == Locale.US)
+            langManager.setLocale(Locale.FRANCE);
         else
-            langManager.setLocale(Locale.ENGLISH);
+            langManager.setLocale(Locale.US);
     }
 }

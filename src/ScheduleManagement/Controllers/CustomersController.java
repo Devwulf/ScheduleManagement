@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class CustomersController extends SwitchableController
 {
@@ -144,6 +145,7 @@ public class CustomersController extends SwitchableController
 
         addCountryCombo.setValue(null);
         addCityCombo.setValue(null);
+        addCityComboRoot.setDisable(true);
 
         addModalRoot.setVisible(true);
     }
@@ -176,19 +178,21 @@ public class CustomersController extends SwitchableController
     {
         // TODO: Validate input
         if (!ValidationUtils.isTextFieldValid(addFirstNameField) ||
-            !ValidationUtils.isTextFieldValid(addLastNameField) ||
-            !ValidationUtils.isTextFieldValid(addPhoneNumField) ||
-            !ValidationUtils.isTextFieldValid(addAddressField) ||
-            !ValidationUtils.isTextFieldValid(addZipCodeField) ||
-            addCountryCombo.getValue() == null ||
-            addCityCombo.getValue() == null)
+                !ValidationUtils.isTextFieldValid(addLastNameField) ||
+                !ValidationUtils.isTextFieldValid(addPhoneNumField) ||
+                !ValidationUtils.isTextFieldValid(addAddressField) ||
+                !ValidationUtils.isTextFieldValid(addZipCodeField) ||
+                addCountryCombo.getValue() == null ||
+                addCityCombo.getValue() == null)
         {
-            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            ViewManager.getInstance()
+                       .showErrorPopup("One or more inputs are invalid!");
             return;
         }
 
         Timestamp now = TimestampHelper.nowUTC();
-        User user = LoginManager.getInstance().getCurrentUser();
+        User user = LoginManager.getInstance()
+                                .getCurrentUser();
 
         Address address = new Address();
         address.setAddressId(0);
@@ -282,19 +286,21 @@ public class CustomersController extends SwitchableController
     {
         // TODO: Validate input
         if (!ValidationUtils.isTextFieldValid(editFirstNameField) ||
-            !ValidationUtils.isTextFieldValid(editLastNameField) ||
-            !ValidationUtils.isTextFieldValid(editPhoneNumField) ||
-            !ValidationUtils.isTextFieldValid(editAddressField) ||
-            !ValidationUtils.isTextFieldValid(editZipCodeField) ||
-            editCountryCombo.getValue() == null ||
-            editCityCombo.getValue() == null)
+                !ValidationUtils.isTextFieldValid(editLastNameField) ||
+                !ValidationUtils.isTextFieldValid(editPhoneNumField) ||
+                !ValidationUtils.isTextFieldValid(editAddressField) ||
+                !ValidationUtils.isTextFieldValid(editZipCodeField) ||
+                editCountryCombo.getValue() == null ||
+                editCityCombo.getValue() == null)
         {
-            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            ViewManager.getInstance()
+                       .showErrorPopup("One or more inputs are invalid!");
             return;
         }
 
         Timestamp now = TimestampHelper.nowUTC();
-        User user = LoginManager.getInstance().getCurrentUser();
+        User user = LoginManager.getInstance()
+                                .getCurrentUser();
         boolean addressHasChanged = false;
         boolean customerHasChanged = false;
 
@@ -399,13 +405,13 @@ public class CustomersController extends SwitchableController
                    .showConfirmPopup("Are you sure you want to delete the customer '" + customer.getCustomerName() + "'? " +
                            "Note: This will also delete the associated appointments.", () ->
                    {
-                        customer.setActive(false);
-                        context.Customers.updateEntity(customer);
+                       customer.setActive(false);
+                       context.Customers.updateEntity(customer);
 
                        // TODO: Also delete the appointments associated with this customer
-                        context.Appointments.deleteEntity(new NameValuePair("customerId", customer.getCustomerId()));
+                       context.Appointments.deleteEntity(new NameValuePair("customerId", customer.getCustomerId()));
 
-                        handleRefreshCustomerList();
+                       handleRefreshCustomerList();
                    });
     }
 
@@ -417,6 +423,11 @@ public class CustomersController extends SwitchableController
         // However, a customer can have many appointments with different users
         List<Appointment> appointments = context.Appointments.readEntity(new NameValuePair("customerId", customer.getCustomerId()));
 
+        // Makes sure that past appointments aren't shown
+        appointments = appointments.stream()
+                                   .filter(appointment -> appointment.getStartTime()
+                                                                     .compareTo(TimestampHelper.nowUTC()) > 0)
+                                   .collect(Collectors.toList());
         // Maybe sort the appointments by upcoming dates?
         appointments.sort((a1, a2) ->
         {
@@ -425,6 +436,11 @@ public class CustomersController extends SwitchableController
         });
 
         Appointment upcomingAppointment = appointments.size() > 0 ? appointments.get(0) : null;
+        if (upcomingAppointment != null)
+        {
+            upcomingAppointment.setStartTime(TimestampHelper.convertToLocal(upcomingAppointment.getStartTime()));
+            upcomingAppointment.setEndTime(TimestampHelper.convertToLocal(upcomingAppointment.getEndTime()));
+        }
 
         // A customer should always have an address anyways (database doesn't allow for a NULL address id)
         Address customerAddress = context.Addresses.readEntity(new NameValuePair("addressId", customer.getAddressId()))
@@ -466,7 +482,7 @@ public class CustomersController extends SwitchableController
         appointmentLabel.getStyleClass()
                         .add("text-regular");
 
-        Label appointmentName = new Label(upcomingAppointment != null ? upcomingAppointment.getTitle() : "No appointments");
+        Label appointmentName = new Label(upcomingAppointment != null ? upcomingAppointment.getTitle() : "No upcoming appointments");
         appointmentName.setStyle("-fx-text-fill: -black; -fx-font-size: 20px;");
         appointmentName.getStyleClass()
                        .add("text-medium");
@@ -560,11 +576,7 @@ public class CustomersController extends SwitchableController
         editButtonIcon.setAlignment(Pos.CENTER_RIGHT);
         editButtonIcon.setPrefWidth(34);
         editButtonIcon.getStyleClass()
-                      .add("button-sm");
-        editButtonIcon.getStyleClass()
-                      .add("button-left");
-        editButtonIcon.getStyleClass()
-                      .add("button-regular-alt");
+                      .addAll("button-sm", "button-left", "button-regular-alt");
 
         Label editButtonText = new Label("Edit");
         editButtonText.getStyleClass()
@@ -574,11 +586,7 @@ public class CustomersController extends SwitchableController
         editButtonLabel.setAlignment(Pos.CENTER);
         editButtonLabel.setPadding(new Insets(0, 8, 0, 0));
         editButtonLabel.getStyleClass()
-                       .add("button-sm");
-        editButtonLabel.getStyleClass()
-                       .add("button-right");
-        editButtonLabel.getStyleClass()
-                       .add("button-regular-alt");
+                       .addAll("button-sm", "button-right", "button-regular-alt");
 
         HBox editButton = new HBox(editButtonIcon, editButtonLabel);
         editButton.setAlignment(Pos.CENTER_RIGHT);
@@ -598,11 +606,7 @@ public class CustomersController extends SwitchableController
         deleteButtonIcon.setAlignment(Pos.CENTER_RIGHT);
         deleteButtonIcon.setPrefWidth(34);
         deleteButtonIcon.getStyleClass()
-                        .add("button-sm");
-        deleteButtonIcon.getStyleClass()
-                        .add("button-left");
-        deleteButtonIcon.getStyleClass()
-                        .add("button-danger");
+                        .addAll("button-sm", "button-left", "button-danger");
 
         Label deleteButtonText = new Label("Delete");
         deleteButtonText.getStyleClass()
@@ -612,11 +616,7 @@ public class CustomersController extends SwitchableController
         deleteButtonLabel.setAlignment(Pos.CENTER);
         deleteButtonLabel.setPadding(new Insets(0, 8, 0, 0));
         deleteButtonLabel.getStyleClass()
-                         .add("button-sm");
-        deleteButtonLabel.getStyleClass()
-                         .add("button-right");
-        deleteButtonLabel.getStyleClass()
-                         .add("button-danger");
+                         .addAll("button-sm", "button-right", "button-danger");
 
         HBox deleteButton = new HBox(deleteButtonIcon, deleteButtonLabel);
         deleteButton.setAlignment(Pos.CENTER_RIGHT);
@@ -656,9 +656,7 @@ public class CustomersController extends SwitchableController
         root.setCursor(Cursor.HAND);
         root.setPickOnBounds(false);
         root.getStyleClass()
-            .add("customer");
-        root.getStyleClass()
-            .add("drop-shadow");
+            .addAll("customer", "drop-shadow");
 
         VBox.setVgrow(closeCustomerItem, Priority.ALWAYS);
 

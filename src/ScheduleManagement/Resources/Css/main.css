@@ -187,3 +187,41 @@
 .disable-box:disabled {
 	-fx-opacity: 0.75;
 }
+
+.bottom-line {
+	-fx-border-style: solid outside;
+	-fx-border-color: -gray4;
+	-fx-border-width: 0 0 1px 0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+	-fx-background-radius: 15px 15px 0 0;
+	-fx-padding: 5px 8px 5px 8px;
+}
+
+.tab-label {
+	-fx-alignment: center;
+	-fx-font-size: 14px;
+}
+
+.tab-pane .tab {
+	-fx-background-color: -white;
+}
+
+.tab .tab-label {
+	-fx-text-fill: -dark-gray;
+}
+
+.tab-pane .tab:selected {
+	-fx-background-color: -dark-gray;
+}
+
+.tab:selected .tab-label {
+	-fx-text-fill: -white;
+}

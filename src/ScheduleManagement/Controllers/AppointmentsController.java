@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class AppointmentsController extends SwitchableController
 {
@@ -103,8 +104,11 @@ public class AppointmentsController extends SwitchableController
 
         ValidationUtils.addValidationListener(editStartDateField, ValidationUtils.PatternType.Date);
         ValidationUtils.addValidationListener(editStartTimeField, ValidationUtils.PatternType.Time);
+        ValidationUtils.addValidationListener(editStartTimeField, ValidationUtils.businessHoursValidator);
+
         ValidationUtils.addValidationListener(editEndDateField, ValidationUtils.PatternType.Date);
         ValidationUtils.addValidationListener(editEndTimeField, ValidationUtils.PatternType.Time);
+        ValidationUtils.addValidationListener(editEndTimeField, ValidationUtils.businessHoursValidator);
 
         ValidationUtils.addValidationListener(addTitleField, ValidationUtils.PatternType.NotEmpty);
         ValidationUtils.addValidationListener(addDescriptionField, ValidationUtils.PatternType.NotEmpty);
@@ -114,8 +118,11 @@ public class AppointmentsController extends SwitchableController
 
         ValidationUtils.addValidationListener(addStartDateField, ValidationUtils.PatternType.Date);
         ValidationUtils.addValidationListener(addStartTimeField, ValidationUtils.PatternType.Time);
+        ValidationUtils.addValidationListener(addStartTimeField, ValidationUtils.businessHoursValidator);
+
         ValidationUtils.addValidationListener(addEndDateField, ValidationUtils.PatternType.Date);
         ValidationUtils.addValidationListener(addEndTimeField, ValidationUtils.PatternType.Time);
+        ValidationUtils.addValidationListener(addEndTimeField, ValidationUtils.businessHoursValidator);
 
         List<Customer> customers = context.Customers.readEntity();
         List<User> users = context.Users.readEntity();
@@ -188,30 +195,55 @@ public class AppointmentsController extends SwitchableController
     {
         // TODO: Validate input
         if (!ValidationUtils.isTextFieldValid(editTitleField) ||
-            !ValidationUtils.isTextFieldValid(editDescriptionField) ||
-            !ValidationUtils.isTextFieldValid(editStartDateField) ||
-            !ValidationUtils.isTextFieldValid(editStartTimeField) ||
-            !ValidationUtils.isTextFieldValid(editEndDateField) ||
-            !ValidationUtils.isTextFieldValid(editEndTimeField) ||
-            !ValidationUtils.isTextFieldValid(editUrlField) ||
-            !ValidationUtils.isTextFieldValid(editLocationField) ||
-            !ValidationUtils.isTextFieldValid(editContactField) ||
-            editCustomerCombo.getValue() == null ||
-            editUserCombo.getValue() == null ||
-            editTypeCombo.getValue() == null)
+                !ValidationUtils.isTextFieldValid(editDescriptionField) ||
+                !ValidationUtils.isTextFieldValid(editStartDateField) ||
+                !ValidationUtils.isTextFieldValid(editStartTimeField) ||
+                !ValidationUtils.isTextFieldValid(editEndDateField) ||
+                !ValidationUtils.isTextFieldValid(editEndTimeField) ||
+                !ValidationUtils.isTextFieldValid(editUrlField) ||
+                !ValidationUtils.isTextFieldValid(editLocationField) ||
+                !ValidationUtils.isTextFieldValid(editContactField) ||
+                editCustomerCombo.getValue() == null ||
+                editUserCombo.getValue() == null ||
+                editTypeCombo.getValue() == null)
         {
-            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            ViewManager.getInstance()
+                       .showErrorPopup("One or more inputs are invalid!");
             return;
+        }
+
+        // Convert times to UTC first
+        Timestamp startTime = TimestampHelper.convertToUTC(editStartDateField.getText() + " " + editStartTimeField.getText(), "MM/dd/yyyy h:mm a");
+        Timestamp endTime = TimestampHelper.convertToUTC(editEndDateField.getText() + " " + editEndTimeField.getText(), "MM/dd/yyyy h:mm a");
+
+        // TODO: Check if time is in business hours (9 AM - 5 PM)
+
+        // Check if times overlap over a current appointment
+        LocalDate day = startTime.toLocalDateTime()
+                                 .toLocalDate();
+        List<Appointment> appointments = context.Appointments.readEntity();
+        List<Appointment> dayAppointments = appointments.stream()
+                                                        .filter(appt -> appt.getStartTime()
+                                                                                          .toLocalDateTime()
+                                                                                          .toLocalDate()
+                                                                                          .equals(day))
+                                                        .collect(Collectors.toList());
+        for (Appointment appt : dayAppointments)
+        {
+            Timestamp apptStart = appt.getStartTime();
+            Timestamp apptEnd = appt.getEndTime();
+            if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+            {
+                ViewManager.getInstance()
+                           .showErrorPopup("The time period for this appointment overlaps another appointment!");
+                return;
+            }
         }
 
         Timestamp now = TimestampHelper.nowUTC();
         User currentUser = LoginManager.getInstance()
                                        .getCurrentUser();
         boolean appointmentHasChanged = false;
-
-        // Convert times to UTC first
-        Timestamp startTime = TimestampHelper.convertToUTC(editStartDateField.getText() + " " + editStartTimeField.getText(), "MM/dd/yyyy h:mm a");
-        Timestamp endTime = TimestampHelper.convertToUTC(editEndDateField.getText() + " " + editEndTimeField.getText(), "MM/dd/yyyy h:mm a");
 
         if (appointment.getCustomerId() != editCustomerCombo.getValue()
                                                             .getCustomerId() ||
@@ -292,37 +324,63 @@ public class AppointmentsController extends SwitchableController
     {
         // TODO: Validate all input first
 
+        // TODO: Error message internationalization
         if (!ValidationUtils.isTextFieldValid(addTitleField) ||
-            !ValidationUtils.isTextFieldValid(addDescriptionField) ||
-            !ValidationUtils.isTextFieldValid(addStartDateField) ||
-            !ValidationUtils.isTextFieldValid(addStartTimeField) ||
-            !ValidationUtils.isTextFieldValid(addEndDateField) ||
-            !ValidationUtils.isTextFieldValid(addEndTimeField) ||
-            !ValidationUtils.isTextFieldValid(addUrlField) ||
-            !ValidationUtils.isTextFieldValid(addLocationField) ||
-            !ValidationUtils.isTextFieldValid(addContactField) ||
-            addCustomerCombo.getValue() == null ||
-            addUserCombo.getValue() == null ||
-            addTypeCombo.getValue() == null)
+                !ValidationUtils.isTextFieldValid(addDescriptionField) ||
+                !ValidationUtils.isTextFieldValid(addStartDateField) ||
+                !ValidationUtils.isTextFieldValid(addStartTimeField) ||
+                !ValidationUtils.isTextFieldValid(addEndDateField) ||
+                !ValidationUtils.isTextFieldValid(addEndTimeField) ||
+                !ValidationUtils.isTextFieldValid(addUrlField) ||
+                !ValidationUtils.isTextFieldValid(addLocationField) ||
+                !ValidationUtils.isTextFieldValid(addContactField) ||
+                addCustomerCombo.getValue() == null ||
+                addUserCombo.getValue() == null ||
+                addTypeCombo.getValue() == null)
         {
-            ViewManager.getInstance().showErrorPopup("One or more inputs are invalid!");
+            ViewManager.getInstance()
+                       .showErrorPopup("One or more inputs are invalid!");
             return;
+        }
+
+        // Convert times to UTC first
+        Timestamp startTime = TimestampHelper.convertToUTC(addStartDateField.getText() + " " + addStartTimeField.getText(), "MM/dd/yyyy h:mm a");
+        Timestamp endTime = TimestampHelper.convertToUTC(addEndDateField.getText() + " " + addEndTimeField.getText(), "MM/dd/yyyy h:mm a");
+
+        // TODO: Check if time is in business hours (9 AM - 5 PM)
+
+        // Check if times overlap over a current appointment
+        LocalDate day = startTime.toLocalDateTime()
+                                 .toLocalDate();
+        List<Appointment> appointments = context.Appointments.readEntity();
+        List<Appointment> dayAppointments = appointments.stream()
+                                                        .filter(appointment -> appointment.getStartTime()
+                                                                                          .toLocalDateTime()
+                                                                                          .toLocalDate()
+                                                                                          .equals(day))
+                                                        .collect(Collectors.toList());
+        for (Appointment appointment : dayAppointments)
+        {
+            Timestamp apptStart = appointment.getStartTime();
+            Timestamp apptEnd = appointment.getEndTime();
+            if (TimestampHelper.isTimeOverlapping(startTime, endTime, apptStart, apptEnd))
+            {
+                ViewManager.getInstance()
+                           .showErrorPopup("The time period for this appointment overlaps another appointment!");
+                return;
+            }
         }
 
         Timestamp now = TimestampHelper.nowUTC();
         User currentUser = LoginManager.getInstance()
                                        .getCurrentUser();
 
-        // Convert times to UTC first
-        Timestamp startTime = TimestampHelper.convertToUTC(addStartDateField.getText() + " " + addStartTimeField.getText(), "MM/dd/yyyy h:mm a");
-        Timestamp endTime = TimestampHelper.convertToUTC(addEndDateField.getText() + " " + addEndTimeField.getText(), "MM/dd/yyyy h:mm a");
-
         Appointment appointment = new Appointment();
         appointment.setAppointmentId(0);
         appointment.setCustomerId(addCustomerCombo.getValue()
-                                                   .getCustomerId());
+                                                  .getCustomerId());
         appointment.setUserId(addUserCombo.getValue()
-                                           .getUserId());
+                                          .getUserId());
         appointment.setTitle(addTitleField.getText());
         appointment.setDescription(addDescriptionField.getText());
         appointment.setType(addTypeCombo.getValue());
@@ -569,11 +627,7 @@ public class AppointmentsController extends SwitchableController
         editButtonIcon.setAlignment(Pos.CENTER_RIGHT);
         editButtonIcon.setPrefWidth(34);
         editButtonIcon.getStyleClass()
-                      .add("button-sm");
-        editButtonIcon.getStyleClass()
-                      .add("button-left");
-        editButtonIcon.getStyleClass()
-                      .add("button-regular-alt");
+                      .addAll("button-sm", "button-left", "button-regular-alt");
 
         Label editButtonText = new Label("Edit");
         editButtonText.getStyleClass()
@@ -583,11 +637,7 @@ public class AppointmentsController extends SwitchableController
         editButtonLabel.setAlignment(Pos.CENTER);
         editButtonLabel.setPadding(new Insets(0, 8, 0, 0));
         editButtonLabel.getStyleClass()
-                       .add("button-sm");
-        editButtonLabel.getStyleClass()
-                       .add("button-right");
-        editButtonLabel.getStyleClass()
-                       .add("button-regular-alt");
+                       .addAll("button-sm", "button-right", "button-regular-alt");
 
         HBox editButton = new HBox(editButtonIcon, editButtonLabel);
         editButton.setAlignment(Pos.CENTER_RIGHT);
@@ -607,11 +657,7 @@ public class AppointmentsController extends SwitchableController
         deleteButtonIcon.setAlignment(Pos.CENTER_RIGHT);
         deleteButtonIcon.setPrefWidth(34);
         deleteButtonIcon.getStyleClass()
-                        .add("button-sm");
-        deleteButtonIcon.getStyleClass()
-                        .add("button-left");
-        deleteButtonIcon.getStyleClass()
-                        .add("button-danger");
+                        .addAll("button-sm", "button-left", "button-danger");
 
         Label deleteButtonText = new Label("Delete");
         deleteButtonText.getStyleClass()
@@ -621,11 +667,7 @@ public class AppointmentsController extends SwitchableController
         deleteButtonLabel.setAlignment(Pos.CENTER);
         deleteButtonLabel.setPadding(new Insets(0, 8, 0, 0));
         deleteButtonLabel.getStyleClass()
-                         .add("button-sm");
-        deleteButtonLabel.getStyleClass()
-                         .add("button-right");
-        deleteButtonLabel.getStyleClass()
-                         .add("button-danger");
+                         .addAll("button-sm", "button-right", "button-danger");
 
         HBox deleteButton = new HBox(deleteButtonIcon, deleteButtonLabel);
         deleteButton.setAlignment(Pos.CENTER_RIGHT);
@@ -665,9 +707,7 @@ public class AppointmentsController extends SwitchableController
         root.setCursor(Cursor.HAND);
         root.setPickOnBounds(false);
         root.getStyleClass()
-            .add("customer");
-        root.getStyleClass()
-            .add("drop-shadow");
+            .addAll("customer", "drop-shadow");
 
         VBox.setVgrow(closeAppointmentItem, Priority.ALWAYS);
 
