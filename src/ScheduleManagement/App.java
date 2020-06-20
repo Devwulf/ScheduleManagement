@@ -54,21 +54,10 @@ public class App extends Application
         viewManager.addView(ViewManager.ViewNames.Popup, "PopupView");
     }
 
-
     public static void main(String[] args)
     {
-        //System.out.println(TimestampHelper.convertToUTC("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
-        //System.out.println(TimestampHelper.convertToLocal("06/01/2020 12:00 AM", "MM/dd/yyyy h:mm a"));
+        System.out.println(LocalTime.now());
+        //Locale.setDefault(Locale.FRENCH);
         launch(args);
-        //System.out.println(Holidays.getHolidaysInWeek(LocalDate.of(2019, 12, 29), LocalDate.of(2020, 1, 4)).size());
-
-        /*
-        LocalDate date = LocalDate.of(2015, 12, 18);
-        System.out.println("ISO: " + date.get(WeekFields.of(Locale.US).weekOfYear()));
-        System.out.println("Chrono: " + date.get(ChronoField.ALIGNED_WEEK_OF_YEAR));
-        System.out.println("ISO #: " + WeekFields.of(Locale.US).weekOfYear().rangeRefinedBy(date).getMaximum());
-        System.out.println("Chrono #: " + ChronoField.ALIGNED_WEEK_OF_YEAR.rangeRefinedBy(date).getMaximum());
-
-         */
     }
 }

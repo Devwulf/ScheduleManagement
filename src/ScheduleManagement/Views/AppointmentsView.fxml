@@ -65,7 +65,7 @@
                                                    <children>
                                                       <VBox styleClass="h4-line">
                                                          <children>
-                                                            <Label styleClass="text-semibold" text="Appointment Details (business hours: 9 AM to 5 PM)">
+                                                            <Label styleClass="text-semibold" text="Appointment Details">
                                                                <font>
                                                                   <Font size="20.0" />
                                                                </font>
@@ -654,7 +654,7 @@
                                                    <children>
                                                       <VBox styleClass="h4-line">
                                                          <children>
-                                                            <Label styleClass="text-semibold" text="Appointment Details (business hours: 9 AM to 5 PM)">
+                                                            <Label styleClass="text-semibold" text="Appointment Details">
                                                                <font>
                                                                   <Font size="20.0" />
                                                                </font>

@@ -19,8 +19,8 @@ public class LanguageManager
     {
         List<Locale> locales = new ArrayList<>();
 
-        locales.add(Locale.US);
-        locales.add(Locale.FRANCE);
+        locales.add(Locale.ENGLISH);
+        locales.add(Locale.FRENCH);
 
         return locales;
     }
@@ -28,6 +28,11 @@ public class LanguageManager
     public Locale getLocale()
     {
         return currentLocale.get();
+    }
+
+    public ObjectProperty<Locale> localeProperty()
+    {
+        return currentLocale;
     }
 
     public void setLocale(Locale locale)
@@ -51,7 +56,7 @@ public class LanguageManager
     private LanguageManager()
     {
         Locale defaultLocale = Locale.getDefault();
-        Locale locale = getSupportedLocales().contains(defaultLocale) ? defaultLocale : Locale.US;
+        Locale locale = getSupportedLocales().contains(defaultLocale) ? defaultLocale : Locale.ENGLISH;
 
         currentLocale = new SimpleObjectProperty<>(locale);
         currentLocale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));

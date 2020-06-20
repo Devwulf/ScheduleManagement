@@ -2,9 +2,6 @@ package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
 import ScheduleManagement.Database.DBContext;
-import ScheduleManagement.Database.Models.Appointment;
-import ScheduleManagement.Database.Models.User;
-import ScheduleManagement.Database.NameValuePair;
 import ScheduleManagement.Exceptions.IllegalFormInput;
 import ScheduleManagement.Managers.LanguageManager;
 import ScheduleManagement.Managers.LoginManager;
@@ -12,31 +9,23 @@ import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Colors;
 import ScheduleManagement.Utils.Icons;
 import ScheduleManagement.Utils.LanguageKeys;
-import ScheduleManagement.Utils.TimestampHelper;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 
-import java.sql.Timestamp;
-import java.time.LocalTime;
-import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
+// Uses English and French languages
 public class LoginController extends BaseController
 {
     private static class LoginKeys extends LanguageKeys
@@ -64,7 +53,8 @@ public class LoginController extends BaseController
     @FXML private Label passwordIcon2;
 
     @FXML private Label logoText;
-    @FXML private Label languageButton;
+    @FXML private Label languageIcon;
+    @FXML private ComboBox<Locale> languageCombo;
 
     @FXML private Label resetPasswordButton;
     private Animator resetPasswordAnimator;
@@ -89,7 +79,6 @@ public class LoginController extends BaseController
     @FXML private Button submitButton;
     private Animator submitAnimator;
 
-    private DBContext context;
     private BooleanProperty isLogin = new SimpleBooleanProperty(true);
 
     @FXML
@@ -98,13 +87,11 @@ public class LoginController extends BaseController
         // Cannot access stage from here, because this runs on
         // FXMLLoader.load, where stage is not set yet.
 
-        context = DBContext.getInstance();
-
         logoIcon.setText(Icons.calendarCheck);
         usernameIcon.setText(Icons.user);
         passwordIcon.setText(Icons.key);
         passwordIcon2.setText(Icons.key);
-        languageButton.setText(Icons.language);
+        languageIcon.setText(Icons.language);
 
         // This is so setManaged for these nodes is also set to false
         // when setVisible is set to false. If isManaged is false, the
@@ -114,6 +101,32 @@ public class LoginController extends BaseController
                           .bind(confirmPasswordBox.visibleProperty());
         resetPasswordButton.managedProperty()
                            .bind(resetPasswordButton.visibleProperty());
+
+        languageCombo.valueProperty()
+                     .bindBidirectional(LanguageManager.getInstance()
+                                                       .localeProperty());
+        languageCombo.getItems()
+                     .addAll(LanguageManager.getInstance()
+                                            .getSupportedLocales());
+        languageCombo.setConverter(new StringConverter<Locale>()
+        {
+            @Override
+            public String toString(Locale object)
+            {
+                return object.getDisplayLanguage(object);
+            }
+
+            @Override
+            public Locale fromString(String string)
+            {
+                return languageCombo.getItems()
+                                    .stream()
+                                    .filter(locale -> locale.getDisplayLanguage()
+                                                            .equals(string))
+                                    .findFirst()
+                                    .orElse(null);
+            }
+        });
     }
 
     @Override
@@ -222,6 +235,9 @@ public class LoginController extends BaseController
                 submitButton.textProperty()
                             .bind(langManager.createStringBinding(LoginKeys.signupSubmit));
         });
+
+        submitButton.textProperty()
+                    .bind(langManager.createStringBinding(LoginKeys.loginSubmit));
 
         //submitButton.textProperty().bind(Bindings.when(isLogin).then(langManager.getTranslation(LoginKeys.loginSubmit)).otherwise(langManager.getTranslation(LoginKeys.signupSubmit)));
         resetPasswordButton.textProperty()
@@ -384,15 +400,5 @@ public class LoginController extends BaseController
                            .showWarningPopup(langManager.getTranslation(LoginKeys.usernameTaken));
             }
         }
-    }
-
-    @FXML
-    private void handleToggleLanguage()
-    {
-        LanguageManager langManager = LanguageManager.getInstance();
-        if (langManager.getLocale() == Locale.US)
-            langManager.setLocale(Locale.FRANCE);
-        else
-            langManager.setLocale(Locale.US);
     }
 }
