@@ -58,6 +58,8 @@ public abstract class SwitchableController extends BaseController
                 new KeyFrame(Animator.Fast, new KeyValue(selectionPane.layoutYProperty(), 62 * selection + 9, Interpolator.EASE_OUT))
         );
 
+        // Makes it so when the selection pane's animation finishes,
+        // the given event is handled
         timeline.setOnFinished(event -> {
             value.handle(event);
             timeline = null;
@@ -79,6 +81,8 @@ public abstract class SwitchableController extends BaseController
         if (currentSelection == 0)
             return;
 
+        // Makes it so when the selection pane's animation finishes,
+        // the calendar view is loaded
         animateSelectionPane(0, event ->
         {
             ViewManager.getInstance()
@@ -92,6 +96,8 @@ public abstract class SwitchableController extends BaseController
         if (currentSelection == 1)
             return;
 
+        // Makes it so when the selection pane's animation finishes,
+        // the customers view is loaded
         animateSelectionPane(1, event ->
         {
             ViewManager.getInstance()
@@ -105,6 +111,8 @@ public abstract class SwitchableController extends BaseController
         if (currentSelection == 2)
             return;
 
+        // Makes it so when the selection pane's animation finishes,
+        // the appointments view is loaded
         animateSelectionPane(2, event ->
         {
             ViewManager.getInstance()
@@ -118,6 +126,8 @@ public abstract class SwitchableController extends BaseController
         if (currentSelection == 3)
             return;
 
+        // Makes it so when the selection pane's animation finishes,
+        // the reports view is loaded
         animateSelectionPane(3, event ->
         {
             ViewManager.getInstance()
@@ -131,6 +141,8 @@ public abstract class SwitchableController extends BaseController
         if (currentSelection == 4)
             return;
 
+        // Makes it so when the selection pane's animation finishes,
+        // the settings view is loaded
         animateSelectionPane(4, event ->
         {
             ViewManager.getInstance()

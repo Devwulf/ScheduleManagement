@@ -48,6 +48,8 @@ public class LanguageManager
 
     public StringBinding createStringBinding(String key)
     {
+        // Creates a string binding with the getTranslation method as the
+        // one that grabs the correct translation from the resource bundles
         return Bindings.createStringBinding(() -> getTranslation(key), currentLocale);
     }
 
@@ -56,9 +58,15 @@ public class LanguageManager
     private LanguageManager()
     {
         Locale defaultLocale = Locale.getDefault();
-        Locale locale = getSupportedLocales().stream().anyMatch(locale1 -> locale1.getLanguage().equals(defaultLocale.getLanguage())) ? defaultLocale : Locale.ENGLISH;
+        Locale locale = getSupportedLocales().stream()
+                                             // Determines if any of the supported locales match
+                                             // language of the default locale when the app first runs
+                                             .anyMatch(locale1 -> locale1.getLanguage()
+                                                                         .equals(defaultLocale.getLanguage())) ? defaultLocale : Locale.ENGLISH;
 
         currentLocale = new SimpleObjectProperty<>(locale);
+        // Makes it so when the tracked current locale is changed,
+        // the default locale for this app also changes
         currentLocale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
     }
 

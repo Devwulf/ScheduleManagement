@@ -62,6 +62,9 @@ public class PopupController extends BaseController
         confirmCancelPane.setVisible(true);
         okPane.setVisible(false);
 
+        // Makes it so that when the confirm button is clicked,
+        // it runs the function that's supposed to run for confirmation
+        // and then the popup is closed
         confirmButton.addEventHandler(ActionEvent.ACTION, event ->
         {
             onConfirm.run();

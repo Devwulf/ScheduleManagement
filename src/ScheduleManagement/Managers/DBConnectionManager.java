@@ -25,6 +25,7 @@ public class DBConnectionManager
     public Connection getConnection(String connectionName)
     {
         DBConnection connDetails = connections.stream()
+                                              // Keeps all the connections that has the same name as the given connection name
                                               .filter(connection -> connection.getName()
                                                                               .equals(connectionName))
                                               .findFirst()

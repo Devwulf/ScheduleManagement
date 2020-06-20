@@ -110,8 +110,8 @@ public class CalendarController extends SwitchableController
                                            .toLocalTime();
 
         List<Appointment> userAppointments = context.Appointments.readEntity(new NameValuePair("userId", user.getUserId()));
-        // Make sure that past appointments won't be checked
         userAppointments = userAppointments.stream()
+                                           // Makes sure that past appointments are filtered out
                                            .filter(appointment -> appointment.getStartTime()
                                                                              .after(TimestampHelper.nowUTC()))
                                            .collect(Collectors.toList());
@@ -268,19 +268,20 @@ public class CalendarController extends SwitchableController
 
         // TODO: Show all the appointments on the timeline
         List<Appointment> appointments = context.Appointments.readEntity();
+        // Converts the appointment start and end times from UTC to local time
         appointments.forEach(appointment ->
         {
             appointment.setStartTime(TimestampHelper.convertToLocal(appointment.getStartTime()));
             appointment.setEndTime(TimestampHelper.convertToLocal(appointment.getEndTime()));
         });
 
-        // Appointments filtered to show only the appointments on this day
-        // and sorted by start time
         List<Appointment> dayAppointments = appointments.stream()
+                                                        // Filter to show only the appointments of the given day
                                                         .filter(appointment -> appointment.getStartTime()
                                                                                           .toLocalDateTime()
                                                                                           .toLocalDate()
                                                                                           .equals(day))
+                                                        // Sorts by the appointment's start time
                                                         .sorted((appt1, appt2) -> appt1.getStartTime()
                                                                                        .compareTo(appt2.getStartTime()))
                                                         .collect(Collectors.toList());
@@ -367,6 +368,7 @@ public class CalendarController extends SwitchableController
         Deque<Holiday> holidays = new ArrayDeque<>(Holidays.getHolidays(month.getYear(), month.getMonth()));
 
         List<Appointment> appointments = context.Appointments.readEntity();
+        // Converts the appointment start and end times from UTC to local time
         appointments.forEach(appointment ->
         {
             appointment.setStartTime(TimestampHelper.convertToLocal(appointment.getStartTime()));
@@ -377,9 +379,11 @@ public class CalendarController extends SwitchableController
         // filters them to be in the current month, and
         // counts how many appointments are in a given day
         Map<LocalDate, Long> datesInMonth = appointments.stream()
+                                                        // Selects only the start time field of the appointment in local date type
                                                         .map(appointment -> appointment.getStartTime()
                                                                                        .toLocalDateTime()
                                                                                        .toLocalDate())
+                                                        // Filters and keeps dates in the same month and year as the given date
                                                         .filter(localDate -> localDate.getMonth()
                                                                                       .equals(month.getMonth()) && localDate.getYear() == month.getYear())
                                                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -441,6 +445,7 @@ public class CalendarController extends SwitchableController
         Deque<Holiday> holidays = new ArrayDeque<>(Holidays.getHolidaysInWeek(firstDayOfWeek, lastDayOfWeek));
 
         List<Appointment> appointments = context.Appointments.readEntity();
+        // Converts the appointment start and end times from UTC to local time
         appointments.forEach(appointment ->
         {
             appointment.setStartTime(TimestampHelper.convertToLocal(appointment.getStartTime()));
@@ -449,6 +454,8 @@ public class CalendarController extends SwitchableController
 
 
         List<Appointment> weekAppointments = appointments.stream()
+                                                         // Filters to keep only the appointments in between the first day of the week (inclusive)
+                                                         // and the last day of the week (inclusive)
                                                          .filter(appointment -> TimestampHelper.isDateInBetween(appointment.getStartTime()
                                                                                                                            .toLocalDateTime()
                                                                                                                            .toLocalDate(), firstDayOfWeek, lastDayOfWeek))
@@ -460,6 +467,7 @@ public class CalendarController extends SwitchableController
 
             LocalDate finalDayCounter = dayCounter;
             List<Appointment> dayAppointments = weekAppointments.stream()
+                                                                // Filters to keep only the appointments on the current day
                                                                 .filter(appointment -> appointment.getStartTime()
                                                                                                   .toLocalDateTime()
                                                                                                   .toLocalDate()
@@ -548,6 +556,8 @@ public class CalendarController extends SwitchableController
             root.getStyleClass()
                 .add("green-border");
 
+        // Makes it so when the day in the calendar is clicked,
+        // opens the modal to show all the details and appointments for that day
         root.setOnMouseClicked(event ->
         {
             handleOpenDayModal(day, specialEvent, appointments);
@@ -632,6 +642,8 @@ public class CalendarController extends SwitchableController
         viewButton.setCursor(Cursor.HAND);
         viewButton.getStyleClass()
                   .addAll("button-sm", "button-regular-alt", "drop-shadow-small", "text-bold");
+        // Makes it so when the view button on the day is clicked,
+        // opens the modal that shows the details and appointments for this day
         viewButton.setOnAction(event ->
         {
             handleOpenDayModal(day, specialEvent, appointments.size());

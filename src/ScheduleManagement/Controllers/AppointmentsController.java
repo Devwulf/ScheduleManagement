@@ -182,6 +182,7 @@ public class AppointmentsController extends SwitchableController
         editUserCombo.setValue(user);
         editTypeCombo.setValue(appointment.getType());
 
+        // Makes it so clicking this button will submit the edit appointment modal
         editAppointmentSubmit.setOnAction(event -> handleEditAppointmentSubmit(appointment));
     }
 
@@ -241,7 +242,9 @@ public class AppointmentsController extends SwitchableController
         LocalDate day = startTime.toLocalDateTime()
                                  .toLocalDate();
         List<Appointment> appointments = context.Appointments.readEntity();
+
         List<Appointment> dayAppointments = appointments.stream()
+                                                        // This filters all the appointments of the same day as the current appointment to be edited
                                                         .filter(appt -> appt.getStartTime()
                                                                                           .toLocalDateTime()
                                                                                           .toLocalDate()
@@ -398,7 +401,9 @@ public class AppointmentsController extends SwitchableController
         LocalDate day = startTime.toLocalDateTime()
                                  .toLocalDate();
         List<Appointment> appointments = context.Appointments.readEntity();
+
         List<Appointment> dayAppointments = appointments.stream()
+                                                        // This filters all the appointments of the same day as the current appointment to be added
                                                         .filter(appointment -> appointment.getStartTime()
                                                                                           .toLocalDateTime()
                                                                                           .toLocalDate()
@@ -476,6 +481,7 @@ public class AppointmentsController extends SwitchableController
     private void handleDeleteAppointment(Appointment appointment)
     {
         ViewManager.getInstance()
+                   // This runs the given function, which deletes the given appointment from the database, when "Confirm" is clicked in the popup
                    .showConfirmPopup("Are you sure you want to delete the appointment '" + appointment.getTitle() + "'?", () ->
                    {
                        context.Appointments.deleteEntity(new NameValuePair("appointmentId", appointment.getAppointmentId()));
@@ -764,22 +770,28 @@ public class AppointmentsController extends SwitchableController
 
         VBox.setVgrow(closeAppointmentItem, Priority.ALWAYS);
 
+        // Makes it so clicking this button will open the edit modal
         editButton.setOnMouseClicked(event ->
         {
             handleOpenEditModal(appointment, customer, appointmentUser);
         });
 
+        // Makes it so clicking this button will show the delete appointment popup
         deleteButton.setOnMouseClicked(event ->
         {
             handleDeleteAppointment(appointment);
         });
 
+        // When the appointment list item is clicked, makes the list item unclickable
+        // and animates the opening of the list item
         EventHandler<? super MouseEvent> rootOnClicked = event ->
         {
             root.setOnMouseClicked(null);
             root.setCursor(Cursor.DEFAULT);
             setupAppointmentAnimations(appointment.getCustomerId(), root);
 
+            // Makes the chevron to close the appointment list item as visible
+            // after the opening animation for this list item finishes
             openAppointmentDetailed(appointment.getCustomerId(), userRoot, descriptionRoot, typeRoot, urlRoot, locationRoot, contactRoot, () ->
             {
                 closeAppointmentItem.setVisible(true);
@@ -788,10 +800,14 @@ public class AppointmentsController extends SwitchableController
 
         root.setOnMouseClicked(rootOnClicked);
 
+        // When the chevron to close the appointment list item is clicked,
+        // animates the closing of the list item
         closeAppointmentItem.setOnMouseClicked(event ->
         {
             setupAppointmentAnimations(appointment.getCustomerId(), root);
 
+            // Makes the appointment list item to be clickable again
+            // after the closing animation of the list item finishes
             closeAppointmentDetailed(appointment.getCustomerId(), userRoot, descriptionRoot, typeRoot, urlRoot, locationRoot, contactRoot, () ->
             {
                 closeAppointmentItem.setVisible(false);
@@ -947,6 +963,8 @@ public class AppointmentsController extends SwitchableController
         Animator locationAnimator = animators.get("location");
         Animator contactAnimator = animators.get("contact");
 
+        // When the animation list item finishes opening up,
+        // plays all the animations of the children of the list item
         rootAnimator.play("height", event ->
         {
             userNameRoot.setOpacity(0);
@@ -990,6 +1008,8 @@ public class AppointmentsController extends SwitchableController
         Animator locationAnimator = animators.get("location");
         Animator contactAnimator = animators.get("contact");
 
+        // When the username finishes animating, makes the username invisible
+        // and plays the closing animation of the appointment list item
         userNameAnimator.playReverse("opacity", event ->
         {
             userNameRoot.setVisible(false);
@@ -997,26 +1017,31 @@ public class AppointmentsController extends SwitchableController
             runAfter.run();
         });
 
+        // When the appointment description finishes playing, makes it invisible
         descriptionAnimator.playReverse("opacity", event ->
         {
             descriptionRoot.setVisible(false);
         });
 
+        // When the appointment type finishes playing, makes it invisible
         typeAnimator.playReverse("opacity", event ->
         {
             typeRoot.setVisible(false);
         });
 
+        // When the appointment url finishes playing, makes it invisible
         urlAnimator.playReverse("opacity", event ->
         {
             urlRoot.setVisible(false);
         });
 
+        // When the appointment location finishes playing, makes it invisible
         locationAnimator.playReverse("opacity", event ->
         {
             locationRoot.setVisible(false);
         });
 
+        // When the appointment contact finishes playing, makes it invisible
         contactAnimator.playReverse("opacity", event ->
         {
             contactRoot.setVisible(false);

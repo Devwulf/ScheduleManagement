@@ -102,6 +102,8 @@ public class ReportsController extends SwitchableController
 
         List<Appointment> appointments = context.Appointments.readEntity();
         Map<String, Long> appointmentTypeCounts = appointments.stream()
+                                                              // Keeps only the appointments in the same month
+                                                              // and year of the given date
                                                               .filter(appointment ->
                                                               {
                                                                   LocalDate date = appointment.getStartTime()
@@ -127,7 +129,9 @@ public class ReportsController extends SwitchableController
 
         List<Appointment> appointments = context.Appointments.readEntity();
         List<Appointment> userAppointments = appointments.stream()
+                                                         // Keeps only the appointments of the given user
                                                          .filter(appointment -> appointment.getUserId() == user.getUserId())
+                                                         // Sorts the appointments by their start time
                                                          .sorted((appt1, appt2) -> appt1.getStartTime()
                                                                                         .toLocalDateTime()
                                                                                         .compareTo(appt2.getStartTime()
@@ -175,6 +179,7 @@ public class ReportsController extends SwitchableController
         {
             long count = 0;
             List<Address> cityAddresses = addresses.stream()
+                                                   // Keeps only the addresses in the current city
                                                    .filter(address -> address.getCityId() == city.getCityId())
                                                    .collect(Collectors.toList());
             for (Address address : cityAddresses)
@@ -183,6 +188,7 @@ public class ReportsController extends SwitchableController
                 // even if in our database so far, each customer is associated
                 // with their own address
                 List<Customer> addressCustomers = customers.stream()
+                                                           // Keeps only the customers with the current address
                                                            .filter(customer -> customer.getAddressId() == address.getAddressId())
                                                            .collect(Collectors.toList());
                 count += addressCustomers.size();
@@ -194,12 +200,15 @@ public class ReportsController extends SwitchableController
         // Sorts by city name
         Map<City, Long> sortedCitiesCustomerCount = citiesCustomerCount.entrySet()
                                                                        .stream()
+                                                                       // Sorts the cities by their city name
                                                                        .sorted((entry1, entry2) -> entry1.getKey()
                                                                                                          .getCity()
                                                                                                          .compareTo(entry2.getKey()
                                                                                                                           .getCity()))
                                                                        .collect(Collectors.toMap(Map.Entry::getKey,
                                                                                Map.Entry::getValue,
+                                                                               // Makes it so when there are collisions on values
+                                                                               // associated with the same key, the old value is chosen
                                                                                (oldValue, newValue) -> oldValue,
                                                                                LinkedHashMap::new));
         for (Map.Entry<City, Long> entry : sortedCitiesCustomerCount.entrySet())

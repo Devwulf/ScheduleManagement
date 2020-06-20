@@ -10,6 +10,9 @@ import javafx.util.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+// A wrapper around Timeline that gives methods to play animations
+// both forward and backward in constant rate and holds all the
+// animations associated to one Node
 public class Animator
 {
     public static final Duration Zero = Duration.millis(0);
@@ -42,7 +45,7 @@ public class Animator
         return getAnimation(animationName, null);
     }
 
-    public Timeline getAnimation(String animationName, EventHandler<ActionEvent> value)
+    public Timeline getAnimation(String animationName, EventHandler<ActionEvent> eventAfterAnimate)
     {
         if (animationName.isEmpty())
             throw new IllegalArgumentException("The animation name given cannot be empty.");
@@ -50,10 +53,11 @@ public class Animator
         Timeline timeline = timelines.get(animationName);
         timeline.setRate(1);
 
-        if (value != null)
+        if (eventAfterAnimate != null)
+            // Handles the given event after this timeline finishes playing
             timeline.setOnFinished(event ->
             {
-                value.handle(event);
+                eventAfterAnimate.handle(event);
                 timeline.setOnFinished(null);
             });
 
@@ -65,7 +69,7 @@ public class Animator
         return getAnimationReversed(animationName, null);
     }
 
-    public Timeline getAnimationReversed(String animationName, EventHandler<ActionEvent> value)
+    public Timeline getAnimationReversed(String animationName, EventHandler<ActionEvent> eventAfterAnimate)
     {
         if (animationName.isEmpty())
             throw new IllegalArgumentException("The animation name given cannot be empty.");
@@ -73,10 +77,11 @@ public class Animator
         Timeline timeline = timelines.get(animationName);
         timeline.setRate(-1);
 
-        if (value != null)
+        if (eventAfterAnimate != null)
+            // Handles the given event after this timeline finishes playing in reverse
             timeline.setOnFinished(event ->
             {
-                value.handle(event);
+                eventAfterAnimate.handle(event);
                 timeline.setOnFinished(null);
             });
 

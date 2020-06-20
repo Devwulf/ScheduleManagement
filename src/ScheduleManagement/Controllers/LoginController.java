@@ -122,6 +122,8 @@ public class LoginController extends BaseController
             {
                 return languageCombo.getItems()
                                     .stream()
+                                    // Keeps all the locales that has the same display language
+                                    // as the given language name
                                     .filter(locale -> locale.getDisplayLanguage()
                                                             .equals(string))
                                     .findFirst()
@@ -226,6 +228,9 @@ public class LoginController extends BaseController
         confirmPasswordField.promptTextProperty()
                             .bind(langManager.createStringBinding(LoginKeys.confirmPasswordField));
 
+        // Makes it so when the isLogin boolean changes,
+        // the string binding for the submit button also changes
+        // to show either login/signup in the appropriate language
         isLogin.addListener((observable, oldValue, newValue) ->
         {
             // TODO: Does this add new unnecessary listeners for the submitButton?
@@ -258,6 +263,7 @@ public class LoginController extends BaseController
         signupUnderlineAnimator.playReverse("color");
         loginUnderlineAnimator.play("color");
 
+        // When the confirm password finishes its closing animation, the confirm password is made invisible
         confirmPasswordAnimator.playReverse("height", event -> confirmPasswordBox.setVisible(false));
         resetPasswordAnimator.play("height");
 
@@ -279,6 +285,7 @@ public class LoginController extends BaseController
         loginUnderlineAnimator.playReverse("color");
 
         confirmPasswordAnimator.play("height");
+        // When the reset password finishes its closing animation, the reset password is made invisible
         resetPasswordAnimator.playReverse("height", event -> resetPasswordButton.setVisible(false));
 
         isLogin.set(false);

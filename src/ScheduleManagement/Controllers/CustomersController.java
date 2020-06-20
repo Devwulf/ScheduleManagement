@@ -265,6 +265,8 @@ public class CustomersController extends SwitchableController
         editCountryCombo.setValue(country);
         editCityCombo.setValue(city);
 
+        // Makes it so when the save/submit button is clicked on the edit modal,
+        // it submits the form data from the edit customer modal
         editCustomerSubmit.setOnAction(event -> handleEditCustomerSubmit(customer, address));
     }
 
@@ -419,6 +421,10 @@ public class CustomersController extends SwitchableController
     private void handleDeleteCustomer(Customer customer)
     {
         ViewManager.getInstance()
+                   // When a customer is about to be deleted and the confirm button
+                   // is clicked in the popup that showed up, the customer is instead
+                   // set as inactive in the database and the associated appointment to
+                   // this customer is also deleted
                    .showConfirmPopup("Are you sure you want to delete the customer '" + customer.getCustomerName() + "'? " +
                            "Note: This will also delete the associated appointments.", () ->
                    {
@@ -440,12 +446,12 @@ public class CustomersController extends SwitchableController
         // However, a customer can have many appointments with different users
         List<Appointment> appointments = context.Appointments.readEntity(new NameValuePair("customerId", customer.getCustomerId()));
 
-        // Makes sure that past appointments aren't shown
         appointments = appointments.stream()
+                                   // Filters out the past appointments
                                    .filter(appointment -> appointment.getStartTime()
                                                                      .after(TimestampHelper.nowUTC()))
                                    .collect(Collectors.toList());
-        // Maybe sort the appointments by upcoming dates?
+        // Sorts the appointments by their start time
         appointments.sort((a1, a2) ->
         {
             return a1.getStartTime()
@@ -677,24 +683,32 @@ public class CustomersController extends SwitchableController
 
         VBox.setVgrow(closeCustomerItem, Priority.ALWAYS);
 
+        // Makes it so when the edit button for a customer is clicked,
+        // opens the edit customer modal
         editButton.setOnMouseClicked(event ->
         {
             // TODO: Open the customer edit modal
             handleOpenEditModal(customer, customerAddress, customerCity, customerCountry);
         });
 
+        // Makes it so when the delete button for a customer is clicked,
+        // shows a popup confirming the deletion of the customer
         deleteButton.setOnMouseClicked(event ->
         {
             // TODO: Open the customer delete modal
             handleDeleteCustomer(customer);
         });
 
+        // When the customer list item is clicked, makes the list item unclickable
+        // and animates the opening of the list item
         EventHandler<? super MouseEvent> rootOnClicked = event ->
         {
             root.setOnMouseClicked(null);
             root.setCursor(Cursor.DEFAULT);
             setupCustomerAnimations(customer.getCustomerId(), root);
 
+            // Makes the chevron to close the customer list item as visible
+            // after the opening animation for this list item finishes
             openCustomerDetailed(customer.getCustomerId(), addressRoot, phoneRoot, () ->
             {
                 closeCustomerItem.setVisible(true);
@@ -703,10 +717,14 @@ public class CustomersController extends SwitchableController
 
         root.setOnMouseClicked(rootOnClicked);
 
+        // When the chevron to close the customer list item is clicked,
+        // animates the closing of the list item
         closeCustomerItem.setOnMouseClicked(event ->
         {
             setupCustomerAnimations(customer.getCustomerId(), root);
 
+            // Makes the customer list item to be clickable again
+            // after the closing animation of the list item finishes
             closeCustomerDetailed(customer.getCustomerId(), addressRoot, phoneRoot, () ->
             {
                 closeCustomerItem.setVisible(false);
@@ -814,6 +832,8 @@ public class CustomersController extends SwitchableController
         Animator addressNameAnimator = animators.get("addressName");
         Animator phoneNameAnimator = animators.get("phoneName");
 
+        // When the customer list item finishes opening up,
+        // plays all the animations of the children of the list item
         rootAnimator.play("height", event ->
         {
             addressRoot.setOpacity(0);
@@ -841,6 +861,8 @@ public class CustomersController extends SwitchableController
         Animator addressNameAnimator = animators.get("addressName");
         Animator phoneNameAnimator = animators.get("phoneName");
 
+        // When the address finishes animating, makes the address invisible
+        // and plays the closing animation of the customer list item
         addressNameAnimator.playReverse("opacity", event ->
         {
             addressRoot.setVisible(false);
@@ -848,6 +870,7 @@ public class CustomersController extends SwitchableController
             runAfter.run();
         });
 
+        // When the phone number finishes animating, makes the phone number invisible
         phoneNameAnimator.playReverse("opacity", event ->
         {
             phoneRoot.setVisible(false);

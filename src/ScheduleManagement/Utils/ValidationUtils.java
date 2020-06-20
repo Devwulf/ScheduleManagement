@@ -32,6 +32,8 @@ public class ValidationUtils
     }
 
     // Business hours are from 9 AM to 5 PM
+    // Creates a new validator that checks if the given value
+    // matches the time pattern and is between 9 AM and 5 PM
     public static final Predicate<String> businessHoursValidator = newValue ->
     {
         if (!ValidationUtils.PatternType.Time.getPattern()
@@ -63,6 +65,9 @@ public class ValidationUtils
     public static void addValidationListener(TextInputControl textField, Pattern pattern)
     {
         textField.textProperty()
+                 // Makes it so when the text field changes, its new value is
+                 // checked against the pattern and if it matches, the text field
+                 // itself is given a green border
                  .addListener((observable, oldValue, newValue) ->
                  {
                      textField.setStyle(pattern.matcher(newValue)
@@ -73,6 +78,9 @@ public class ValidationUtils
     public static void addValidationListener(TextInputControl textField, Predicate<String> predicate)
     {
         textField.textProperty()
+                 // Makes it so when the text field changes, its new value is
+                 // checked against the pattern and if it matches, the text field
+                 // itself is given a green border
                  .addListener((observable, oldValue, newValue) ->
                  {
                      textField.setStyle(predicate.test(newValue) ? validStyle : invalidStyle);
