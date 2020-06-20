@@ -1,14 +1,15 @@
 package ScheduleManagement.Controllers;
 
 import ScheduleManagement.Animation.Animator;
-import ScheduleManagement.Database.DBContext;
 import ScheduleManagement.Exceptions.IllegalFormInput;
 import ScheduleManagement.Managers.LanguageManager;
+import ScheduleManagement.Managers.Log;
 import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Colors;
 import ScheduleManagement.Utils.Icons;
 import ScheduleManagement.Utils.LanguageKeys;
+import ScheduleManagement.Utils.TimestampHelper;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -366,6 +367,8 @@ public class LoginController extends BaseController
                 if (LoginManager.getInstance()
                                 .login(username, password))
                 {
+                    Log.logToFile("[" + TimestampHelper.now() + "]: User '" + username + "' has logged in!");
+
                     // Load the calendar view
                     CalendarController controller = ViewManager.getInstance()
                                                                .loadView(ViewManager.ViewNames.Calendar);

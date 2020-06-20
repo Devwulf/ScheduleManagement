@@ -56,7 +56,7 @@ public class LanguageManager
     private LanguageManager()
     {
         Locale defaultLocale = Locale.getDefault();
-        Locale locale = getSupportedLocales().contains(defaultLocale) ? defaultLocale : Locale.ENGLISH;
+        Locale locale = getSupportedLocales().stream().anyMatch(locale1 -> locale1.getLanguage().equals(defaultLocale.getLanguage())) ? defaultLocale : Locale.ENGLISH;
 
         currentLocale = new SimpleObjectProperty<>(locale);
         currentLocale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));

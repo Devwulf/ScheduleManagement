@@ -1,5 +1,6 @@
 package ScheduleManagement;
 
+import ScheduleManagement.Managers.Log;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Holidays;
 import ScheduleManagement.Utils.TimestampHelper;
@@ -7,6 +8,8 @@ import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.*;
@@ -56,7 +59,6 @@ public class App extends Application
 
     public static void main(String[] args)
     {
-        System.out.println(LocalTime.now());
         //Locale.setDefault(Locale.FRENCH);
         launch(args);
     }
