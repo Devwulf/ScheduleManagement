@@ -5,6 +5,7 @@ import ScheduleManagement.Utils.Icons;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+// TODO: Implement this!
 public class SettingsController extends SwitchableController
 {
     @FXML

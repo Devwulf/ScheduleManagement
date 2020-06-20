@@ -4,7 +4,7 @@ import ScheduleManagement.Database.Annotations.*;
 
 import java.sql.Timestamp;
 
-// TODO: The order of the fields here must match the order of the columns in the database
+// TODO: Make it so the order of the fields here doesn't have to match the order of the columns in the database
 @Table(name = "address")
 public class Address
 {

@@ -202,7 +202,7 @@ public class CalendarController extends SwitchableController
 
     private void handleOpenDayModal(LocalDate day, String specialEvent, int appointments)
     {
-        // TODO: Fill in details about the day in the day modal
+        // Fill in details about the day in the day modal
         dayModalTitle.setText(day.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
         dayModalSubtitle.setText(specialEvent);
 
@@ -257,6 +257,7 @@ public class CalendarController extends SwitchableController
         mainScroll.setHvalue(scrollX);
     }
 
+    // Show all the appointments on the timeline
     private void setupAppointmentTimeline(LocalDate day)
     {
         backgroundGrid.setPrefWidth(1440 * timelineScale);
@@ -266,7 +267,6 @@ public class CalendarController extends SwitchableController
         appointmentListRoot.getChildren()
                            .clear();
 
-        // TODO: Show all the appointments on the timeline
         List<Appointment> appointments = context.Appointments.readEntity();
         // Converts the appointment start and end times from UTC to local time
         appointments.forEach(appointment ->
@@ -492,8 +492,6 @@ public class CalendarController extends SwitchableController
 
     private Node getCalendarMonthlyDay(boolean isInMonth, LocalDate day, String specialEvent, int appointments, boolean isCurrentDay)
     {
-        // TODO: Do different nodes for weekly view
-
         Label dayLabel = new Label(Integer.toString(day.getDayOfMonth()));
         dayLabel.setFont(new Font(24));
         String dayLabelStyle = String.format("-fx-text-fill: %s; -fx-font-size: 24px;", isInMonth ? "-black" : "-gray3");
@@ -516,7 +514,6 @@ public class CalendarController extends SwitchableController
         else
             specialEventLabel.setText(specialEvent);
 
-        // TODO: Foreach here for all the appointment types to show in the calendar day
         Label notifIcon = new Label(Icons.exclamationCircle);
         notifIcon.setFont(new Font(12));
         String notifIconStyle = String.format("-fx-text-fill: %s; -fx-font-size: 12px;", isInMonth ? "-red" : "-gray3");
@@ -591,7 +588,6 @@ public class CalendarController extends SwitchableController
         else
             specialEventLabel.setText(specialEvent);
 
-        // TODO: Foreach here for all the appointment types to show in the calendar day
         Label notifIcon = new Label(Icons.exclamationCircle);
         notifIcon.setFont(new Font(12));
         notifIcon.setStyle("-fx-text-fill: -red; -fx-font-size: 12px;");

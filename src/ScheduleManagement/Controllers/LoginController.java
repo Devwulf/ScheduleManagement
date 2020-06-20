@@ -341,7 +341,6 @@ public class LoginController extends BaseController
         submitAnimator.playReverse("color");
     }
 
-    // TODO: Show all popups in different languages
     @FXML
     private void handleSubmitButton()
     {
@@ -353,7 +352,7 @@ public class LoginController extends BaseController
 
         if (username.isEmpty() || password.isEmpty())
         {
-            // TODO: Show a popup for invalid input
+            // Show a popup for invalid input
             ViewManager.getInstance()
                        .showErrorPopup(langManager.getTranslation(LoginKeys.emptyUserPass));
             return;
@@ -361,7 +360,7 @@ public class LoginController extends BaseController
 
         if (!isLogin.get() && confirmPassword.isEmpty())
         {
-            // TODO: Show a popup for invalid confirm password input
+            // Show a popup for invalid confirm password input
             ViewManager.getInstance()
                        .showErrorPopup(langManager.getTranslation(LoginKeys.emptyConfirmPass));
             return;
@@ -374,8 +373,6 @@ public class LoginController extends BaseController
                 if (LoginManager.getInstance()
                                 .login(username, password))
                 {
-                    Log.logToFile("[" + TimestampHelper.now() + "]: User '" + username + "' has logged in!");
-
                     // Load the calendar view
                     CalendarController controller = ViewManager.getInstance()
                                                                .loadView(ViewManager.ViewNames.Calendar);
@@ -383,7 +380,7 @@ public class LoginController extends BaseController
                 }
                 else
                 {
-                    // TODO: Show a popup for username/password not found
+                    // Show a popup for username/password not found
                     ViewManager.getInstance()
                                .showErrorPopup(langManager.getTranslation(LoginKeys.incorrectUserPass));
                     throw new IllegalFormInput(langManager.getTranslation(LoginKeys.incorrectUserPass));
@@ -399,13 +396,14 @@ public class LoginController extends BaseController
             if (LoginManager.getInstance()
                             .signup(username, password))
             {
-                // TODO: Show a popup for successful signup and go to login
+                // Show a popup for successful signup and go to login
                 ViewManager.getInstance()
                            .showSuccessPopup(langManager.getTranslation(LoginKeys.successSignup));
+                handleLoginSelectButton();
             }
             else
             {
-                // TODO: Show a popup for username already taken
+                // Show a popup for username already taken
                 ViewManager.getInstance()
                            .showWarningPopup(langManager.getTranslation(LoginKeys.usernameTaken));
             }

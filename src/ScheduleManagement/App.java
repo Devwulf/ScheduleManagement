@@ -1,6 +1,7 @@
 package ScheduleManagement;
 
 import ScheduleManagement.Managers.Log;
+import ScheduleManagement.Managers.LoginManager;
 import ScheduleManagement.Managers.ViewManager;
 import ScheduleManagement.Utils.Holidays;
 import ScheduleManagement.Utils.TimestampHelper;
@@ -55,6 +56,9 @@ public class App extends Application
         viewManager.addView(ViewManager.ViewNames.Reports, "ReportsView");
         viewManager.addView(ViewManager.ViewNames.Settings, "SettingsView");
         viewManager.addView(ViewManager.ViewNames.Popup, "PopupView");
+
+        // Automatic logout when closing the app
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> LoginManager.getInstance().logout()));
     }
 
     public static void main(String[] args)

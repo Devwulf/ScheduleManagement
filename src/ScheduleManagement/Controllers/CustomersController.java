@@ -134,8 +134,7 @@ public class CustomersController extends SwitchableController
     @FXML
     private void handleOpenAddModal()
     {
-        // TODO: Reset all fields first
-
+        // Reset all fields first
         addFirstNameField.setText("");
         addMiddleInitialField.setText("");
         addLastNameField.setText("");
@@ -173,7 +172,6 @@ public class CustomersController extends SwitchableController
         addCityComboRoot.setDisable(false);
     }
 
-    // TODO: Uncomment the user ones before launch
     @FXML
     private void handleAddCustomerSubmit()
     {
@@ -292,7 +290,6 @@ public class CustomersController extends SwitchableController
         editCityComboRoot.setDisable(false);
     }
 
-    // TODO: Uncomment the user ones before launch
     private void handleEditCustomerSubmit(Customer customer, Address address)
     {
         try
@@ -431,7 +428,7 @@ public class CustomersController extends SwitchableController
                        customer.setActive(false);
                        context.Customers.updateEntity(customer);
 
-                       // TODO: Also delete the appointments associated with this customer
+                       // Also delete the appointments associated with this customer
                        context.Appointments.deleteEntity(new NameValuePair("customerId", customer.getCustomerId()));
 
                        handleRefreshCustomerList();
@@ -687,7 +684,6 @@ public class CustomersController extends SwitchableController
         // opens the edit customer modal
         editButton.setOnMouseClicked(event ->
         {
-            // TODO: Open the customer edit modal
             handleOpenEditModal(customer, customerAddress, customerCity, customerCountry);
         });
 
@@ -695,7 +691,6 @@ public class CustomersController extends SwitchableController
         // shows a popup confirming the deletion of the customer
         deleteButton.setOnMouseClicked(event ->
         {
-            // TODO: Open the customer delete modal
             handleDeleteCustomer(customer);
         });
 

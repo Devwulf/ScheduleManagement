@@ -44,7 +44,6 @@ public class LoginManager
 
             context.Users.createEntity(user);
 
-            // TODO: Switch to login after a successful signup
             return true;
         }
         catch (IllegalQueryResultSizeException e)
@@ -73,9 +72,10 @@ public class LoginManager
             if (result.size() < 1)
                 return false;
 
-            // TODO: Set the current user 'active' to true in the database
             // active actually means if the account is still active and not deleted
             currentUser = result.get(0);
+
+            Log.logToFile("[" + TimestampHelper.now() + "]: User '" + username + "' has logged in!");
             return true;
         }
         catch (IllegalQueryResultSizeException e)
@@ -87,6 +87,8 @@ public class LoginManager
 
     public void logout()
     {
+        if (currentUser != null)
+            Log.logToFile("[" + TimestampHelper.now() + "]: User '" + currentUser.getUsername() + "' has logged out!");
         currentUser = null;
     }
 

@@ -192,12 +192,11 @@ public class AppointmentsController extends SwitchableController
         editModalRoot.setVisible(false);
     }
 
-    // TODO: Uncomment the user ones before launch
     private void handleEditAppointmentSubmit(Appointment appointment)
     {
         try
         {
-            // TODO: Show error if appointment is outside business hours
+            // Show error if appointment is outside business hours
             if ((ValidationUtils.PatternType.Time.getPattern().matcher(editStartTimeField.getText()).matches() &&
                 !ValidationUtils.businessHoursValidator.test(editStartTimeField.getText())) ||
                 (ValidationUtils.PatternType.Time.getPattern().matcher(editEndTimeField.getText()).matches() &&
@@ -213,19 +212,19 @@ public class AppointmentsController extends SwitchableController
             return;
         }
 
-        // TODO: Validate input
+        // Validate input
         if (!ValidationUtils.isTextFieldValid(editTitleField) ||
-                !ValidationUtils.isTextFieldValid(editDescriptionField) ||
-                !ValidationUtils.isTextFieldValid(editStartDateField) ||
-                !ValidationUtils.isTextFieldValid(editStartTimeField) ||
-                !ValidationUtils.isTextFieldValid(editEndDateField) ||
-                !ValidationUtils.isTextFieldValid(editEndTimeField) ||
-                !ValidationUtils.isTextFieldValid(editUrlField) ||
-                !ValidationUtils.isTextFieldValid(editLocationField) ||
-                !ValidationUtils.isTextFieldValid(editContactField) ||
-                editCustomerCombo.getValue() == null ||
-                editUserCombo.getValue() == null ||
-                editTypeCombo.getValue() == null)
+            !ValidationUtils.isTextFieldValid(editDescriptionField) ||
+            !ValidationUtils.isTextFieldValid(editStartDateField) ||
+            !ValidationUtils.isTextFieldValid(editStartTimeField) ||
+            !ValidationUtils.isTextFieldValid(editEndDateField) ||
+            !ValidationUtils.isTextFieldValid(editEndTimeField) ||
+            !ValidationUtils.isTextFieldValid(editUrlField) ||
+            !ValidationUtils.isTextFieldValid(editLocationField) ||
+            !ValidationUtils.isTextFieldValid(editContactField) ||
+            editCustomerCombo.getValue() == null ||
+            editUserCombo.getValue() == null ||
+            editTypeCombo.getValue() == null)
         {
             ViewManager.getInstance()
                        .showErrorPopup("One or more inputs are invalid!");
@@ -235,8 +234,6 @@ public class AppointmentsController extends SwitchableController
         // Convert times to UTC first
         Timestamp startTime = TimestampHelper.convertToUTC(editStartDateField.getText() + " " + editStartTimeField.getText(), "MM/dd/yyyy h:mm a");
         Timestamp endTime = TimestampHelper.convertToUTC(editEndDateField.getText() + " " + editEndTimeField.getText(), "MM/dd/yyyy h:mm a");
-
-        // TODO: Check if time is in business hours (9 AM - 5 PM)
 
         // Check if times overlap over a current appointment
         LocalDate day = startTime.toLocalDateTime()
@@ -348,13 +345,12 @@ public class AppointmentsController extends SwitchableController
         addModalRoot.setVisible(false);
     }
 
-    // TODO: Uncomment the user ones before launch
     @FXML
     private void handleAddAppointmentSubmit()
     {
         try
         {
-            // TODO: Show error if appointment is outside business hours
+            // Show error if appointment is outside business hours
             if ((ValidationUtils.PatternType.Time.getPattern().matcher(addStartTimeField.getText()).matches() &&
                 !ValidationUtils.businessHoursValidator.test(addStartTimeField.getText())) ||
                 (ValidationUtils.PatternType.Time.getPattern().matcher(addEndTimeField.getText()).matches() &&
@@ -370,22 +366,21 @@ public class AppointmentsController extends SwitchableController
             return;
         }
 
-        // TODO: Validate all input first
-
-        // TODO: Error message internationalization
+        // Validate all input first
         if (!ValidationUtils.isTextFieldValid(addTitleField) ||
-                !ValidationUtils.isTextFieldValid(addDescriptionField) ||
-                !ValidationUtils.isTextFieldValid(addStartDateField) ||
-                !ValidationUtils.isTextFieldValid(addStartTimeField) ||
-                !ValidationUtils.isTextFieldValid(addEndDateField) ||
-                !ValidationUtils.isTextFieldValid(addEndTimeField) ||
-                !ValidationUtils.isTextFieldValid(addUrlField) ||
-                !ValidationUtils.isTextFieldValid(addLocationField) ||
-                !ValidationUtils.isTextFieldValid(addContactField) ||
-                addCustomerCombo.getValue() == null ||
-                addUserCombo.getValue() == null ||
-                addTypeCombo.getValue() == null)
+            !ValidationUtils.isTextFieldValid(addDescriptionField) ||
+            !ValidationUtils.isTextFieldValid(addStartDateField) ||
+            !ValidationUtils.isTextFieldValid(addStartTimeField) ||
+            !ValidationUtils.isTextFieldValid(addEndDateField) ||
+            !ValidationUtils.isTextFieldValid(addEndTimeField) ||
+            !ValidationUtils.isTextFieldValid(addUrlField) ||
+            !ValidationUtils.isTextFieldValid(addLocationField) ||
+            !ValidationUtils.isTextFieldValid(addContactField) ||
+            addCustomerCombo.getValue() == null ||
+            addUserCombo.getValue() == null ||
+            addTypeCombo.getValue() == null)
         {
+            // TODO: Error message internationalization
             ViewManager.getInstance()
                        .showErrorPopup("One or more inputs are invalid!");
             return;
@@ -394,8 +389,6 @@ public class AppointmentsController extends SwitchableController
         // Convert times to UTC first
         Timestamp startTime = TimestampHelper.convertToUTC(addStartDateField.getText() + " " + addStartTimeField.getText(), "MM/dd/yyyy h:mm a");
         Timestamp endTime = TimestampHelper.convertToUTC(addEndDateField.getText() + " " + addEndTimeField.getText(), "MM/dd/yyyy h:mm a");
-
-        // TODO: Check if time is in business hours (9 AM - 5 PM)
 
         // Check if times overlap over a current appointment
         LocalDate day = startTime.toLocalDateTime()
@@ -489,7 +482,6 @@ public class AppointmentsController extends SwitchableController
                    });
     }
 
-    // TODO: Keep in mind that this may return null
     // Returns a procedurally generated UI appointment item
     // with the given appointment details
     private Node getAppointmentNode(Appointment appointment)
