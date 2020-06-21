@@ -408,6 +408,10 @@ public class CustomersController extends SwitchableController
          */
 
         List<Customer> customers = context.Customers.readEntity();
+        customers = customers.stream()
+                             .filter(Customer::isActive)
+                             .collect(Collectors.toList());
+
         customerListRoot.getChildren()
                         .clear();
         for (Customer customer : customers)
