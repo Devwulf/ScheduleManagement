@@ -85,11 +85,15 @@ public class LoginManager
         }
     }
 
-    public void logout()
+    public boolean logout()
     {
-        if (currentUser != null)
+        if (currentUser != null) {
             Log.logToFile("[" + TimestampHelper.now() + "]: User '" + currentUser.getUsername() + "' has logged out!");
-        currentUser = null;
+            currentUser = null;
+            return true;
+        }
+
+        return false;
     }
 
     public User getCurrentUser()

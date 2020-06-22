@@ -25,6 +25,7 @@ import javafx.scene.text.Font;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -105,9 +106,8 @@ public class CalendarController extends SwitchableController
     public void checkApptIn15Mins()
     {
         User user = LoginManager.getInstance().getCurrentUser();
-        LocalTime nowTime = TimestampHelper.nowUTC()
-                                           .toLocalDateTime()
-                                           .toLocalTime();
+        LocalDateTime nowTime = TimestampHelper.nowUTC()
+                                               .toLocalDateTime();
 
         List<Appointment> userAppointments = context.Appointments.readEntity(new NameValuePair("userId", user.getUserId()));
         userAppointments = userAppointments.stream()
@@ -119,14 +119,15 @@ public class CalendarController extends SwitchableController
         for (Appointment appointment : userAppointments)
         {
             // Appt start time is in UTC
-            LocalTime apptStartTimeMinus15 = appointment.getStartTime()
+            LocalDateTime apptStartTimeMinus15 = appointment.getStartTime()
                                                         .toLocalDateTime()
-                                                        .toLocalTime()
                                                         .minusMinutes(15);
 
-            if (nowTime.isAfter(apptStartTimeMinus15))
+            if (nowTime.isAfter(apptStartTimeMinus15)) {
                 ViewManager.getInstance()
                            .showWarningPopup("Your appointment '" + appointment.getTitle() + "' will start within 15 mins!");
+                return;
+            }
         }
     }
 
@@ -654,7 +655,7 @@ public class CalendarController extends SwitchableController
 
         if (isCurrentDay)
             root.getStyleClass()
-                .add("green-border");
+                .add("green-border-lg");
 
         VBox.setMargin(dayLabel, new Insets(0, 0, -2, 0));
         VBox.setMargin(specialEventLabel, new Insets(0, 0, 5, 0));
