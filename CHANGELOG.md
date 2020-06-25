@@ -143,3 +143,33 @@
       - The number of appointments and the different types of appointments in the day
       - A scrollable timeline of all the appointments in the day
         - Planned to be zoomable, sortable (e.g. more important appointments at the top), and filterable
+
+#### Updated the database system
+- ##### Added
+  - A `NotUpdatable` annotation for marking an entity field as not updatable when updating that entity
+  - Added `Address`, `Appointment`, `City`, `Country`, and `Customer` entity models
+  - Created a `TimestampHelper` class with a helper method for getting the current UTC time as a `Timestamp`
+- ##### Modified
+  - Added a `isUpdatable` field to the `FieldEntry`
+  - `updateEntity()` in the `DBSet` class now ignores the fields that are not updatable
+  - `User` entity model was moved under `Database.Models`
+  
+#### Implementing opening customer item
+- ##### Added
+  - Added a `getCustomerNode()` method inside `CustomersController` that returns a procedurally generated customer item node
+  - Added a `openCustomerDetailed()` method inside `CustomersController` that opens the customer item and plays its animations in sync
+  - Added `DBSet`s for the recently created entity models in `DBContext` 
+- ##### Modified
+  - Edited `readEntity()` method in the `DBSet` class so it can take in no queries and could return all the entity instances in a table in the database
+  - `DBContext` is now a singleton as it should be
+  
+#### Implemented customer add, edit, and delete modals
+- ##### Added
+  - Added text filters to phone number fields and middle initial fields to make sure that their format and input is correct and valid
+  - Added modal for adding and editing customers, and submitting will create or edit an address and customer
+  - Added handler methods for submitting the add and edit modals
+  - Added handler method for changing the country combobox, which updates the city combobox and shows the cities for the selected country only
+  - Added a handler method for refreshing the customer list
+  - Added a delete popup for deleting customers
+  - Added a `setupCustomerAnimations()` method for setting up the animators related to opening a customer item
+  - Added a `closeCustomerDetailed()` method for closing the customer item
